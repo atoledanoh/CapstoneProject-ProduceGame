@@ -49,6 +49,9 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+
+        // Support for artemis-odb
+        implementation "net.onedaybeard.artemis:artemis-odb:2.2.0"
         
     }
 }
