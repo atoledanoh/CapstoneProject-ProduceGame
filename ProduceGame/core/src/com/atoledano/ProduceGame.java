@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.atoledano.gamesys.GameManager;
 import com.atoledano.scenes.MainMenuScreen;
 
-public class Bomberman extends Game {
+public class ProduceGame extends Game {
 
     private SpriteBatch batch;
 

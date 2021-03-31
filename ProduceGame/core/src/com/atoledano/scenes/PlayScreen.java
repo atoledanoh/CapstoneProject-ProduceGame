@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.atoledano.Bomberman;
+import com.atoledano.ProduceGame;
 import com.atoledano.builders.WorldBuilder;
 import com.atoledano.gamesys.GameManager;
 import com.atoledano.gui.Hud;
@@ -46,7 +46,7 @@ public class PlayScreen extends ScreenAdapter {
     private final float WIDTH = 20;
     private final float HEIGHT = 15;
 
-    private final Bomberman game;
+    private final ProduceGame game;
     private final SpriteBatch batch;
 
     private OrthographicCamera camera;
@@ -79,7 +79,7 @@ public class PlayScreen extends ScreenAdapter {
     private Stage stage2;
     private Window pauseWindow;
 
-    public PlayScreen(Bomberman game, int level) {
+    public PlayScreen(ProduceGame game, int level) {
         this.game = game;
         this.batch = game.getSpriteBatch();
 
@@ -133,20 +133,7 @@ public class PlayScreen extends ScreenAdapter {
 
         b2dTimer = 0;
 
-        switch (level) {
-            case 5:
-                GameManager.getInstance().playMusic("SuperBomberman-Boss.ogg", true);
-                break;
-            case 4:
-            case 3:
-                GameManager.getInstance().playMusic("SuperBomberman-Area2.ogg", true);
-                break;
-            case 2:
-            case 1:
-            default:
-                GameManager.getInstance().playMusic("SuperBomberman-Area1.ogg", true);
-                break;
-        }
+        GameManager.getInstance().playMusic("EduardKhil.ogg", true);
 
         changeScreen = false;
         stage = new Stage(viewport);

@@ -82,8 +82,8 @@ public class GameManager implements Disposable {
         assetManager.load("sounds/Pause.ogg", Sound.class);
 
         // load music
-        assetManager.load("music/SuperBomberman-Title.ogg", Music.class);
-        assetManager.load("music/SuperBomberman-Area1.ogg", Music.class);
+        assetManager.load("music/trololo_8-bit.mp3", Music.class);
+        assetManager.load("music/EduardKhil.ogg", Music.class);
         assetManager.load("music/SuperBomberman-Area2.ogg", Music.class);
         assetManager.load("music/SuperBomberman-Boss.ogg", Music.class);
         assetManager.load("music/GameOver.ogg", Music.class);
@@ -92,14 +92,8 @@ public class GameManager implements Disposable {
         assetManager.load("music/StageCleared.ogg", Music.class);
 
         // load maps
-        assetManager.load("maps/level_1.png", Pixmap.class);
-        assetManager.load("maps/level_2.png", Pixmap.class);
-        assetManager.load("maps/level_3.png", Pixmap.class);
-        assetManager.load("maps/level_4.png", Pixmap.class);
-        assetManager.load("maps/level_5.png", Pixmap.class);
+        assetManager.load("maps/map.png", Pixmap.class);
         assetManager.load("maps/area_1_tiles.pack", TextureAtlas.class);
-        assetManager.load("maps/area_2_tiles.pack", TextureAtlas.class);
-        assetManager.load("maps/area_3_tiles.pack", TextureAtlas.class);
 
         assetManager.finishLoading();
 
@@ -127,7 +121,7 @@ public class GameManager implements Disposable {
     }
 
     public void playSound(String soundName) {
-        playSound(soundName, 1.0f, 1.0f, 0f);
+        playSound(soundName, 0.2f, 1.0f, 0f);
     }
 
     public void playSound(String soundName, float volume, float pitch, float pan) {
@@ -137,7 +131,7 @@ public class GameManager implements Disposable {
 
     public void playMusic(String musicName, boolean isLooping) {
         Music music = assetManager.get(musicPath + musicName);
-        music.setVolume(0.6f);
+        music.setVolume(1f);
         if (currentMusic.equals(musicName)) {
             music.setLooping(isLooping);
             if (!music.isPlaying()) {

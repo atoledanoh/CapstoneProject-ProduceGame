@@ -699,7 +699,7 @@ public class ActorBuilder {
 
         // idling left
         keyFrames.clear();
-        keyFrames.add(new TextureRegion(textureRegion, 3 * 16, 0, 16, 24));
+        keyFrames.add(new TextureRegion(textureRegion, 4 * 16, 0, 16, 24));
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("idling_left", anim);
 
@@ -711,7 +711,7 @@ public class ActorBuilder {
 
         // idling right
         keyFrames.clear();
-        keyFrames.add(new TextureRegion(textureRegion, 9 * 16, 0, 16, 24));
+        keyFrames.add(new TextureRegion(textureRegion, 10 * 16, 0, 16, 24));
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("idling_right", anim);
 

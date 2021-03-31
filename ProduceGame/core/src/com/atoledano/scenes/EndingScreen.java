@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.atoledano.Bomberman;
+import com.atoledano.ProduceGame;
 import com.atoledano.gamesys.GameManager;
 import com.atoledano.scenes.actors.AnimImage;
 
@@ -24,7 +24,7 @@ public class EndingScreen extends ScreenAdapter {
     private final float WIDTH = 640;
     private final float HEIGHT = 480;
 
-    private final Bomberman game;
+    private final ProduceGame game;
     private final SpriteBatch batch;
     private final AssetManager assetManager;
 
@@ -35,7 +35,7 @@ public class EndingScreen extends ScreenAdapter {
 
     private Label lastSentenceLabel;
 
-    public EndingScreen(Bomberman game) {
+    public EndingScreen(ProduceGame game) {
         this.game = game;
         batch = game.getSpriteBatch();
         assetManager = GameManager.getInstance().getAssetManager();
@@ -141,7 +141,7 @@ public class EndingScreen extends ScreenAdapter {
                 )
         );
 
-        font = new BitmapFont(Gdx.files.internal("fonts/foo.fnt"));
+        font = new BitmapFont();
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         Label congratulationsLabel = new Label("Congratulations!", labelStyle);

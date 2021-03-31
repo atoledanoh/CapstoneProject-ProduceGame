@@ -26,11 +26,11 @@ public class B2DWorldContactListener implements ContactListener {
             if (fixtureA.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
                 Entity e = (Entity) fixtureA.getBody().getUserData();
                 Player player = e.getComponent(Player.class);
-                player.receivedDamage++;
+//                player.receivedDamage++;
             } else if (fixtureB.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
                 Entity e = (Entity) fixtureB.getBody().getUserData();
                 Player player = e.getComponent(Player.class);
-                player.receivedDamage++;
+//                player.receivedDamage++;
             } // explode enemy
             else if (fixtureA.getFilterData().categoryBits == GameManager.ENEMY_BIT) {
                 Entity e = (Entity) fixtureA.getBody().getUserData();
@@ -64,11 +64,11 @@ public class B2DWorldContactListener implements ContactListener {
             if (fixtureA.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
                 Entity e = (Entity) fixtureA.getBody().getUserData();
                 Player player = e.getComponent(Player.class);
-                player.damage(1);
+//                player.damage(1);
             } else if (fixtureB.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
                 Entity e = (Entity) fixtureB.getBody().getUserData();
                 Player player = e.getComponent(Player.class);
-                player.damage(1);
+//                player.damage(1);
             }
         } // player
         else if (fixtureA.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixtureB.getFilterData().categoryBits == GameManager.PLAYER_BIT) {

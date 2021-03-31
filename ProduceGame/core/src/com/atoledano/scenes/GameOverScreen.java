@@ -10,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.atoledano.Bomberman;
+import com.atoledano.ProduceGame;
 import com.atoledano.gamesys.GameManager;
 
 public class GameOverScreen extends ScreenAdapter {
 
-    private final Bomberman game;
+    private final ProduceGame game;
     private final SpriteBatch batch;
 
     private FitViewport viewport;
@@ -23,7 +23,7 @@ public class GameOverScreen extends ScreenAdapter {
 
     private BitmapFont font;
 
-    public GameOverScreen(Bomberman game) {
+    public GameOverScreen(ProduceGame game) {
         this.game = game;
         batch = game.getSpriteBatch();
     }
@@ -33,7 +33,7 @@ public class GameOverScreen extends ScreenAdapter {
         viewport = new FitViewport(640, 480);
         stage = new Stage(viewport, batch);
 
-        font = new BitmapFont(Gdx.files.internal("fonts/foo.fnt"));
+        font = new BitmapFont();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         Label gameOverLabel = new Label("Game Over", labelStyle);

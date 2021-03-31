@@ -34,8 +34,8 @@ Hare
 Bomberman_big
   rotate: false
   xy: 1, 19
-  size: 160, 48
-  orig: 160, 48
+  size: 128, 48
+  orig: 128, 48
   offset: 0, 0
   index: -1
 Slime

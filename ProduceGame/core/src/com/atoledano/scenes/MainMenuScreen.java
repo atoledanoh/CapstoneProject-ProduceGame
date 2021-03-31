@@ -19,12 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.atoledano.Bomberman;
+import com.atoledano.ProduceGame;
 import com.atoledano.gamesys.GameManager;
 
 public class MainMenuScreen extends ScreenAdapter {
 
-    private final Bomberman game;
+    private final ProduceGame game;
     private final SpriteBatch batch;
     private FitViewport viewport;
     private Stage stage;
@@ -43,7 +43,7 @@ public class MainMenuScreen extends ScreenAdapter {
     private int currentSelection;
     private boolean selected;
 
-    public MainMenuScreen(Bomberman game) {
+    public MainMenuScreen(ProduceGame game) {
         this.game = game;
         this.batch = game.getSpriteBatch();
     }
@@ -53,11 +53,11 @@ public class MainMenuScreen extends ScreenAdapter {
         viewport = new FitViewport(640, 480);
         stage = new Stage(viewport, batch);
 
-        font = new BitmapFont(Gdx.files.internal("fonts/foo.fnt"));
+        font = new BitmapFont();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
-        Label titleLabel = new Label("Bomberman", labelStyle);
+        Label titleLabel = new Label("Untitled Produce Game", labelStyle);
         titleLabel.setFontScale(1.6f);
         titleLabel.setPosition(140, 360);
 
@@ -71,9 +71,9 @@ public class MainMenuScreen extends ScreenAdapter {
         hardLabel.setPosition((640 - hardLabel.getWidth()) / 2, 120);
 
         Pixmap pixmap = new Pixmap(640, 480, Pixmap.Format.RGB888);
-        pixmap.setColor(240.0f / 255.0f, 128 / 255.0f, 0, 1.0f);
+        pixmap.setColor(34f / 255.0f, 139 / 255.0f, 34f / 255.0f, 1.0f);
         pixmap.fill();
-        backgroundTexture = new Texture(pixmap);
+        backgroundTexture = new Texture("img/producesplash.jpg");
         pixmap.dispose();
         Image background = new Image(backgroundTexture);
 
@@ -106,7 +106,7 @@ public class MainMenuScreen extends ScreenAdapter {
         currentSelection = 0;
         selected = false;
         
-        GameManager.getInstance().playMusic("SuperBomberman-Title.ogg", true);
+        GameManager.getInstance().playMusic("trololo_8-bit.mp3", true);
     }
 
     private void handleInput() {

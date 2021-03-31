@@ -49,25 +49,10 @@ public class MapLoader {
     public MapLoader(World b2dWorld, com.artemis.World world, int level) {
         this.b2dWorld = b2dWorld;
         this.world = world;
-        this.level = level;
         assetManager = GameManager.getInstance().getAssetManager();
 
-        pixmap = assetManager.get("maps/level_" + level + ".png", Pixmap.class);
-        switch (level) {
-            case 5:
-                tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
-                break;
-            case 4:
-            case 3:
-                tileTextureAtlas = assetManager.get("maps/area_2_tiles.pack", TextureAtlas.class);
-                break;
-            case 2:
-            case 1:
-            default:
-                tileTextureAtlas = assetManager.get("maps/area_1_tiles.pack", TextureAtlas.class);
-                break;
-        }
-
+        pixmap = assetManager.get("maps/map.png", Pixmap.class);
+        tileTextureAtlas = assetManager.get("maps/area_1_tiles.pack", TextureAtlas.class);
         mapWidth = pixmap.getWidth();
         mapHeight = pixmap.getHeight();
     }
