@@ -32,7 +32,7 @@ public class MainMenuScreen extends ScreenAdapter {
     private BitmapFont font;
 
     private Texture backgroundTexture;
-    
+
     private Texture indicationsTexture;
     private Image indications;
 
@@ -80,7 +80,7 @@ public class MainMenuScreen extends ScreenAdapter {
         indicatorX = 160f;
         indicatorY = 240f;
 
-        TextureAtlas textureAtlas = GameManager.getInstance().getAssetManager().get("img/actors.pack", TextureAtlas.class);
+        TextureAtlas textureAtlas = GameManager.getInstance().getAssetManager().get("img/newactors.pack", TextureAtlas.class);
         indicator0 = new Image(new TextureRegion(textureAtlas.findRegion("MainMenuLogo"), 0, 0, 40, 26));
         indicator0.setSize(80f, 52f);
         indicator0.setPosition(indicatorX, indicatorY);
@@ -89,7 +89,7 @@ public class MainMenuScreen extends ScreenAdapter {
         indicator1.setSize(80f, 52f);
         indicator1.setPosition(indicatorX, indicatorY);
         indicator1.setVisible(false);
-        
+
         indicationsTexture = new Texture("img/indications.png");
         indications = new Image(indicationsTexture);
         indications.setPosition(640f - indications.getWidth() - 12f, 12f);
@@ -105,7 +105,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         currentSelection = 0;
         selected = false;
-        
+
         GameManager.getInstance().playMusic("trololo_8-bit.mp3", true);
     }
 
@@ -146,7 +146,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         if (!selected && (Gdx.input.isKeyJustPressed(Input.Keys.X) || Gdx.input.isKeyJustPressed(Input.Keys.Z))) {
             GameManager.getInstance().playSound("Teleport.ogg");
-            
+
             selected = true;
 
             indicator0.setVisible(false);

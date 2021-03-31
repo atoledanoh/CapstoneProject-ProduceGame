@@ -65,6 +65,7 @@ public class GameManager implements Disposable {
 
         // load actors 
         assetManager.load("img/actors.pack", TextureAtlas.class);
+        assetManager.load("img/newactors.pack", TextureAtlas.class);
 
         // load sounds
         assetManager.load("sounds/Pickup.ogg", Sound.class);

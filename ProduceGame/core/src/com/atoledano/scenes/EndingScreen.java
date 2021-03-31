@@ -46,7 +46,7 @@ public class EndingScreen extends ScreenAdapter {
         viewport = new FitViewport(WIDTH, HEIGHT);
         stage = new Stage(viewport, batch);
 
-        TextureRegion bomberman = assetManager.get("img/actors.pack", TextureAtlas.class).findRegion("Bomberman1");
+        TextureRegion bomberman = assetManager.get("img/newactors.pack", TextureAtlas.class).findRegion("Player");
         Array<TextureRegion> keyFrames = new Array<>();
 
         // Bomberman walking animation

@@ -1,0 +1,54 @@
+
+newactors.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Player
+  rotate: false
+  xy: 0, 0
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1
+Customer1
+  rotate: false
+  xy: 0, 128
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1
+Customer2
+  rotate: false
+  xy: 96, 0
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1
+Customer3
+  rotate: false
+  xy: 96, 128
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1
+Big_eye
+  rotate: false
+  xy: 256, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Produce
+  rotate: false
+  xy: 0, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+MainMenuLogo
+  rotate: false
+  xy: 0, 416
+  size: 80, 26
+  orig: 80, 26
+  offset: 0, 0
+  index: -1

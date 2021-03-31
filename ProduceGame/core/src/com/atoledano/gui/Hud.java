@@ -61,6 +61,8 @@ public class Hud implements Disposable {
 
         AssetManager assetManager = GameManager.getInstance().getAssetManager();
         textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
+        TextureAtlas textureAtlas2 = assetManager.get("img/newactors.pack", TextureAtlas.class);
+
         bombSprite = new Sprite(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
         bombSprite.setBounds(15.0f, 11.5f, 1, 1);
 
@@ -93,7 +95,12 @@ public class Hud implements Disposable {
 
         Array<TextureRegion> keyFrames = new Array<TextureRegion>();
         for (int i = 0; i < 4; i++) {
-            keyFrames.add(new TextureRegion(textureAtlas.findRegion("Bomberman_big"), 32 * i, 0, 32, 48));
+            int texturecount=0;
+            for (int j = 0; j < 4; j++) {
+                keyFrames.add(new TextureRegion(textureAtlas2.findRegion("Big_eye"), 64 * i, 64 * j, 64, 64));
+                texturecount++;
+                System.out.println("texturecount = " + texturecount);
+            }
         }
         bigBombermanAnimation = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
         bigBombermanSprite = new Sprite(bigBombermanAnimation.getKeyFrame(0));

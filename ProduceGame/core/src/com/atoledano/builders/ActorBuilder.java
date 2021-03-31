@@ -655,63 +655,63 @@ public class ActorBuilder {
 
         // animation
         HashMap<String, Animation> anims = new HashMap<>();
-        TextureAtlas textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
-        TextureRegion textureRegion = textureAtlas.findRegion("Bomberman1");
+        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
+        TextureRegion textureRegion = textureAtlas.findRegion("Player");
         Animation anim;
 
         Array<TextureRegion> keyFrames = new Array<>();
         // walking up
         for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 24));
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 96, 32, 32));
         }
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_up", anim);
 
         // walking left
         keyFrames.clear();
-        for (int i = 3; i < 6; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 24));
+        for (int i = 0; i < 3; i++) {
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 32, 32, 32));
         }
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_left", anim);
 
         // walking down
         keyFrames.clear();
-        for (int i = 6; i < 9; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 24));
+        for (int i = 0; i < 3; i++) {
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 0, 32, 32));
         }
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_down", anim);
 
         // walking right
         keyFrames.clear();
-        for (int i = 9; i < 12; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 24));
+        for (int i = 0; i < 3; i++) {
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 64, 32, 32));
         }
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_right", anim);
 
         // idling up
         keyFrames.clear();
-        keyFrames.add(new TextureRegion(textureRegion, 1 * 16, 0, 16, 24));
+        keyFrames.add(new TextureRegion(textureRegion, 32, 96, 32, 32));
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("idling_up", anim);
 
         // idling left
         keyFrames.clear();
-        keyFrames.add(new TextureRegion(textureRegion, 4 * 16, 0, 16, 24));
+        keyFrames.add(new TextureRegion(textureRegion, 32, 32, 32, 32));
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("idling_left", anim);
 
         // idling down
         keyFrames.clear();
-        keyFrames.add(new TextureRegion(textureRegion, 7 * 16, 0, 16, 24));
+        keyFrames.add(new TextureRegion(textureRegion, 32, 0, 32, 32));
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("idling_down", anim);
 
         // idling right
         keyFrames.clear();
-        keyFrames.add(new TextureRegion(textureRegion, 10 * 16, 0, 16, 24));
+        keyFrames.add(new TextureRegion(textureRegion, 32, 64, 32, 32));
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("idling_right", anim);
 
