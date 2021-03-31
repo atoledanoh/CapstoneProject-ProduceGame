@@ -3,12 +3,6 @@ package com.atoledano.scenes;
 import com.artemis.BaseSystem;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
-import com.atoledano.ProduceGame;
-import com.atoledano.builders.WorldBuilder;
-import com.atoledano.gamesys.GameManager;
-import com.atoledano.gui.Hud;
-import com.atoledano.listeners.B2DWorldContactListener;
-import com.atoledano.systems.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -30,6 +24,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.atoledano.ProduceGame;
+import com.atoledano.builders.WorldBuilder;
+import com.atoledano.gamesys.GameManager;
+import com.atoledano.gui.Hud;
+import com.atoledano.listeners.B2DWorldContactListener;
+import com.atoledano.systems.AnimationSystem;
+import com.atoledano.systems.BombSystem;
+import com.atoledano.systems.BreakableSystem;
+import com.atoledano.systems.EnemySystem;
+import com.atoledano.systems.ExplosionSystem;
+import com.atoledano.systems.ParticleSystem;
+import com.atoledano.systems.PhysicsSystem;
+import com.atoledano.systems.PlayerSystem;
+import com.atoledano.systems.PowerUpSystem;
+import com.atoledano.systems.RenderSystem;
+import com.atoledano.systems.StateSystem;
 
 public class PlayScreen extends ScreenAdapter {
 
@@ -140,9 +150,9 @@ public class PlayScreen extends ScreenAdapter {
 
         skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
 
-        stage2 = new Stage(new FitViewport(640, 480), batch);
+        stage2 = new Stage(new FitViewport(1280, 720), batch);
         pauseWindow = new Window("Pause", skin);
-        pauseWindow.setPosition((640 - pauseWindow.getWidth()) / 2, (480 - pauseWindow.getHeight()) / 2);
+        pauseWindow.setPosition((1280 - pauseWindow.getWidth()) / 2, (720 - pauseWindow.getHeight()) / 2);
         pauseWindow.setVisible(paused);
 
         TextButton continueButton = new TextButton("Continue", skin);

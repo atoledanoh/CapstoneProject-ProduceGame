@@ -442,40 +442,40 @@ public class ActorBuilder {
 
         // animation
         HashMap<String, Animation> anims = new HashMap<>();
-        TextureAtlas textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
-        TextureRegion textureRegion = textureAtlas.findRegion("BombEnemy");
+        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
+        TextureRegion textureRegion = textureAtlas.findRegion("Rat");
         Animation anim;
 
         Array<TextureRegion> keyFrames = new Array<>();
         // walking down
-        for (int i = 0; i < 5; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 24));
+        for (int i = 0; i < 3; i++) {
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 0, 32, 32));
         }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
+        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_down", anim);
 
         keyFrames.clear();
         // walking up
-        for (int i = 0; i < 5; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 24, 16, 24));
+        for (int i = 0; i < 3; i++) {
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 96, 32, 32));
         }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
+        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_up", anim);
 
         keyFrames.clear();
         // walking left
-        for (int i = 0; i < 5; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 24 * 2, 16, 24));
+        for (int i = 0; i < 3; i++) {
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 32, 32, 32));
         }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
+        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_left", anim);
 
         keyFrames.clear();
         // walking right
-        for (int i = 0; i < 5; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 24 * 3, 16, 24));
+        for (int i = 0; i < 3; i++) {
+            keyFrames.add(new TextureRegion(textureRegion, i * 32, 64, 32, 32));
         }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
+        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_right", anim);
 
         keyFrames.clear();

@@ -30,14 +30,14 @@ public class GameOverScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        viewport = new FitViewport(640, 480);
+        viewport = new FitViewport(1280, 720);
         stage = new Stage(viewport, batch);
 
         font = new BitmapFont();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         Label gameOverLabel = new Label("Game Over", labelStyle);
-        gameOverLabel.setPosition((640 - gameOverLabel.getWidth()) / 2, 226f);
+        gameOverLabel.setPosition((1280 - gameOverLabel.getWidth()) / 2, 226f);
 
         GameManager.getInstance().playMusic("GameOver.ogg", false);
 

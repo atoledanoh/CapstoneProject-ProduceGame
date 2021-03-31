@@ -17,8 +17,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class EndingScreen extends ScreenAdapter {
 
-    private final float WIDTH = 640;
-    private final float HEIGHT = 480;
+    private final float WIDTH = 1280;
+    private final float HEIGHT = 720;
 
     private final ProduceGame game;
     private final SpriteBatch batch;

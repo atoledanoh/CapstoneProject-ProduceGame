@@ -50,7 +50,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        viewport = new FitViewport(640, 480);
+        viewport = new FitViewport(1280, 720);
         stage = new Stage(viewport, batch);
 
         font = new BitmapFont();
@@ -62,16 +62,16 @@ public class MainMenuScreen extends ScreenAdapter {
         titleLabel.setPosition(140, 360);
 
         Label easyLabel = new Label("Easy", labelStyle);
-        easyLabel.setPosition((640 - easyLabel.getWidth()) / 2, 240);
+        easyLabel.setPosition((1280 - easyLabel.getWidth()) / 2, 240);
 
         Label normalLabel = new Label("Normal", labelStyle);
-        normalLabel.setPosition((640 - normalLabel.getWidth()) / 2, 180);
+        normalLabel.setPosition((1280 - normalLabel.getWidth()) / 2, 180);
 
         Label hardLabel = new Label("Hard", labelStyle);
-        hardLabel.setPosition((640 - hardLabel.getWidth()) / 2, 120);
+        hardLabel.setPosition((1280 - hardLabel.getWidth()) / 2, 120);
 
-        Pixmap pixmap = new Pixmap(640, 480, Pixmap.Format.RGB888);
-        pixmap.setColor(34f / 255.0f, 139 / 255.0f, 34f / 255.0f, 1.0f);
+        Pixmap pixmap = new Pixmap(1280, 720, Pixmap.Format.RGB888);
+        pixmap.setColor(34.0f / 255.0f, 139.0f / 255.0f, 34.0f / 255.0f, 1.0f);
         pixmap.fill();
         backgroundTexture = new Texture("img/producesplash.jpg");
         pixmap.dispose();
@@ -92,7 +92,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         indicationsTexture = new Texture("img/indications.png");
         indications = new Image(indicationsTexture);
-        indications.setPosition(640f - indications.getWidth() - 12f, 12f);
+        indications.setPosition(1280f - indications.getWidth() - 12f, 12f);
 
         stage.addActor(background);
         stage.addActor(indications);

@@ -31,23 +31,51 @@ Customer3
   orig: 96, 128
   offset: 0, 0
   index: -1
-Big_eye
+Customer4
   rotate: false
-  xy: 256, 0
-  size: 256, 256
-  orig: 256, 256
+  xy: 192, 128
+  size: 96, 128
+  orig: 96, 128
   offset: 0, 0
   index: -1
-Produce
+Customer5
+  rotate: false
+  xy: 192, 128
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1
+Karen
+  rotate: false
+  xy: 288, 128
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1
+Rat
+  rotate: false
+  xy: 288, 128
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1
+Big_eye
   rotate: false
   xy: 0, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
+Produce
+  rotate: false
+  xy: 256, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
 MainMenuLogo
   rotate: false
-  xy: 0, 416
+  xy: 256, 416
   size: 80, 26
   orig: 80, 26
   offset: 0, 0

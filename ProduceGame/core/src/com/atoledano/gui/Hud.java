@@ -62,7 +62,7 @@ public class Hud implements Disposable {
         bombSprite.setBounds(15.0f, 11.5f, 1, 1);
 
         Pixmap pixmap = new Pixmap(5, 15, Pixmap.Format.RGBA8888);
-        pixmap.setColor(34f / 255.0f, 139 / 255.0f, 34f / 255.0f, 1.0f);
+        pixmap.setColor(34.0f / 255.0f, 139.0f / 255.0f, 34.0f / 255.0f, 1.0f);
         pixmap.fill();
 
         bgTexture = new Texture(pixmap);
