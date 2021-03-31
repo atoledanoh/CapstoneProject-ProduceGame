@@ -3,11 +3,11 @@ package com.atoledano.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.atoledano.builders.ActorBuilder;
 import com.atoledano.components.Breakable;
 import com.atoledano.components.RigidBody;
 import com.atoledano.components.State;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public class BreakableSystem extends IteratingSystem {
 

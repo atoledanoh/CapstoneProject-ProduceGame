@@ -4,16 +4,16 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.IteratingSystem;
+import com.atoledano.builders.ActorBuilder;
+import com.atoledano.components.Transform;
+import com.atoledano.components.*;
+import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.atoledano.builders.ActorBuilder;
-import com.atoledano.components.*;
-import com.atoledano.components.Transform;
-import com.atoledano.gamesys.GameManager;
 
 import java.util.Queue;
 

@@ -6,21 +6,22 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.Sort;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.atoledano.components.Renderer;
 import com.atoledano.components.Transform;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.util.Comparator;
 
 public class RenderSystem extends EntitySystem {
 
     private final SpriteBatch batch;
-    
+
     protected ComponentMapper<Transform> mTransform;
     protected ComponentMapper<Renderer> mRenderer;
-    
+
     public RenderSystem(SpriteBatch batch) {
         super(Aspect.all(Transform.class, Renderer.class));
-        
+
         this.batch = batch;
     }
 
@@ -28,7 +29,7 @@ public class RenderSystem extends EntitySystem {
     protected void begin() {
         batch.begin();
     }
-    
+
     @Override
     protected void end() {
         batch.end();
@@ -37,18 +38,18 @@ public class RenderSystem extends EntitySystem {
     protected void process(Entity e) {
         Transform transform = mTransform.get(e);
         Renderer renderer = mRenderer.get(e);
-        
+
         renderer.setPosition(transform.posX, transform.posY);
         renderer.setRotation(transform.rotation);
         renderer.setScale(transform.sclX, transform.sclY);
-        
+
         renderer.draw(batch);
     }
 
     @Override
     protected void processSystem() {
         Bag<Entity> entities = getEntities();
-        
+
         Sort sort = Sort.instance();
         sort.sort(entities, new Comparator<Entity>() {
             @Override
@@ -57,19 +58,17 @@ public class RenderSystem extends EntitySystem {
                 Transform t2 = mTransform.get(o2);
                 if (t1.z < t2.z) {
                     return 1;
-                }
-                else if (t1.z > t2.z) {
+                } else if (t1.z > t2.z) {
                     return -1;
-                }
-                else {
+                } else {
                     return 0;
                 }
             }
         });
-        
+
         for (Entity e : entities) {
             process(e);
         }
     }
-    
+
 }

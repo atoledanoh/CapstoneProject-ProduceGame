@@ -1,17 +1,9 @@
 package com.atoledano.listeners;
 
 import com.artemis.Entity;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
-import com.atoledano.components.Bomb;
-import com.atoledano.components.Breakable;
-import com.atoledano.components.Enemy;
-import com.atoledano.components.Player;
-import com.atoledano.components.PowerUp;
+import com.atoledano.components.*;
 import com.atoledano.gamesys.GameManager;
+import com.badlogic.gdx.physics.box2d.*;
 
 public class B2DWorldContactListener implements ContactListener {
 

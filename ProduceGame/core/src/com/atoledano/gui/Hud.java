@@ -1,25 +1,20 @@
 package com.atoledano.gui;
 
+import com.atoledano.components.Player;
+import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.atoledano.components.Player;
-import com.atoledano.gamesys.GameManager;
 
 public class Hud implements Disposable {
 
@@ -95,11 +90,8 @@ public class Hud implements Disposable {
 
         Array<TextureRegion> keyFrames = new Array<TextureRegion>();
         for (int i = 0; i < 4; i++) {
-            int texturecount=0;
             for (int j = 0; j < 4; j++) {
                 keyFrames.add(new TextureRegion(textureAtlas2.findRegion("Big_eye"), 64 * i, 64 * j, 64, 64));
-                texturecount++;
-                System.out.println("texturecount = " + texturecount);
             }
         }
         bigBombermanAnimation = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);

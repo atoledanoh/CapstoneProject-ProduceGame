@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -93,8 +94,14 @@ public class GameManager implements Disposable {
         assetManager.load("music/StageCleared.ogg", Music.class);
 
         // load maps
-        assetManager.load("maps/map.png", Pixmap.class);
+        assetManager.load("maps/level_1.png", Pixmap.class);
+        assetManager.load("maps/level_2.png", Pixmap.class);
+        assetManager.load("maps/level_3.png", Pixmap.class);
+        assetManager.load("maps/level_4.png", Pixmap.class);
+        assetManager.load("maps/level_5.png", Pixmap.class);
         assetManager.load("maps/area_1_tiles.pack", TextureAtlas.class);
+        assetManager.load("maps/area_2_tiles.pack", TextureAtlas.class);
+        assetManager.load("maps/area_3_tiles.pack", TextureAtlas.class);
 
         assetManager.finishLoading();
 

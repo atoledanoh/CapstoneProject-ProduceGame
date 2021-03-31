@@ -1,5 +1,6 @@
 package com.atoledano.builders;
 
+import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -7,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.atoledano.gamesys.GameManager;
 
 public class MapLoader {
 
@@ -49,10 +49,25 @@ public class MapLoader {
     public MapLoader(World b2dWorld, com.artemis.World world, int level) {
         this.b2dWorld = b2dWorld;
         this.world = world;
+        this.level = level;
         assetManager = GameManager.getInstance().getAssetManager();
 
-        pixmap = assetManager.get("maps/map.png", Pixmap.class);
-        tileTextureAtlas = assetManager.get("maps/area_1_tiles.pack", TextureAtlas.class);
+        pixmap = assetManager.get("maps/level_" + level + ".png", Pixmap.class);
+        switch (level) {
+            case 5:
+                tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
+                break;
+            case 4:
+            case 3:
+                tileTextureAtlas = assetManager.get("maps/area_2_tiles.pack", TextureAtlas.class);
+                break;
+            case 2:
+            case 1:
+            default:
+                tileTextureAtlas = assetManager.get("maps/area_1_tiles.pack", TextureAtlas.class);
+                break;
+        }
+
         mapWidth = pixmap.getWidth();
         mapHeight = pixmap.getHeight();
     }

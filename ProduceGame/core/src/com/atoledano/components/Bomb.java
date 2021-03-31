@@ -5,7 +5,7 @@ import com.atoledano.gamesys.GameManager;
 
 public class Bomb extends Component {
     public static short defaultMaskBits = GameManager.INDESTRUCTIIBLE_BIT | GameManager.BREAKABLE_BIT | GameManager.EXPLOSION_BIT;
-    
+
     public enum State {
         NORMAL,
         MOVING_UP,
@@ -14,7 +14,7 @@ public class Bomb extends Component {
         MOVING_RIGHT,
         EXPLODING
     }
-    
+
     public float countDown;
     public State state;
     public int power;
@@ -23,7 +23,7 @@ public class Bomb extends Component {
     public Bomb() {
         this(1, 2.0f);
     }
-    
+
     public Bomb(int power) {
         this(power, 2.0f);
     }
@@ -34,7 +34,7 @@ public class Bomb extends Component {
         this.speed = 6.0f;
         state = State.NORMAL;
     }
-    
+
     public void setMove(Bomb.State state) {
         this.state = state;
     }

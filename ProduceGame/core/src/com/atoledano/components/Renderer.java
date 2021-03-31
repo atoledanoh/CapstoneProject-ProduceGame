@@ -54,7 +54,7 @@ public class Renderer extends Component {
     public boolean isFlipY() {
         return sprite.isFlipY();
     }
-    
+
     public void setColor(Color tint) {
         sprite.setColor(tint);
     }

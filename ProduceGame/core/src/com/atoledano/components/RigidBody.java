@@ -9,5 +9,5 @@ public class RigidBody extends Component {
     public RigidBody(Body body) {
         this.body = body;
     }
-    
+
 }

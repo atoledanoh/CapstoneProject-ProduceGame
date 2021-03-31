@@ -8,7 +8,7 @@ import com.atoledano.components.State;
 public class StateSystem extends IteratingSystem {
 
     ComponentMapper<State> mState;
-    
+
     public StateSystem() {
         super(Aspect.all(State.class));
     }
@@ -18,5 +18,5 @@ public class StateSystem extends IteratingSystem {
         State state = mState.get(entityId);
         state.addStateTime(world.getDelta());
     }
-    
+
 }

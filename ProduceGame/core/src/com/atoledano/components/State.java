@@ -24,11 +24,11 @@ public class State extends Component {
         if (this.currentState.equals(currentState)) {
             return;
         }
-        
+
         this.currentState = currentState;
         resetStateTime();
     }
-    
+
     public float getStateTime() {
         return stateTime;
     }

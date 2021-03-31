@@ -29,10 +29,10 @@ public class Enemy extends Component {
     protected float speed;
 
     public float lifetime; // total time when alive
-    
+
     private String dieSound;
     public String type;
-    
+
     public int receivedDamage;
 
     public Enemy(int hp) {
@@ -46,14 +46,14 @@ public class Enemy extends Component {
     public Enemy(int hp, float speed, String dieSound) {
         this(hp, speed, dieSound, "basic");
     }
-    
+
     public Enemy(int hp, float speed, String dieSound, String type) {
         state = State.getRandomWalkingState();
         this.hp = hp;
         this.speed = speed;
         this.dieSound = dieSound;
         this.type = type;
-        
+
         lifetime = 0;
         receivedDamage = 0;
 

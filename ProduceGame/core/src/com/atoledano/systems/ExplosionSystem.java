@@ -12,7 +12,7 @@ public class ExplosionSystem extends IteratingSystem {
     protected ComponentMapper<Explosion> mExplosion;
     protected ComponentMapper<RigidBody> mRigidBody;
     protected ComponentMapper<State> mState;
-    
+
     public ExplosionSystem() {
         super(Aspect.all(Explosion.class, State.class));
     }
@@ -27,5 +27,5 @@ public class ExplosionSystem extends IteratingSystem {
             world.delete(entityId);
         }
     }
-    
+
 }

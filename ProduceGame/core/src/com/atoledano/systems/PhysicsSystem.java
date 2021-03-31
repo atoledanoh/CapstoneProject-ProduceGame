@@ -12,7 +12,7 @@ public class PhysicsSystem extends IteratingSystem {
     protected ComponentMapper<Transform> mTransform;
     protected ComponentMapper<RigidBody> mRigidBody;
     protected ComponentMapper<Enemy> mEnemy;
-    
+
     public PhysicsSystem() {
         super(Aspect.all(Transform.class, RigidBody.class));
     }
@@ -21,9 +21,9 @@ public class PhysicsSystem extends IteratingSystem {
     protected void process(int entityId) {
         Transform transform = mTransform.get(entityId);
         RigidBody rigidBody = mRigidBody.get(entityId);
-        
+
         transform.setPosition(rigidBody.body.getPosition());
-        
+
         // if the entity is Boss, make it drawn on top
         Enemy enemy = mEnemy.getSafe(entityId);
         if (enemy != null) {

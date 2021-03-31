@@ -3,8 +3,8 @@ package com.atoledano.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.atoledano.components.Particle;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ParticleSystem extends IteratingSystem {
 

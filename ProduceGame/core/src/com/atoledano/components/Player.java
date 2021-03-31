@@ -1,8 +1,8 @@
 package com.atoledano.components;
 
 import com.artemis.Component;
-import com.badlogic.gdx.math.MathUtils;
 import com.atoledano.gamesys.GameManager;
+import com.badlogic.gdx.math.MathUtils;
 
 public class Player extends Component {
 
@@ -23,7 +23,7 @@ public class Player extends Component {
 
     public static short defaultMaskBits = GameManager.INDESTRUCTIIBLE_BIT | GameManager.BREAKABLE_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT | GameManager.EXPLOSION_BIT | GameManager.POWERUP_BIT | GameManager.PORTAL_BIT;
     public static short invincibleMaskBit = GameManager.INDESTRUCTIIBLE_BIT | GameManager.BREAKABLE_BIT | GameManager.POWERUP_BIT | GameManager.PORTAL_BIT;
-    
+
     public static final int MAX_BOMB_CAPACITY = 10;
     public static final int MAX_BOMB_POWER = 6;
 
@@ -35,13 +35,13 @@ public class Player extends Component {
     public int bombLeft;
     public boolean kickBomb;
     public boolean remoteBomb;
-    
+
     public float bombRegeratingTime;
     public float bombRegeratingTimeLeft;
 
     public boolean invincible;
     public float invincibleCountDown;
-    
+
     public int receivedDamage;
 
     public Player(boolean resetPlayerAbilities) {
@@ -65,7 +65,7 @@ public class Player extends Component {
 
         invincible = true;
         invincibleCountDown = 3.0f;
-        
+
         receivedDamage = 0;
     }
 

@@ -1,5 +1,7 @@
 package com.atoledano.scenes;
 
+import com.atoledano.ProduceGame;
+import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -19,8 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.atoledano.ProduceGame;
-import com.atoledano.gamesys.GameManager;
 
 public class MainMenuScreen extends ScreenAdapter {
 
