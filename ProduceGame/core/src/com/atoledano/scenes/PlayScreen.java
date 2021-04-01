@@ -43,8 +43,8 @@ import com.atoledano.systems.StateSystem;
 
 public class PlayScreen extends ScreenAdapter {
 
-    private final float WIDTH = 20;
-    private final float HEIGHT = 15;
+    private final float WIDTH = 30;
+    private final float HEIGHT = 25;
 
     private final ProduceGame game;
     private final SpriteBatch batch;
@@ -92,6 +92,7 @@ public class PlayScreen extends ScreenAdapter {
     public void show() {
         camera = new OrthographicCamera();
         viewport = new FitViewport(WIDTH, HEIGHT, camera);
+        //todo - check the position to transition!!
         camera.position.set(WIDTH / 2, HEIGHT / 2, 0);
 
         b2dWorld = new World(new Vector2(), true);

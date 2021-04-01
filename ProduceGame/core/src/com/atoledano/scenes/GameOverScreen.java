@@ -33,7 +33,7 @@ public class GameOverScreen extends ScreenAdapter {
         viewport = new FitViewport(1280, 720);
         stage = new Stage(viewport, batch);
 
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         Label gameOverLabel = new Label("Game Over", labelStyle);

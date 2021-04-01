@@ -261,7 +261,7 @@ public class EnemySystem extends IteratingSystem {
                 if (state.getStateTime() > 3f) {
                     // spawn a bomb-enemy
                     enemy.state = Enemy.State.getRandomWalkingState();
-                    actorBuilder.createBombEnemy(body.getPosition().x, body.getPosition().y);
+                    actorBuilder.createBombRat(body.getPosition().x, body.getPosition().y);
                 }
                 break;
             case ATTACKING_DOWN:

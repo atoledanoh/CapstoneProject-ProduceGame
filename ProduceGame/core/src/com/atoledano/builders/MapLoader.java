@@ -15,11 +15,14 @@ public class MapLoader {
 
         EMPTY(255, 255, 255), // white
         WALL(0, 0, 0), // black
-        BREAKABLE(0, 255, 255), // cyan
-        INDESTRUCTIBLE(0, 0, 255), // blue
-        PLAYER(255, 0, 0), // red
-        ENEMY1(0, 255, 0), // green
-        ENEMY2(0, 128, 0); // dark green
+        INDESTRUCTIBLE(255, 0, 0), // red
+        BREAKABLE(0, 255, 0), // green
+        PLAYER(0, 0, 255), // blue
+        CUSTOMER1(255, 255, 0), // yellow
+        CUSTOMER2(0, 255, 255), // cyan
+        CUSTOMER3(255, 0, 255), // magenta
+        RAT(128, 128, 128), // silver
+        KAREN(128, 128, 0); //gold
 
         int color;
 
@@ -59,12 +62,12 @@ public class MapLoader {
                 break;
             case 4:
             case 3:
-                tileTextureAtlas = assetManager.get("maps/area_2_tiles.pack", TextureAtlas.class);
+                tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
                 break;
             case 2:
             case 1:
             default:
-                tileTextureAtlas = assetManager.get("maps/area_1_tiles.pack", TextureAtlas.class);
+                tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
                 break;
         }
 
@@ -88,43 +91,16 @@ public class MapLoader {
                 } else if (BLOCK.PLAYER.sameColor(color)) {
                     actorBuilder.createPlayer(x + 0.5f, y + 0.5f, false);
                     GameManager.getInstance().setPlayerRespawnPosition(new Vector2(x + 0.5f, y + 0.5f));
-                } else if (BLOCK.ENEMY1.sameColor(color)) {
-                    switch (level) {
-                        case 5:
-                            actorBuilder.createBoss1(x + 0.5f, y + 0.5f);
-                            break;
-                        case 4:
-                            actorBuilder.createBombEnemy(x + 0.5f, y + 0.5f);
-                            break;
-                        case 3:
-                            actorBuilder.createHare(x + 0.5f, y + 0.5f);
-                            break;
-                        case 2:
-                            actorBuilder.createOctopus(x + 0.5f, y + 0.5f);
-                            break;
-                        case 1:
-                        default:
-                            actorBuilder.createOctopus(x + 0.5f, y + 0.5f);
-                            break;
-                    }
-                } else if (BLOCK.ENEMY2.sameColor(color)) {
-                    switch (level) {
-                        case 5:
-                            break;
-                        case 4:
-                            actorBuilder.createHare(x + 0.5f, y + 0.5f);
-                            break;
-                        case 3:
-                            actorBuilder.createHare(x + 0.5f, y + 0.5f);
-                            break;
-                        case 2:
-                            actorBuilder.createSlime(x + 0.5f, y + 0.5f);
-                            break;
-                        case 1:
-                        default:
-                            actorBuilder.createOctopus(x + 0.5f, y + 0.5f);
-                            break;
-                    }
+                } else if (BLOCK.CUSTOMER1.sameColor(color)) {
+                    actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
+                } else if (BLOCK.CUSTOMER2.sameColor(color)) {
+                    actorBuilder.createCustomer2(x + 0.5f, y + 0.5f);
+                } else if (BLOCK.CUSTOMER3.sameColor(color)) {
+                    actorBuilder.createCustomer3(x + 0.5f, y + 0.5f);
+                } else if (BLOCK.RAT.sameColor(color)) {
+                    actorBuilder.createBombRat(x + 0.5f, y + 0.5f);
+                } else if (BLOCK.KAREN.sameColor(color)) {
+                    actorBuilder.createKaren(x + 0.5f, y + 0.5f);
                 }
             }
         }

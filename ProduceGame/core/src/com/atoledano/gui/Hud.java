@@ -36,7 +36,7 @@ public class Hud implements Disposable {
     private Sprite kickSprite;
     private Sprite remoteSprite;
 
-    private final float SCALE = 16f;
+    private final float SCALE = 26f;
     private Stage stage;
     private BitmapFont font;
     private Label fpsLabel;
@@ -49,7 +49,7 @@ public class Hud implements Disposable {
 
     private StringBuilder stringBuilder;
 
-    private final float leftAlignment = 15.5f;
+    private final float leftAlignment = 25.5f;
 
     public Hud(SpriteBatch batch, float width, float height) {
         this.batch = batch;
@@ -59,10 +59,10 @@ public class Hud implements Disposable {
         TextureAtlas textureAtlas2 = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
         bombSprite = new Sprite(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
-        bombSprite.setBounds(15.0f, 11.5f, 1, 1);
+        bombSprite.setBounds(25.0f, 11.5f, 1, 1);
 
-        Pixmap pixmap = new Pixmap(5, 15, Pixmap.Format.RGBA8888);
-        pixmap.setColor(34.0f / 255.0f, 139.0f / 255.0f, 34.0f / 255.0f, 1.0f);
+        Pixmap pixmap = new Pixmap(5, 25, Pixmap.Format.RGBA8888);
+        pixmap.setColor(32.0f / 255.0f, 93.0f / 255.0f, 153.0f / 255.0f, 1.0f);
         pixmap.fill();
 
         bgTexture = new Texture(pixmap);
@@ -73,7 +73,7 @@ public class Hud implements Disposable {
         pixmap.dispose();
 
         bombTimerSprite = new Sprite(bombTimerTexture);
-        bombTimerSprite.setBounds(16f, 12.5f, 3.0f, 0.2f);
+        bombTimerSprite.setBounds(26f, 12.5f, 3.0f, 0.2f);
 
         TextureRegion itemTextureRegion = textureAtlas.findRegion("Items");
         powerSprite = new Sprite(new TextureRegion(itemTextureRegion, 16 * 1, 0, 16, 16));
@@ -94,38 +94,38 @@ public class Hud implements Disposable {
                 keyFrames.add(new TextureRegion(textureAtlas2.findRegion("Big_eye"), 64 * i, 64 * j, 64, 64));
             }
         }
-        bigBombermanAnimation = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
+        bigBombermanAnimation = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP);
         bigBombermanSprite = new Sprite(bigBombermanAnimation.getKeyFrame(0));
-        bigBombermanSprite.setBounds(17.5f, 0.5f, 2f, 3f);
+        bigBombermanSprite.setBounds(27.5f, 0.5f, 2f, 3f);
         stateTime = 0;
 
         FitViewport viewport = new FitViewport(width * SCALE, height * SCALE);
         stage = new Stage(viewport, batch);
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         fpsLabel = new Label("FPS:", labelStyle);
         fpsLabel.setFontScale(0.3f);
-        fpsLabel.setPosition(16 * SCALE, -0.8f * SCALE);
+        fpsLabel.setPosition(26 * SCALE, -0.8f * SCALE);
         fpsLabel.setVisible(showFPS);
 
         levelLabel = new Label("Level", labelStyle);
-        levelLabel.setPosition(15.5f * SCALE, 3 * SCALE);
+        levelLabel.setPosition(25.5f * SCALE, 3 * SCALE);
         levelLabel.setFontScale(0.4f);
 
         playerLivesLabel = new Label("" + GameManager.playerLives, labelStyle);
         playerLivesLabel.setFontScale(0.5f);
-        playerLivesLabel.setPosition(16.8f * SCALE, 12.8f * SCALE);
+        playerLivesLabel.setPosition(26.8f * SCALE, 12.8f * SCALE);
 
-        Image bombermanImage = new Image(new TextureRegion(textureAtlas.findRegion("Items"), 16 * 5, 0, 16, 16));
+        Image bombermanImage = new Image(new TextureRegion(textureAtlas.findRegion("Items"), 26 * 5, 0, 16, 16));
         bombermanImage.setPosition(leftAlignment * SCALE, 13.5f * SCALE);
 
         xLabel = new Label("X", labelStyle);
         xLabel.setFontScale(0.4f);
-        xLabel.setPosition(16.8f * SCALE, 6.3f * SCALE);
+        xLabel.setPosition(26.8f * SCALE, 6.3f * SCALE);
 
         zLabel = new Label("Z", labelStyle);
         zLabel.setFontScale(0.4f);
-        zLabel.setPosition(16.8f * SCALE, 5.3f * SCALE);
+        zLabel.setPosition(26.8f * SCALE, 5.3f * SCALE);
 
         stage.addActor(fpsLabel);
         stage.addActor(levelLabel);
@@ -170,10 +170,10 @@ public class Hud implements Disposable {
         }
 
         batch.begin();
-        batch.draw(bgTexture, 15, 0);
+        batch.draw(bgTexture, 25, 0);
         for (int i = 0; i < GameManager.playerBombCapacity; i++) {
             float alpha;
-            bombSprite.setPosition(15.0f + i % 5, 11.5f - i / 5);
+            bombSprite.setPosition(25.0f + i % 5, 11.5f - i / 5);
             alpha = i >= GameManager.playerBombLeft ? 0.5f : 1.0f;
             bombSprite.draw(batch, alpha);
         }

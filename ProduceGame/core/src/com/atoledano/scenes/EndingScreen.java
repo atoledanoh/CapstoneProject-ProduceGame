@@ -137,7 +137,7 @@ public class EndingScreen extends ScreenAdapter {
                 )
         );
 
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         Label congratulationsLabel = new Label("Congratulations!", labelStyle);

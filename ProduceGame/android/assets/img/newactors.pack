@@ -47,9 +47,9 @@ Customer5
   index: -1
 Karen
   rotate: false
-  xy: 288, 128
-  size: 96, 128
-  orig: 96, 128
+  xy: 0, 512
+  size: 64, 448
+  orig: 64, 448
   offset: 0, 0
   index: -1
 Rat
@@ -78,5 +78,12 @@ MainMenuLogo
   xy: 256, 416
   size: 80, 26
   orig: 80, 26
+  offset: 0, 0
+  index: -1
+Explosion
+  rotate: false
+  xy: 384, 0
+  size: 80, 112
+  orig: 80, 112
   offset: 0, 0
   index: -1

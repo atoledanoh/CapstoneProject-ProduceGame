@@ -53,32 +53,35 @@ public class MainMenuScreen extends ScreenAdapter {
         viewport = new FitViewport(1280, 720);
         stage = new Stage(viewport, batch);
 
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         Label titleLabel = new Label("Untitled Produce Game", labelStyle);
-        titleLabel.setFontScale(1.6f);
-        titleLabel.setPosition(140, 360);
+        titleLabel.setFontScale(2f);
+        titleLabel.setPosition(1280 * 0.5f - titleLabel.getWidth(), 480);
 
         Label easyLabel = new Label("Easy", labelStyle);
-        easyLabel.setPosition((1280 - easyLabel.getWidth()) / 2, 240);
+        easyLabel.setFontScale(2f);
+        easyLabel.setPosition(1280 * 0.5f - easyLabel.getWidth(), 360);
 
         Label normalLabel = new Label("Normal", labelStyle);
-        normalLabel.setPosition((1280 - normalLabel.getWidth()) / 2, 180);
+        normalLabel.setFontScale(2f);
+        normalLabel.setPosition(1280 * 0.5f - normalLabel.getWidth(), 240);
 
         Label hardLabel = new Label("Hard", labelStyle);
-        hardLabel.setPosition((1280 - hardLabel.getWidth()) / 2, 120);
+        hardLabel.setFontScale(2f);
+        hardLabel.setPosition(1280 * 0.5f - hardLabel.getWidth(), 120);
 
         Pixmap pixmap = new Pixmap(1280, 720, Pixmap.Format.RGB888);
         pixmap.setColor(34.0f / 255.0f, 139.0f / 255.0f, 34.0f / 255.0f, 1.0f);
         pixmap.fill();
-        backgroundTexture = new Texture("img/producesplash.jpg");
+        backgroundTexture = new Texture("img/produce.jpg");
         pixmap.dispose();
         Image background = new Image(backgroundTexture);
 
-        indicatorX = 160f;
-        indicatorY = 240f;
+        indicatorX = 500f;
+        indicatorY = 340f;
 
         TextureAtlas textureAtlas = GameManager.getInstance().getAssetManager().get("img/newactors.pack", TextureAtlas.class);
         indicator0 = new Image(new TextureRegion(textureAtlas.findRegion("MainMenuLogo"), 0, 0, 40, 26));
@@ -117,7 +120,7 @@ public class MainMenuScreen extends ScreenAdapter {
                 currentSelection += 3;
             }
 
-            float newIndicatorY = indicatorY - currentSelection * 60f;
+            float newIndicatorY = indicatorY - currentSelection * 120f;
 
             MoveToAction moveToAction = new MoveToAction();
             moveToAction.setPosition(indicatorX, newIndicatorY);
@@ -134,7 +137,7 @@ public class MainMenuScreen extends ScreenAdapter {
                 currentSelection -= 3;
             }
 
-            float newIndicatorY = indicatorY - currentSelection * 60f;
+            float newIndicatorY = indicatorY - currentSelection * 120f;
 
             MoveToAction moveToAction = new MoveToAction();
             moveToAction.setPosition(indicatorX, newIndicatorY);
@@ -209,5 +212,4 @@ public class MainMenuScreen extends ScreenAdapter {
         stage.dispose();
         font.dispose();
     }
-
 }
