@@ -110,6 +110,7 @@ public class MainMenuScreen extends ScreenAdapter {
         selected = false;
 
         GameManager.getInstance().playMusic("trololo_8-bit.mp3", true);
+        Gdx.input.setInputProcessor(stage);
     }
 
     private void handleInput() {
