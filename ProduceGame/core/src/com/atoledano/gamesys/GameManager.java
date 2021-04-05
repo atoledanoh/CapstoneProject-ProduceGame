@@ -16,14 +16,14 @@ public class GameManager implements Disposable {
 
     private static final GameManager instance = new GameManager();
 
-    public static final int TOTAL_LEVELS = 5;
+    public static final int TOTAL_LEVELS = 3;
 
     private final AssetManager assetManager;
 
     public static final float PPM = 16.0f;
 
     public static final short NOTHING_BIT = 0;
-    public static final short INDESTRUCTIIBLE_BIT = 1;
+    public static final short INDESTRUCTIBLE_BIT = 1;
     public static final short BREAKABLE_BIT = 1 << 1;
     public static final short PLAYER_BIT = 1 << 2;
     public static final short BOMB_BIT = 1 << 3;
@@ -79,7 +79,8 @@ public class GameManager implements Disposable {
         assetManager.load("sounds/EnemyDie1.ogg", Sound.class);
         assetManager.load("sounds/EnemyDie2.ogg", Sound.class);
         assetManager.load("sounds/Boss1Hammer.ogg", Sound.class);
-        assetManager.load("sounds/PortalAppears.ogg", Sound.class);
+        //todo check portal appear sound if winning condition is implemented
+//        assetManager.load("sounds/PortalAppears.ogg", Sound.class);
         assetManager.load("sounds/Teleport.ogg", Sound.class);
         assetManager.load("sounds/Pause.ogg", Sound.class);
 

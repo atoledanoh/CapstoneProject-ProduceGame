@@ -52,7 +52,7 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.INDESTRUCTIIBLE_BIT;
+        fixtureDef.filter.categoryBits = GameManager.INDESTRUCTIBLE_BIT;
         fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
@@ -110,7 +110,7 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.INDESTRUCTIIBLE_BIT;
+        fixtureDef.filter.categoryBits = GameManager.INDESTRUCTIBLE_BIT;
         fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
@@ -842,7 +842,7 @@ public class ActorBuilder {
 
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.INDESTRUCTIIBLE_BIT) {
+                if (fixture.getFilterData().categoryBits == GameManager.INDESTRUCTIBLE_BIT) {
                     canExplodeThrough = false;
                     return 0;
                 }
@@ -886,23 +886,23 @@ public class ActorBuilder {
         fixtureDef.isSensor = true;
         explosionBody.createFixture(fixtureDef);
 
-        for (int i = 0; i < 5; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 16, 16, 16));
-        }
-        anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
-        anims.put("exploding", anim);
-
-        Renderer renderer = new Renderer(textureRegion, 1, 1);
-        renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
+//        for (int i = 0; i < 5; i++) {
+//            keyFrames.add(new TextureRegion(textureRegion, i * 16, 16, 16, 16));
+//        }
+//        anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
+//        anims.put("exploding", anim);
+//
+//        Renderer renderer = new Renderer(textureRegion, 1, 1);
+//        renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
         Entity e = new EntityBuilder(world)
                 .with(
                         new Explosion(),
                         new Transform(x, y, 1, 1, 0),
                         new RigidBody(explosionBody),
-                        new State("exploding"),
-                        new Anim(anims),
-                        renderer
+                        new State("exploding")
+//                        new Anim(anims),
+//                        renderer
                 )
                 .build();
         explosionBody.setUserData(e);
@@ -925,31 +925,31 @@ public class ActorBuilder {
             fixtureDef.isSensor = true;
             explosionBody.createFixture(fixtureDef);
 
-            keyFrames.clear();
-            anims = new HashMap<>();
-
-            for (int j = 0; j < 5; j++) {
-                if (i == power - 1) {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 0, 16, 16));
-
-                } else {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 2, 16, 16));
-                }
-            }
-            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
-            anims.put("exploding", anim);
-
-            renderer = new Renderer(textureRegion, 1, 1);
-            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
+//            keyFrames.clear();
+//            anims = new HashMap<>();
+//
+//            for (int j = 0; j < 5; j++) {
+//                if (i == power - 1) {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 0, 16, 16));
+//
+//                } else {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 2, 16, 16));
+//                }
+//            }
+//            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
+//            anims.put("exploding", anim);
+//
+//            renderer = new Renderer(textureRegion, 1, 1);
+//            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
             new EntityBuilder(world)
                     .with(
                             new Explosion(),
                             new Transform(x, y + i + 1, 1, 1, 0),
                             new RigidBody(explosionBody),
-                            new State("exploding"),
-                            new Anim(anims),
-                            renderer
+                            new State("exploding")
+//                            new Anim(anims),
+//                            renderer
                     )
                     .build();
             explosionBody.setUserData(e);
@@ -973,31 +973,31 @@ public class ActorBuilder {
             fixtureDef.isSensor = true;
             explosionBody.createFixture(fixtureDef);
 
-            keyFrames.clear();
-            anims = new HashMap<>();
-
-            for (int j = 0; j < 5; j++) {
-                if (i == power - 1) {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 3, 16, 16));
-
-                } else {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 2, 16, 16));
-                }
-            }
-            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
-            anims.put("exploding", anim);
-
-            renderer = new Renderer(textureRegion, 1, 1);
-            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
+//            keyFrames.clear();
+//            anims = new HashMap<>();
+//
+//            for (int j = 0; j < 5; j++) {
+//                if (i == power - 1) {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 3, 16, 16));
+//
+//                } else {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 2, 16, 16));
+//                }
+//            }
+//            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
+//            anims.put("exploding", anim);
+//
+//            renderer = new Renderer(textureRegion, 1, 1);
+//            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
             new EntityBuilder(world)
                     .with(
                             new Explosion(),
                             new Transform(x, y - i - 1, 1, 1, 0),
                             new RigidBody(explosionBody),
-                            new State("exploding"),
-                            new Anim(anims),
-                            renderer
+                            new State("exploding")
+//                            new Anim(anims),
+//                            renderer
                     )
                     .build();
             explosionBody.setUserData(e);
@@ -1021,31 +1021,31 @@ public class ActorBuilder {
             fixtureDef.isSensor = true;
             explosionBody.createFixture(fixtureDef);
 
-            keyFrames.clear();
-            anims = new HashMap<>();
-
-            for (int j = 0; j < 5; j++) {
-                if (i == power - 1) {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 6, 16, 16));
-
-                } else {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 4, 16, 16));
-                }
-            }
-            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
-            anims.put("exploding", anim);
-
-            renderer = new Renderer(textureRegion, 1, 1);
-            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
+//            keyFrames.clear();
+//            anims = new HashMap<>();
+//
+//            for (int j = 0; j < 5; j++) {
+//                if (i == power - 1) {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 6, 16, 16));
+//
+//                } else {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 4, 16, 16));
+//                }
+//            }
+//            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
+//            anims.put("exploding", anim);
+//
+//            renderer = new Renderer(textureRegion, 1, 1);
+//            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
             new EntityBuilder(world)
                     .with(
                             new Explosion(),
                             new Transform(x - i - 1, y, 1, 1, 0),
                             new RigidBody(explosionBody),
-                            new State("exploding"),
-                            new Anim(anims),
-                            renderer
+                            new State("exploding")
+//                            new Anim(anims),
+//                            renderer
                     )
                     .build();
             explosionBody.setUserData(e);
@@ -1069,31 +1069,31 @@ public class ActorBuilder {
             fixtureDef.isSensor = true;
             explosionBody.createFixture(fixtureDef);
 
-            keyFrames.clear();
-            anims = new HashMap<>();
-
-            for (int j = 0; j < 5; j++) {
-                if (i == power - 1) {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 5, 16, 16));
-
-                } else {
-                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 4, 16, 16));
-                }
-            }
-            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
-            anims.put("exploding", anim);
-
-            renderer = new Renderer(textureRegion, 1, 1);
-            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
+//            keyFrames.clear();
+//            anims = new HashMap<>();
+//
+//            for (int j = 0; j < 5; j++) {
+//                if (i == power - 1) {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 5, 16, 16));
+//
+//                } else {
+//                    keyFrames.add(new TextureRegion(textureRegion, j * 16, 16 * 4, 16, 16));
+//                }
+//            }
+//            anim = new Animation(0.15f, keyFrames, Animation.PlayMode.NORMAL);
+//            anims.put("exploding", anim);
+//
+//            renderer = new Renderer(textureRegion, 1, 1);
+//            renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
             new EntityBuilder(world)
                     .with(
                             new Explosion(),
                             new Transform(x + i + 1, y, 1, 1, 0),
                             new RigidBody(explosionBody),
-                            new State("exploding"),
-                            new Anim(anims),
-                            renderer
+                            new State("exploding")
+//                            new Anim(anims),
+//                            renderer
                     )
                     .build();
             explosionBody.setUserData(e);
@@ -1104,13 +1104,13 @@ public class ActorBuilder {
 
     public void createPowerUp(float x, float y) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
 
         Body body = b2dWorld.createBody(bodyDef);
 
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(0.4f, 0.4f);
+        polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;

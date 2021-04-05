@@ -36,7 +36,7 @@ public class PowerUp extends Component {
     public float life;
 
     public PowerUp() {
-        this(6.0f);
+        this(50.0f);
     }
 
     public PowerUp(float life) {

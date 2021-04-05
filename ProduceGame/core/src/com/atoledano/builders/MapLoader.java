@@ -57,17 +57,13 @@ public class MapLoader {
 
         pixmap = assetManager.get("maps/level_" + level + ".png", Pixmap.class);
         switch (level) {
-            case 5:
-                tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
-                break;
-            case 4:
             case 3:
                 tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
                 break;
             case 2:
             case 1:
             default:
-                tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
+                tileTextureAtlas = assetManager.get("maps/area_1_tiles.pack", TextureAtlas.class);
                 break;
         }
 
@@ -88,6 +84,7 @@ public class MapLoader {
                     actorBuilder.createBreakable(x + 0.5f, y + 0.5f, tileTextureAtlas);
                 } else if (BLOCK.INDESTRUCTIBLE.sameColor(color)) {
                     actorBuilder.createIndestructible(x + 0.5f, y + 0.5f, tileTextureAtlas);
+                    actorBuilder.createPowerUp(x + 0.51f, y + 0.51f);
                 } else if (BLOCK.PLAYER.sameColor(color)) {
                     actorBuilder.createPlayer(x + 0.5f, y + 0.5f, false);
                     GameManager.getInstance().setPlayerRespawnPosition(new Vector2(x + 0.5f, y + 0.5f));
@@ -104,7 +101,10 @@ public class MapLoader {
                 }
             }
         }
-        GameManager.getInstance().setPortalPosition(new Vector2(mapWidth / 2, mapHeight / 2));
+        GameManager.getInstance().setPortalPosition(new Vector2(1, 1));
+        actorBuilder.createPortal();
+//        GameManager.getInstance().playSound("PortalAppears.ogg");
+
     }
 
     public int getMapWidth() {

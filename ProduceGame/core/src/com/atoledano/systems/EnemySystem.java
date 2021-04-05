@@ -52,7 +52,8 @@ public class EnemySystem extends IteratingSystem {
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
                 // if hit the player, ignore it
-                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
+//                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
+                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT ) {
                     return 0;
                 }
 
@@ -80,7 +81,8 @@ public class EnemySystem extends IteratingSystem {
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
                 // if hit the player or power-up item, ignore it
-                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
+//                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
+                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
                     return 0;
                 }
 
@@ -168,11 +170,11 @@ public class EnemySystem extends IteratingSystem {
                     if (GameManager.enemiesLeft <= 0) {
                         ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
                         actorBuilder.createPortal();
-                        GameManager.getInstance().playSound("PortalAppears.ogg");
+//                        GameManager.getInstance().playSound("PortalAppears.ogg");
                     }
 
                     // chance to create PowerUp item
-                    if (Math.random() < 0.2) {
+                    if (Math.random() <= 1) {
                         ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
                         actorBuilder.createPowerUp(body.getPosition().x, body.getPosition().y);
                     }
@@ -285,7 +287,7 @@ public class EnemySystem extends IteratingSystem {
                     // if no enemy left, create the portal
                     if (GameManager.enemiesLeft <= 0) {
                         actorBuilder.createPortal();
-                        GameManager.getInstance().playSound("PortalAppears.ogg");
+//                        GameManager.getInstance().playSound("PortalAppears.ogg");
                     }
 
                     // chance to create PowerUp item
@@ -416,7 +418,7 @@ public class EnemySystem extends IteratingSystem {
                     // if no enemy left, create the portal
                     if (GameManager.enemiesLeft <= 0) {
                         actorBuilder.createPortal();
-                        GameManager.getInstance().playSound("PortalAppears.ogg");
+//                        GameManager.getInstance().playSound("PortalAppears.ogg");
                         GameManager.getInstance().playMusic("Victory.ogg", false);
                     }
 
