@@ -25,7 +25,7 @@ public class PlayerSystem extends IteratingSystem {
     protected ComponentMapper<Renderer> mRenderer;
 
     private boolean hitting;
-    private boolean kicking;
+    private boolean kicking = true;
     private Bomb kickingBomb;
     private final Vector2 fromV;
     private final Vector2 toV;
@@ -49,146 +49,89 @@ public class PlayerSystem extends IteratingSystem {
 
         float maxSpeed = player.maxSpeed;
 
-        if (player.hp > 0 && player.state != Player.State.TELEPORTING) {
-            // cheat code...
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-                player.powerUpAmmo();
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-                player.powerUpPower();
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
-                player.powerUpSpeed();
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
-                player.powerUpKick();
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
-                player.powerUpRemote();
-            }
-
-            // player movement controls
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-                if (player.invincible || !hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
-                    if (Math.abs(linearVelocity.y) < maxSpeed) {
-                        body.applyLinearImpulse(new Vector2(0, player.acceleration * body.getMass()), body.getWorldCenter(), true);
-                    }
+        // player movement controls
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+            if (!hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
+                if (Math.abs(linearVelocity.y) < maxSpeed) {
+                    body.applyLinearImpulse(new Vector2(0, player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
-
-                player.state = Player.State.WALKING_UP;
             }
+            player.state = Player.State.WALKING_UP;
+        }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-                if (player.invincible || !hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
-                    if (Math.abs(linearVelocity.y) < maxSpeed) {
-                        body.applyLinearImpulse(new Vector2(0, -player.acceleration * body.getMass()), body.getWorldCenter(), true);
-                    }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+            if (!hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
+                if (Math.abs(linearVelocity.y) < maxSpeed) {
+                    body.applyLinearImpulse(new Vector2(0, -player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
-
-                player.state = Player.State.WALKING_DOWN;
             }
+            player.state = Player.State.WALKING_DOWN;
+        }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-                if (player.invincible || !hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
-                    if (Math.abs(linearVelocity.x) < maxSpeed) {
-                        body.applyLinearImpulse(new Vector2(-player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
-                    }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (!hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
+                if (Math.abs(linearVelocity.x) < maxSpeed) {
+                    body.applyLinearImpulse(new Vector2(-player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
-
-                player.state = Player.State.WALKING_LEFT;
             }
+            player.state = Player.State.WALKING_LEFT;
+        }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-                if (player.invincible || !hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
-                    if (Math.abs(linearVelocity.x) < maxSpeed) {
-                        body.applyLinearImpulse(new Vector2(player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
-                    }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+            if (!hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
+                if (Math.abs(linearVelocity.x) < maxSpeed) {
+                    body.applyLinearImpulse(new Vector2(player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
-
-                player.state = Player.State.WALKING_RIGHT;
             }
+            player.state = Player.State.WALKING_RIGHT;
+        }
 
-            // set bomb or kick bomb
-            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                kicking = false;
-                if (player.kickBomb) {
-                    // check if player is facing a bomb, if so, kick it
-                    switch (player.state) {
-                        case WALKING_UP:
-                            if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y + 0.6f)))) {
-                                kickingBomb.setMove(Bomb.State.MOVING_UP);
-                                GameManager.getInstance().playSound("KickBomb.ogg");
-                            }
-                            break;
-                        case WALKING_DOWN:
-                            if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y - 0.6f)))) {
-                                kickingBomb.setMove(Bomb.State.MOVING_DOWN);
-                                GameManager.getInstance().playSound("KickBomb.ogg");
-                            }
-                            break;
-                        case WALKING_LEFT:
-                            if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x - 0.6f, body.getPosition().y)))) {
-                                kickingBomb.setMove(Bomb.State.MOVING_LEFT);
-                                GameManager.getInstance().playSound("KickBomb.ogg");
-                            }
-                            break;
-                        case WALKING_RIGHT:
-                            if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x + 0.6f, body.getPosition().y)))) {
-                                kickingBomb.setMove(Bomb.State.MOVING_RIGHT);
-                                GameManager.getInstance().playSound("KickBomb.ogg");
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                if (!kicking && player.bombLeft > 0) {
-                    // create bomb
-                    ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
-
-                    if (player.remoteBomb) {
-                        GameManager.getInstance().getRemoteBombDeque().offer(
-                                actorBuilder.createRemoteBomb(player, body.getPosition().x, body.getPosition().y)
-                        );
-                    } else {
-                        actorBuilder.createBomb(player, body.getPosition().x, body.getPosition().y);
-                    }
-                    player.bombLeft--;
-                    GameManager.getInstance().playSound("PlaceBomb.ogg");
-                }
-
-            }
-
-            // trigger remote bomb
-            if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && player.remoteBomb) {
-                Queue<Entity> remoteBombQueue = GameManager.getInstance().getRemoteBombDeque();
-
-                // clean those bombs which have already exploded
-                while (!remoteBombQueue.isEmpty() && remoteBombQueue.peek().getComponent(Bomb.class) == null) {
-                    remoteBombQueue.remove();
-                }
-
-                Entity remoteBombEntity = remoteBombQueue.poll();
-                if (remoteBombEntity != null) {
-                    Bomb remoteBomb = remoteBombEntity.getComponent(Bomb.class);
-                    remoteBomb.countDown = 0;
+        // set bomb or kick bomb
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            kicking = false;
+            if (player.kickBomb) {
+                // check if player is facing a bomb, if so, kick it
+                switch (player.state) {
+                    case WALKING_UP:
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y + 0.6f)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_UP);
+                            GameManager.getInstance().playSound("KickBomb.ogg");
+                        }
+                        break;
+                    case WALKING_DOWN:
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y - 0.6f)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_DOWN);
+                            GameManager.getInstance().playSound("KickBomb.ogg");
+                        }
+                        break;
+                    case WALKING_LEFT:
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x - 0.6f, body.getPosition().y)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_LEFT);
+                            GameManager.getInstance().playSound("KickBomb.ogg");
+                        }
+                        break;
+                    case WALKING_RIGHT:
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x + 0.6f, body.getPosition().y)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_RIGHT);
+                            GameManager.getInstance().playSound("KickBomb.ogg");
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
 
-            // re-generate bomb
-            if (player.bombLeft < player.bombCapacity) {
-                player.bombRegeratingTimeLeft -= world.getDelta();
+            if (!kicking && player.bombLeft > 0) {
+                // create bomb
+                ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
+                actorBuilder.createBomb(player, body.getPosition().x, body.getPosition().y);
+                player.bombLeft--;
+                GameManager.getInstance().playSound("PlaceBomb.ogg");
             }
-            if (player.bombRegeratingTimeLeft <= 0) {
-                player.bombLeft++;
-                player.bombRegeratingTimeLeft = player.bombRegeratingTime;
-            }
+
         }
 
         // update bomb data to GameManager
-        GameManager.playerBombLeft = player.bombLeft;
-        GameManager.playerBombRegeratingTimeLeft = player.bombRegeratingTimeLeft;
 
         if (linearVelocity.len2() < 0.1f) {
             switch (player.state) {
@@ -209,37 +152,16 @@ public class PlayerSystem extends IteratingSystem {
             }
         }
 
-        // invincible timer
-        player.invincibleCountDown -= world.getDelta();
-        if (player.invincibleCountDown < 0) {
-            player.invincible = false;
-        }
 
-        if (player.invincible) {
-            Filter filter = body.getFixtureList().get(0).getFilterData();
-            filter.maskBits = Player.defaultMaskBits;
-            body.getFixtureList().get(0).setFilterData(filter);
-            renderer.setColor(new Color(1, 1, 1, 1.2f + MathUtils.sin(player.invincibleCountDown * 24)));
-        } else {
-            Filter filter = body.getFixtureList().get(0).getFilterData();
-            filter.maskBits = Player.defaultMaskBits;
-            body.getFixtureList().get(0).setFilterData(filter);
-            renderer.setColor(Color.WHITE);
-        }
-
-        if (player.receivedDamage > 0) {
-            player.damage(player.receivedDamage);
-            player.receivedDamage = 0;
-        }
-
-        if (player.hp <= 0) {
-            player.state = Player.State.DYING;
-        }
+        Filter filter = body.getFixtureList().get(0).getFilterData();
+        filter.maskBits = Player.defaultMaskBits;
+        body.getFixtureList().get(0).setFilterData(filter);
+        renderer.setColor(Color.WHITE);
 
         switch (player.state) {
             case DYING:
                 state.setCurrentState("dying");
-                Filter filter = body.getFixtureList().get(0).getFilterData();
+                filter = body.getFixtureList().get(0).getFilterData();
                 filter.maskBits = GameManager.NOTHING_BIT;
                 body.getFixtureList().get(0).setFilterData(filter);
 

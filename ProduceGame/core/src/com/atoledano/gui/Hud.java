@@ -155,18 +155,10 @@ public class Hud implements Disposable {
         stateTime += delta;
         bigBombermanSprite.setRegion(bigBombermanAnimation.getKeyFrame(stateTime));
 
-        if (GameManager.playerRemoteBomb) {
-            if (GameManager.playerBombPower + 1 < Player.MAX_BOMB_POWER) {
-                bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 16 * 3, 0, 16, 16));
-            } else {
-                bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 16 * 3, 16 * 1, 16, 16));
-            }
+        if (GameManager.playerBombPower + 1 < Player.MAX_BOMB_POWER) {
+            bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
         } else {
-            if (GameManager.playerBombPower + 1 < Player.MAX_BOMB_POWER) {
-                bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
-            } else {
-                bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 16 * 1, 16, 16));
-            }
+            bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 16 * 1, 16, 16));
         }
 
         batch.begin();
@@ -203,7 +195,6 @@ public class Hud implements Disposable {
         }
 
         kickSprite.draw(batch, GameManager.playerKickBomb ? 1.0f : 0.5f);
-        remoteSprite.draw(batch, GameManager.playerRemoteBomb ? 1.0f : 0.5f);
 
         bigBombermanSprite.draw(batch);
 
@@ -211,7 +202,6 @@ public class Hud implements Disposable {
 
         // update stage
         xLabel.setVisible(GameManager.playerKickBomb);
-        zLabel.setVisible(GameManager.playerRemoteBomb);
 
         playerLivesLabel.setText("" + GameManager.playerLives);
 

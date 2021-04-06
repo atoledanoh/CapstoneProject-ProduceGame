@@ -653,14 +653,6 @@ public class ActorBuilder {
                     canExplodeThrough = false;
                     return 0;
                 }
-
-                if (fixture.getFilterData().categoryBits == GameManager.DOOR_BIT) {
-                    canExplodeThrough = false;
-                    Entity e = (Entity) fixture.getBody().getUserData();
-                    Door door = e.getComponent(Door.class);
-                    door.state = Door.State.EXPLODING;
-                    return 0;
-                }
                 return 0;
             }
         };

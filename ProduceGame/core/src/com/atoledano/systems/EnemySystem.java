@@ -91,8 +91,6 @@ public class EnemySystem extends IteratingSystem {
         state = mState.get(entityId);
 
         switch (enemy.type) {
-            case "boss1":
-                break;
             case "bomb":
                 break;
             default:

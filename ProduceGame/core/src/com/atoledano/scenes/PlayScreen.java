@@ -100,8 +100,7 @@ public class PlayScreen extends ScreenAdapter {
                         new PhysicsSystem(),
                         new StateSystem(),
                         new AnimationSystem(),
-                        new RenderSystem(batch),
-                        new ParticleSystem(batch)
+                        new RenderSystem(batch)
                 )
                 .build();
 
@@ -196,7 +195,6 @@ public class PlayScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         handleInput();
-        handleChangeScreen();
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -244,45 +242,6 @@ public class PlayScreen extends ScreenAdapter {
 
         if (showB2DDebugRenderer) {
             b2dRenderer.render(b2dWorld, camera.combined);
-        }
-    }
-
-    private void handleChangeScreen() {
-        if (GameManager.changeScreen && !changeScreen) {
-            GameManager.getInstance().playSound("Teleport.ogg");
-            stage.addAction(Actions.addAction(
-                    Actions.sequence(
-                            Actions.delay(1f),
-                            Actions.fadeIn(1f),
-                            Actions.delay(1f),
-                            Actions.run(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (level >= GameManager.TOTAL_LEVELS) { // all levels cleared
-                                        game.setScreen(new EndingScreen(game));
-                                    } else {
-                                        game.setScreen(new PlayScreen(game, level + 1));
-                                    }
-                                }
-                            })
-                    )));
-            changeScreen = true;
-        }
-
-        if (GameManager.gameOver && !changeScreen) {
-            stage.addAction(Actions.addAction(
-                    Actions.sequence(
-                            Actions.delay(1f),
-                            Actions.fadeIn(1f),
-                            Actions.delay(1f),
-                            Actions.run(new Runnable() {
-                                @Override
-                                public void run() {
-                                    game.setScreen(new GameOverScreen(game));
-                                }
-                            })
-                    )));
-            changeScreen = true;
         }
     }
 

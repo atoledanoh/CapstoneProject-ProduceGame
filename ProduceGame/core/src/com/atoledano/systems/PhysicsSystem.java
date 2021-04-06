@@ -23,13 +23,5 @@ public class PhysicsSystem extends IteratingSystem {
         RigidBody rigidBody = mRigidBody.get(entityId);
 
         transform.setPosition(rigidBody.body.getPosition());
-
-        // if the entity is Boss, make it drawn on top
-        Enemy enemy = mEnemy.getSafe(entityId);
-        if (enemy != null) {
-            if (enemy.type.startsWith("boss")) {
-                transform.z = -1;
-            }
-        }
     }
 }
