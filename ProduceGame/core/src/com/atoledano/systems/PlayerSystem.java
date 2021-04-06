@@ -191,67 +191,14 @@ public class PlayerSystem extends IteratingSystem {
             }
         }
 
-        // invincible timer
-        player.invincibleCountDown -= world.getDelta();
-        if (player.invincibleCountDown < 0) {
-            player.invincible = false;
-        }
 
-        if (player.invincible) {
-            Filter filter = body.getFixtureList().get(0).getFilterData();
-            filter.maskBits = Player.defaultMaskBits;
-            body.getFixtureList().get(0).setFilterData(filter);
-            renderer.setColor(new Color(1, 1, 1, 1.2f + MathUtils.sin(player.invincibleCountDown * 24)));
-        } else {
-            Filter filter = body.getFixtureList().get(0).getFilterData();
-            filter.maskBits = Player.defaultMaskBits;
-            body.getFixtureList().get(0).setFilterData(filter);
-            renderer.setColor(Color.WHITE);
-        }
-
-        if (player.receivedDamage > 0) {
-            player.damage(player.receivedDamage);
-            player.receivedDamage = 0;
-        }
-
-        if (player.hp <= 0) {
-            player.state = Player.State.DYING;
-        }
+        Filter filter = body.getFixtureList().get(0).getFilterData();
+        filter.maskBits = -1;
+        body.getFixtureList().get(0).setFilterData(filter);
+        renderer.setColor(Color.WHITE);
 
         switch (player.state) {
-            case DYING:
-                state.setCurrentState("dying");
-                Filter filter = body.getFixtureList().get(0).getFilterData();
-                filter.maskBits = GameManager.NOTHING_BIT;
-                body.getFixtureList().get(0).setFilterData(filter);
 
-                if (state.getStateTime() <= 0) {
-                    GameManager.getInstance().playSound("Die.ogg");
-                }
-
-                if (state.getStateTime() > 0.65f) {
-                    World b2dWorld = body.getWorld();
-                    b2dWorld.destroyBody(body);
-                    world.delete(entityId);
-//                    mPlayer.set(entityId, false);
-//                    mRigidBody.set(entityId, false);
-//                    mState.set(entityId, false);
-//                    Transform transform = mTransform.get(entityId);
-//                    transform.z = 999;
-
-                    GameManager.playerLives--;
-                    if (!GameManager.infiniteLives && GameManager.playerLives <= 0) {
-                        GameManager.gameOver = true;
-                    } else {
-                        ActorBuilder actorBuilder = ActorBuilder.init(b2dWorld, world);
-                        Vector2 respawnPosition = GameManager.getInstance().getPlayerRespawnPosition();
-                        actorBuilder.createPlayer(respawnPosition.x, respawnPosition.y, GameManager.resetPlayerAbilities);
-                    }
-                }
-                break;
-            case TELEPORTING:
-                state.setCurrentState("teleporting");
-                break;
             case WALKING_UP:
                 state.setCurrentState("walking_up");
                 break;

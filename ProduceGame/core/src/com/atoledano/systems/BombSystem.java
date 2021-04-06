@@ -51,12 +51,6 @@ public class BombSystem extends IteratingSystem {
 
         switch (bomb.state) {
             case EXPLODING:
-                state.setCurrentState("exploding");
-                GameManager.getInstance().playSound("Explosion.ogg", 1.0f, MathUtils.random(0.6f, 0.8f), 0);
-                // create explosion
-                ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
-                actorBuilder.createExplosion(body.getPosition().x, body.getPosition().y, bomb.power);
-
                 // destroy itself
                 World b2dWorld = body.getWorld();
                 b2dWorld.destroyBody(body);
@@ -117,6 +111,7 @@ public class BombSystem extends IteratingSystem {
                         | fixture.getFilterData().categoryBits == GameManager.DOOR_BIT
                         | fixture.getFilterData().categoryBits == GameManager.BOMB_BIT
                         | fixture.getFilterData().categoryBits == GameManager.ENEMY_BIT
+                        | fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT
                         | fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
                     moveable = false;
                     return 0;

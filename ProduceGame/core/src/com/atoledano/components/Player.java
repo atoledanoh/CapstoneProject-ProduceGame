@@ -14,14 +14,10 @@ public class Player extends Component {
         WALKING_UP,
         WALKING_LEFT,
         WALKING_DOWN,
-        WALKING_RIGHT,
-        TELEPORTING,
-        DYING
+        WALKING_RIGHT
     }
 
     public State state;
-
-    public static short defaultMaskBits = GameManager.TABLE_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT | GameManager.PRODUCECRATE_BIT;
 
     public static final int MAX_BOMB_CAPACITY = 10;
     public static final int MAX_BOMB_POWER = 6;
