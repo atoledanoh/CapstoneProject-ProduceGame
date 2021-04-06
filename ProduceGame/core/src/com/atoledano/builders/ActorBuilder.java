@@ -1,6 +1,5 @@
 package com.atoledano.builders;
 
-import com.artemis.ComponentManager;
 import com.artemis.Entity;
 import com.artemis.utils.EntityBuilder;
 import com.atoledano.components.Transform;
@@ -30,7 +29,6 @@ public class ActorBuilder {
 
     private final Vector2 fromV = new Vector2();
     private final Vector2 toV = new Vector2();
-    private boolean canExplodeThrough;
 
     private ActorBuilder() {
     }
@@ -412,25 +410,6 @@ public class ActorBuilder {
 
         body.setUserData(e);
         return e;
-    }
-
-    private boolean checkCanExplodeThrough(Vector2 fromV, Vector2 toV) {
-        canExplodeThrough = true;
-        RayCastCallback rayCastCallback = new RayCastCallback() {
-
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.TABLE_BIT) {
-                    canExplodeThrough = false;
-                    return 0;
-                }
-
-                return 0;
-            }
-        };
-
-        b2dWorld.rayCast(rayCastCallback, fromV, toV);
-        return canExplodeThrough;
     }
 
     public void createPowerUp(float x, float y) {
