@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Renderer extends Component {
 
-    private Sprite sprite;
+    private final Sprite sprite;
 
     public Renderer(TextureRegion textureRegion) {
         sprite = new Sprite(textureRegion);

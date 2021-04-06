@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.HashMap;
 
 public class Anim extends Component {
-    private HashMap<String, Animation> anims;
+    private final HashMap<String, Animation> anims;
 
     public Anim() {
         anims = new HashMap<String, Animation>();

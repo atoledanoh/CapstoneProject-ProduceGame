@@ -12,10 +12,6 @@ public class Enemy extends Component {
         WALKING_DOWN,
         WALKING_LEFT,
         WALKING_RIGHT,
-        ATTACKING_UP,
-        ATTACKING_DOWN,
-        ATTACKING_LEFT,
-        ATTACKING_RIGHT,
         DAMAGED,
         DYING;
 
@@ -25,6 +21,7 @@ public class Enemy extends Component {
     }
 
     public State state;
+    public Type needs;
     public int hp;
     protected float speed;
 
@@ -48,6 +45,7 @@ public class Enemy extends Component {
     }
 
     public Enemy(int hp, float speed, String dieSound, String type) {
+        needs = Type.getRandomType();
         state = State.getRandomWalkingState();
         this.hp = hp;
         this.speed = speed;

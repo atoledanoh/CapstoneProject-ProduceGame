@@ -10,7 +10,7 @@ public class ParticleSystem extends IteratingSystem {
 
     protected ComponentMapper<Particle> mParticle;
 
-    private SpriteBatch batch;
+    private final SpriteBatch batch;
 
     public ParticleSystem(SpriteBatch batch) {
         super(Aspect.all(Particle.class));

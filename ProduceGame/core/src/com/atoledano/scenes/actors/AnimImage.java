@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class AnimImage extends Image {
 
-    private HashMap<String, Animation> anims;
+    private final HashMap<String, Animation> anims;
 
     private String currentAnim;
     private float stateTime;

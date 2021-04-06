@@ -44,16 +44,18 @@ public class GameManager implements Disposable {
     public static boolean playerKickBomb = false;
     public static boolean playerRemoteBomb = false;
 
-    private Vector2 playerRespawnPosition;
-    private Vector2 portalPosition;
+    private final Vector2 playerRespawnPosition;
+    private final Vector2 portalPosition;
 
     public static int playerLives = 3;
 
+
+    public static int totalEnemies;
     public static int enemiesLeft;
-    public static boolean levelCompleted;
+    public static boolean changeScreen;
     public static boolean gameOver;
 
-    private Queue<Entity> remoteBombQueue;
+    private final Queue<Entity> remoteBombQueue;
 
     private final String soundPath = "sounds/";
     private final String musicPath = "music/";

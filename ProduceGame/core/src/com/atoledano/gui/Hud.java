@@ -20,34 +20,34 @@ public class Hud implements Disposable {
 
     private final SpriteBatch batch;
 
-    private TextureAtlas textureAtlas;
+    private final TextureAtlas textureAtlas;
 
-    private Sprite bombSprite;
-    private Sprite bombTimerSprite;
-    private Texture bgTexture;
-    private Texture bombTimerTexture;
+    private final Sprite bombSprite;
+    private final Sprite bombTimerSprite;
+    private final Texture bgTexture;
+    private final Texture bombTimerTexture;
 
     private float stateTime;
-    private Sprite bigBombermanSprite;
-    private Animation bigBombermanAnimation;
+    private final Sprite bigBombermanSprite;
+    private final Animation bigBombermanAnimation;
 
-    private Sprite powerSprite;
-    private Sprite speedSprite;
-    private Sprite kickSprite;
-    private Sprite remoteSprite;
+    private final Sprite powerSprite;
+    private final Sprite speedSprite;
+    private final Sprite kickSprite;
+    private final Sprite remoteSprite;
 
     private final float SCALE = 26f;
-    private Stage stage;
-    private BitmapFont font;
-    private Label fpsLabel;
-    private Label levelLabel;
-    private Label playerLivesLabel;
-    private Label xLabel;
-    private Label zLabel;
+    private final Stage stage;
+    private final BitmapFont font;
+    private final Label fpsLabel;
+    private final Label levelLabel;
+    private final Label playerLivesLabel;
+    private final Label xLabel;
+    private final Label zLabel;
 
     private boolean showFPS = false;
 
-    private StringBuilder stringBuilder;
+    private final StringBuilder stringBuilder;
 
     private final float leftAlignment = 25.5f;
 

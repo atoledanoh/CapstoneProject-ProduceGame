@@ -11,14 +11,14 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class MapLoader {
 
-    public static enum BLOCK {
+    public enum BLOCK {
 
         EMPTY(255, 255, 255), // white
         WALL(0, 0, 0), // black
         INDESTRUCTIBLE(255, 0, 0), // red
         BREAKABLE(0, 255, 0), // green
         PLAYER(0, 0, 255), // blue
-        CUSTOMER1(255, 255, 0), // yellow
+        CUSTOMER(255, 255, 0), // yellow
         CUSTOMER2(0, 255, 255), // cyan
         CUSTOMER3(255, 0, 255), // magenta
         RAT(128, 128, 128), // silver
@@ -46,6 +46,7 @@ public class MapLoader {
     protected int mapHeight;
 
     protected int level;
+    protected int enemyCount;
 
     protected final float radius = 0.46f;
 
@@ -73,8 +74,8 @@ public class MapLoader {
 
     public void loadMap() {
         ActorBuilder actorBuilder = ActorBuilder.init(b2dWorld, world);
-
         int color;
+        enemyCount = GameManager.totalEnemies;
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
                 color = pixmap.getPixel(x, mapHeight - y - 1);
@@ -84,27 +85,27 @@ public class MapLoader {
                     actorBuilder.createBreakable(x + 0.5f, y + 0.5f, tileTextureAtlas);
                 } else if (BLOCK.INDESTRUCTIBLE.sameColor(color)) {
                     actorBuilder.createIndestructible(x + 0.5f, y + 0.5f, tileTextureAtlas);
+                    //todo change this to sound better
+                    //powerup / produce creation
                     actorBuilder.createPowerUp(x + 0.51f, y + 0.51f);
                 } else if (BLOCK.PLAYER.sameColor(color)) {
                     actorBuilder.createPlayer(x + 0.5f, y + 0.5f, false);
                     GameManager.getInstance().setPlayerRespawnPosition(new Vector2(x + 0.5f, y + 0.5f));
-                } else if (BLOCK.CUSTOMER1.sameColor(color)) {
+                } else if (BLOCK.CUSTOMER.sameColor(color)) {
                     actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
                 } else if (BLOCK.CUSTOMER2.sameColor(color)) {
                     actorBuilder.createCustomer2(x + 0.5f, y + 0.5f);
                 } else if (BLOCK.CUSTOMER3.sameColor(color)) {
                     actorBuilder.createCustomer3(x + 0.5f, y + 0.5f);
-                } else if (BLOCK.RAT.sameColor(color)) {
-                    actorBuilder.createBombRat(x + 0.5f, y + 0.5f);
-                } else if (BLOCK.KAREN.sameColor(color)) {
-                    actorBuilder.createKaren(x + 0.5f, y + 0.5f);
+                } else if (BLOCK.EMPTY.sameColor(color)) {
+                    int random = (int) (Math.random() * 10);
+                    if (random < 1 && enemyCount > 0) {
+                        actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
+                        enemyCount--;
+                    }
                 }
             }
         }
-        GameManager.getInstance().setPortalPosition(new Vector2(1, 1));
-        actorBuilder.createPortal();
-//        GameManager.getInstance().playSound("PortalAppears.ogg");
-
     }
 
     public int getMapWidth() {

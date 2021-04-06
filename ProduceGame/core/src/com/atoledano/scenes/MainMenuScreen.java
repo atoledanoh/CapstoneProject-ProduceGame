@@ -162,15 +162,20 @@ public class MainMenuScreen extends ScreenAdapter {
                 public void run() {
                     switch (currentSelection) {
                         case 2: // hard mode
+                            GameManager.totalEnemies = 45;
+
                             GameManager.infiniteLives = false;
                             GameManager.resetPlayerAbilities = true;
                             break;
                         case 1: // normal mode
+                            GameManager.totalEnemies = 30;
+
                             GameManager.infiniteLives = true;
                             GameManager.resetPlayerAbilities = true;
                             break;
                         case 0: // easy mode
                         default:
+                            GameManager.totalEnemies = 15;
                             GameManager.infiniteLives = true;
                             GameManager.resetPlayerAbilities = false;
                             break;

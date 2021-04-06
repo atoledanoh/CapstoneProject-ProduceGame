@@ -7,8 +7,6 @@ import com.atoledano.components.PowerUp;
 import com.atoledano.components.Renderer;
 import com.atoledano.components.RigidBody;
 import com.atoledano.components.State;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 
 public class PowerUpSystem extends IteratingSystem {
 
@@ -28,12 +26,8 @@ public class PowerUpSystem extends IteratingSystem {
         Renderer renderer = mRenderer.get(entityId);
         State state = mState.get(entityId);
 
-        // flash before disappearing
-        if (state.getStateTime() > powerUp.life - 2.0f) {
-            renderer.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f - MathUtils.sin(state.getStateTime() * 20)));
-        }
 
-        if (state.getStateTime() > powerUp.life) {
+        if (powerUp.isDestroyed) {
             // destroy
             rigidBody.body.getWorld().destroyBody(rigidBody.body);
             world.delete(entityId);

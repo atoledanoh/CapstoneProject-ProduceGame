@@ -21,7 +21,7 @@ public class Player extends Component {
 
     public State state;
 
-    public static short defaultMaskBits = GameManager.INDESTRUCTIBLE_BIT | GameManager.BREAKABLE_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT | GameManager.EXPLOSION_BIT | GameManager.POWERUP_BIT | GameManager.PORTAL_BIT;
+    public static short defaultMaskBits = GameManager.INDESTRUCTIBLE_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT | GameManager.EXPLOSION_BIT | GameManager.POWERUP_BIT | GameManager.PORTAL_BIT;
     public static short invincibleMaskBit = GameManager.INDESTRUCTIBLE_BIT | GameManager.BREAKABLE_BIT | GameManager.POWERUP_BIT | GameManager.PORTAL_BIT;
 
     public static final int MAX_BOMB_CAPACITY = 10;

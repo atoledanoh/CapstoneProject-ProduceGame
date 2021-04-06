@@ -169,11 +169,7 @@ public class EndingScreen extends ScreenAdapter {
                         Actions.delay(5f),
                         Actions.fadeOut(1f),
                         Actions.run(() -> {
-                            if (GameManager.playerLives > 0) {
-                                game.setScreen(new MainMenuScreen(game));
-                            } else {
-                                game.setScreen(new GameOverScreen(game));
-                            }
+                            game.setScreen(new MainMenuScreen(game));
                         })
                 )
         );
