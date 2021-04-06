@@ -3,7 +3,7 @@ area_1_tiles.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-breakable
+door
   rotate: false
   xy: 1, 33
   size: 160, 16

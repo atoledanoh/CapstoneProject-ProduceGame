@@ -13,7 +13,7 @@ public class PowerUp extends Component {
     }
 
     public PowerUp(boolean isDestroyed) {
-        type = Type.getRandomType();
+        this.type = Type.getRandomType();
         this.isDestroyed = isDestroyed;
     }
 }

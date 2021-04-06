@@ -217,7 +217,7 @@ public class PlayerSystem extends IteratingSystem {
 
         if (player.invincible) {
             Filter filter = body.getFixtureList().get(0).getFilterData();
-            filter.maskBits = Player.invincibleMaskBit;
+            filter.maskBits = Player.defaultMaskBits;
             body.getFixtureList().get(0).setFilterData(filter);
             renderer.setColor(new Color(1, 1, 1, 1.2f + MathUtils.sin(player.invincibleCountDown * 24)));
         } else {

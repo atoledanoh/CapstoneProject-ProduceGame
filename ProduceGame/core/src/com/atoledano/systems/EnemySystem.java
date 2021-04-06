@@ -42,11 +42,6 @@ public class EnemySystem extends IteratingSystem {
 
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                // if hit the player or portal, ignore it
-                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixture.getFilterData().categoryBits == GameManager.PORTAL_BIT) {
-                    return 0;
-                }
-
                 if (fraction < 1.0f) {
                     hit = true;
                 }
@@ -70,11 +65,6 @@ public class EnemySystem extends IteratingSystem {
 
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                // if hit the player or portal, ignore it
-                if (fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixture.getFilterData().categoryBits == GameManager.PORTAL_BIT) {
-                    return 0;
-                }
-
                 if (fraction < 1.0f) {
                     hit = true;
                 }
@@ -144,12 +134,6 @@ public class EnemySystem extends IteratingSystem {
                 if (state.getStateTime() > 0.6f) {
                     // decrease enemy count
                     GameManager.enemiesLeft--;
-
-                    // if no enemy left, create the portal
-                    if (GameManager.enemiesLeft <= 0) {
-                        actorBuilder.createPortal();
-//                        GameManager.getInstance().playSound("PortalAppears.ogg");
-                    }
 
                     body.getWorld().destroyBody(body);
                     mRigidBody.set(entityId, false);

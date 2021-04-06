@@ -113,8 +113,8 @@ public class BombSystem extends IteratingSystem {
         RayCastCallback rayCastCallback = new RayCastCallback() {
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.INDESTRUCTIBLE_BIT
-                        | fixture.getFilterData().categoryBits == GameManager.BREAKABLE_BIT
+                if (fixture.getFilterData().categoryBits == GameManager.TABLE_BIT
+                        | fixture.getFilterData().categoryBits == GameManager.DOOR_BIT
                         | fixture.getFilterData().categoryBits == GameManager.BOMB_BIT
                         | fixture.getFilterData().categoryBits == GameManager.ENEMY_BIT
                         | fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT) {

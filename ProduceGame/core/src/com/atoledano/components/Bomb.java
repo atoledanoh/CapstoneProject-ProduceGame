@@ -4,7 +4,7 @@ import com.artemis.Component;
 import com.atoledano.gamesys.GameManager;
 
 public class Bomb extends Component {
-    public static short defaultMaskBits = GameManager.INDESTRUCTIBLE_BIT | GameManager.BREAKABLE_BIT | GameManager.EXPLOSION_BIT;
+    public static short defaultMaskBits = GameManager.TABLE_BIT | GameManager.DOOR_BIT | GameManager.EXPLOSION_BIT;
 
     public enum State {
         NORMAL,

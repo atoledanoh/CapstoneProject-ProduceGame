@@ -23,14 +23,14 @@ public class GameManager implements Disposable {
     public static final float PPM = 16.0f;
 
     public static final short NOTHING_BIT = 0;
-    public static final short INDESTRUCTIBLE_BIT = 1;
-    public static final short BREAKABLE_BIT = 1 << 1;
+    public static final short TABLE_BIT = 1;
+    public static final short DOOR_BIT = 1 << 1;
     public static final short PLAYER_BIT = 1 << 2;
     public static final short BOMB_BIT = 1 << 3;
     public static final short EXPLOSION_BIT = 1 << 4;
     public static final short ENEMY_BIT = 1 << 5;
     public static final short POWERUP_BIT = 1 << 6;
-    public static final short PORTAL_BIT = 1 << 7;
+    public static final short PRODUCECRATE_BIT = 1 << 7;
 
     public static boolean infiniteLives = true;
     public static boolean resetPlayerAbilities = false;  // reset player abilities after dying
@@ -45,7 +45,6 @@ public class GameManager implements Disposable {
     public static boolean playerRemoteBomb = false;
 
     private final Vector2 playerRespawnPosition;
-    private final Vector2 portalPosition;
 
     public static int playerLives = 3;
 
@@ -80,28 +79,17 @@ public class GameManager implements Disposable {
         assetManager.load("sounds/EnemyDie.ogg", Sound.class);
         assetManager.load("sounds/EnemyDie1.ogg", Sound.class);
         assetManager.load("sounds/EnemyDie2.ogg", Sound.class);
-        assetManager.load("sounds/Boss1Hammer.ogg", Sound.class);
-        //todo check portal appear sound if winning condition is implemented
-//        assetManager.load("sounds/PortalAppears.ogg", Sound.class);
-        assetManager.load("sounds/Teleport.ogg", Sound.class);
         assetManager.load("sounds/Pause.ogg", Sound.class);
+        assetManager.load("sounds/Teleport.ogg", Sound.class);
 
         // load music
         assetManager.load("music/trololo_8-bit.mp3", Music.class);
         assetManager.load("music/EduardKhil.ogg", Music.class);
-        assetManager.load("music/SuperBomberman-Area2.ogg", Music.class);
-        assetManager.load("music/SuperBomberman-Boss.ogg", Music.class);
-        assetManager.load("music/GameOver.ogg", Music.class);
-        assetManager.load("music/Victory.ogg", Music.class);
-        assetManager.load("music/Oops.ogg", Music.class);
-        assetManager.load("music/StageCleared.ogg", Music.class);
 
         // load maps
         assetManager.load("maps/level_1.png", Pixmap.class);
         assetManager.load("maps/level_2.png", Pixmap.class);
         assetManager.load("maps/level_3.png", Pixmap.class);
-        assetManager.load("maps/level_4.png", Pixmap.class);
-        assetManager.load("maps/level_5.png", Pixmap.class);
         assetManager.load("maps/area_1_tiles.pack", TextureAtlas.class);
         assetManager.load("maps/area_2_tiles.pack", TextureAtlas.class);
         assetManager.load("maps/area_3_tiles.pack", TextureAtlas.class);
@@ -109,7 +97,6 @@ public class GameManager implements Disposable {
         assetManager.finishLoading();
 
         playerRespawnPosition = new Vector2();
-        portalPosition = new Vector2();
 
         remoteBombQueue = new LinkedList<>();
     }
@@ -201,14 +188,6 @@ public class GameManager implements Disposable {
     public void playerOneUp() {
         playerLives++;
         playSound("Powerup.ogg");
-    }
-
-    public Vector2 getPortalPosition() {
-        return portalPosition;
-    }
-
-    public void setPortalPosition(Vector2 position) {
-        portalPosition.set(position);
     }
 
     @Override

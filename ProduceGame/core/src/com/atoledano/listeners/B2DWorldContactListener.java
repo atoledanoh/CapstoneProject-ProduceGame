@@ -76,18 +76,7 @@ public class B2DWorldContactListener implements ContactListener {
         }
         // player
         else if (fixtureA.getFilterData().categoryBits == GameManager.PLAYER_BIT || fixtureB.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
-            // portal
-            if (fixtureA.getFilterData().categoryBits == GameManager.PORTAL_BIT) {
-                GameManager.changeScreen = true;
-                Entity playerEntity = (Entity) fixtureB.getBody().getUserData();
-                Player player = playerEntity.getComponent(Player.class);
-                player.state = Player.State.TELEPORTING;
-            } else if (fixtureB.getFilterData().categoryBits == GameManager.PORTAL_BIT) {
-                GameManager.changeScreen = true;
-                Entity playerEntity = (Entity) fixtureA.getBody().getUserData();
-                Player player = playerEntity.getComponent(Player.class);
-                player.state = Player.State.TELEPORTING;
-            }
+            //todo do stuff
         }
     }
 

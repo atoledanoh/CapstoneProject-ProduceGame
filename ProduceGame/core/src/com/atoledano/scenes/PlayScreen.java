@@ -96,7 +96,7 @@ public class PlayScreen extends ScreenAdapter {
                         new ExplosionSystem(),
                         new PowerUpSystem(),
                         new EnemySystem(),
-                        new BreakableSystem(),
+                        new DoorSystem(),
                         new PhysicsSystem(),
                         new StateSystem(),
                         new AnimationSystem(),

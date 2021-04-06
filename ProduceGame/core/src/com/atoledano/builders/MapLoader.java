@@ -15,11 +15,11 @@ public class MapLoader {
 
         EMPTY(255, 255, 255), // white
         WALL(0, 0, 0), // black
-        INDESTRUCTIBLE(255, 0, 0), // red
-        BREAKABLE(0, 255, 0), // green
+        TABLE(255, 0, 0), // red
+        DOOR(0, 255, 0), // green
         PLAYER(0, 0, 255), // blue
         CUSTOMER(255, 255, 0), // yellow
-        CUSTOMER2(0, 255, 255), // cyan
+        PRODUCECRATE(0, 255, 255), // cyan
         CUSTOMER3(255, 0, 255), // magenta
         RAT(128, 128, 128), // silver
         KAREN(128, 128, 0); //gold
@@ -81,10 +81,10 @@ public class MapLoader {
                 color = pixmap.getPixel(x, mapHeight - y - 1);
                 if (BLOCK.WALL.sameColor(color)) {
                     actorBuilder.createWall(x + 0.5f, y + 0.5f, mapWidth, mapHeight, tileTextureAtlas);
-                } else if (BLOCK.BREAKABLE.sameColor(color)) {
-                    actorBuilder.createBreakable(x + 0.5f, y + 0.5f, tileTextureAtlas);
-                } else if (BLOCK.INDESTRUCTIBLE.sameColor(color)) {
-                    actorBuilder.createIndestructible(x + 0.5f, y + 0.5f, tileTextureAtlas);
+                } else if (BLOCK.DOOR.sameColor(color)) {
+                    actorBuilder.createDoor(x + 0.5f, y + 0.5f, tileTextureAtlas);
+                } else if (BLOCK.TABLE.sameColor(color)) {
+                    actorBuilder.createTable(x + 0.5f, y + 0.5f, tileTextureAtlas);
                     //todo change this to sound better
                     //powerup / produce creation
                     actorBuilder.createPowerUp(x + 0.51f, y + 0.51f);
@@ -93,8 +93,8 @@ public class MapLoader {
                     GameManager.getInstance().setPlayerRespawnPosition(new Vector2(x + 0.5f, y + 0.5f));
                 } else if (BLOCK.CUSTOMER.sameColor(color)) {
                     actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
-                } else if (BLOCK.CUSTOMER2.sameColor(color)) {
-                    actorBuilder.createCustomer2(x + 0.5f, y + 0.5f);
+                } else if (BLOCK.PRODUCECRATE.sameColor(color)) {
+                    actorBuilder.createProduceCrate(x + 0.5f, y + 0.5f);
                 } else if (BLOCK.CUSTOMER3.sameColor(color)) {
                     actorBuilder.createCustomer3(x + 0.5f, y + 0.5f);
                 } else if (BLOCK.EMPTY.sameColor(color)) {

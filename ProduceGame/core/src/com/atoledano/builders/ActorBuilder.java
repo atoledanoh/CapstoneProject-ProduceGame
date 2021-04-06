@@ -52,7 +52,7 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.INDESTRUCTIBLE_BIT;
+        fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
         fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
@@ -100,7 +100,7 @@ public class ActorBuilder {
                 .build();
     }
 
-    public void createIndestructible(float x, float y, TextureAtlas tileTextureAtlas) {
+    public void createTable(float x, float y, TextureAtlas tileTextureAtlas) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, y);
@@ -110,7 +110,7 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.INDESTRUCTIBLE_BIT;
+        fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
         fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
@@ -127,7 +127,7 @@ public class ActorBuilder {
                 .build();
     }
 
-    public void createBreakable(float x, float y, TextureAtlas tileTextureAtlas) {
+    public void createDoor(float x, float y, TextureAtlas tileTextureAtlas) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(x, y);
@@ -137,14 +137,14 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.BREAKABLE_BIT;
+        fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
         fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT | GameManager.EXPLOSION_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
 
         HashMap<String, Animation> anims = new HashMap<>();
-        TextureRegion textureRegion = tileTextureAtlas.findRegion("breakable");
+        TextureRegion textureRegion = tileTextureAtlas.findRegion("door");
 
         Animation anim;
         Array<TextureRegion> keyFrames = new Array<>();
@@ -166,7 +166,7 @@ public class ActorBuilder {
 
         Entity e = new EntityBuilder(world)
                 .with(
-                        new Breakable(),
+                        new Door(),
                         new Transform(x, y, 1, 1, 0),
                         new RigidBody(body),
                         new State("normal"),
@@ -191,7 +191,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
         fixtureDef.filter.categoryBits = GameManager.ENEMY_BIT;
-        fixtureDef.filter.maskBits = GameManager.POWERUP_BIT | GameManager.PLAYER_BIT;
+        fixtureDef.filter.maskBits = GameManager.POWERUP_BIT | GameManager.PLAYER_BIT | GameManager.TABLE_BIT;
         body.createFixture(fixtureDef);
 
         circleShape.dispose();
@@ -648,16 +648,16 @@ public class ActorBuilder {
 
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.INDESTRUCTIBLE_BIT) {
+                if (fixture.getFilterData().categoryBits == GameManager.TABLE_BIT) {
                     canExplodeThrough = false;
                     return 0;
                 }
 
-                if (fixture.getFilterData().categoryBits == GameManager.BREAKABLE_BIT) {
+                if (fixture.getFilterData().categoryBits == GameManager.DOOR_BIT) {
                     canExplodeThrough = false;
                     Entity e = (Entity) fixture.getBody().getUserData();
-                    Breakable breakable = e.getComponent(Breakable.class);
-                    breakable.state = Breakable.State.EXPLODING;
+                    Door door = e.getComponent(Door.class);
+                    door.state = Door.State.EXPLODING;
                     return 0;
                 }
                 return 0;
@@ -886,51 +886,68 @@ public class ActorBuilder {
         polygonShape.dispose();
     }
 
-    public void createPortal() {
-        float x = GameManager.getInstance().getPortalPosition().x;
-        float y = GameManager.getInstance().getPortalPosition().y;
-
+    public void createProduceCrate(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x + 0.5f, y + 0.5f);
+        bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
 
         Body body = b2dWorld.createBody(bodyDef);
 
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(0.2f, 0.2f);
+        polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.PORTAL_BIT;
+        fixtureDef.filter.categoryBits = GameManager.PRODUCECRATE_BIT;
         fixtureDef.filter.maskBits = GameManager.PLAYER_BIT;
-        fixtureDef.isSensor = true;
+//        fixtureDef.isSensor = true;
         body.createFixture(fixtureDef);
 
-        polygonShape.dispose();
+        ProduceCrate produceCrate = new ProduceCrate();
+        int i;
+        switch (produceCrate.type) {
+            case APPLE:
+                i = 6;
+                break;
+            case ORANGE:
+                i = 7;
+                break;
+            case ONE_UP:
+                i = 5;
+                break;
+            case REMOTE:
+                i = 4;
+                break;
+            case KICK:
+                i = 3;
+                break;
+            case SPEED:
+                i = 2;
+                break;
+            case POWER:
+                i = 1;
+                break;
+            case AMMO:
+            default:
+                i = 0;
+                break;
 
-        TextureRegion textureRegion = assetManager.get("img/actors.pack", TextureAtlas.class).findRegion("Items");
-        Array<TextureRegion> keyFrames = new Array<>();
-        for (int i = 6; i < 8; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 16));
         }
-        Animation anim = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP);
 
-        HashMap<String, Animation> anims = new HashMap<>();
-        anims.put("normal", anim);
-
-        Transform transform = new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0);
-        transform.z = 99; // make portal drawn below player
-        Renderer renderer = new Renderer(textureRegion, 16 / GameManager.PPM, 16 / GameManager.PPM);
+        TextureAtlas textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
+        Renderer renderer = new Renderer(new TextureRegion(textureAtlas.findRegion("Items"), i * 16, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
         Entity e = new EntityBuilder(world)
                 .with(
-                        transform,
+                        produceCrate,
+                        new RigidBody(body),
+                        new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
                         new State("normal"),
-                        new Anim(anims),
                         renderer
                 )
                 .build();
 
         body.setUserData(e);
+        polygonShape.dispose();
     }
 }

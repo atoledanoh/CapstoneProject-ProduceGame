@@ -2,7 +2,7 @@ package com.atoledano.components;
 
 import com.artemis.Component;
 
-public class Breakable extends Component {
+public class Door extends Component {
     public enum State {
         NORMAL,
         EXPLODING
@@ -10,7 +10,7 @@ public class Breakable extends Component {
 
     public State state;
 
-    public Breakable() {
+    public Door() {
         state = State.NORMAL;
     }
 }
