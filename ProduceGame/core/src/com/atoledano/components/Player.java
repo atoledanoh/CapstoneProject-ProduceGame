@@ -2,7 +2,6 @@ package com.atoledano.components;
 
 import com.artemis.Component;
 import com.atoledano.gamesys.GameManager;
-import com.badlogic.gdx.math.MathUtils;
 
 public class Player extends Component {
 

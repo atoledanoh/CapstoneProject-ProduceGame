@@ -3,7 +3,6 @@ package com.atoledano.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
-import com.atoledano.builders.ActorBuilder;
 import com.atoledano.components.Door;
 import com.atoledano.components.RigidBody;
 import com.atoledano.components.State;
@@ -25,7 +24,5 @@ public class DoorSystem extends IteratingSystem {
         State state = mState.get(entityId);
         RigidBody rigidBody = mRigidBody.get(entityId);
         Body body = rigidBody.body;
-
     }
-
 }

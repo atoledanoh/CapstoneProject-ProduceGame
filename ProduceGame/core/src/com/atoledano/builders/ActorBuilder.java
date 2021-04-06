@@ -1,6 +1,5 @@
 package com.atoledano.builders;
 
-import com.artemis.ComponentManager;
 import com.artemis.Entity;
 import com.artemis.utils.EntityBuilder;
 import com.atoledano.components.Transform;

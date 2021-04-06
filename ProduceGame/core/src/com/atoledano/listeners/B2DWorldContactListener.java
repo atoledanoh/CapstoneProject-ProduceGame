@@ -2,7 +2,6 @@ package com.atoledano.listeners;
 
 import com.artemis.Entity;
 import com.atoledano.components.Enemy;
-import com.atoledano.components.Player;
 import com.atoledano.components.PowerUp;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.physics.box2d.*;
@@ -46,7 +45,7 @@ public class B2DWorldContactListener implements ContactListener {
                 Entity enemyEntity = (Entity) fixtureB.getBody().getUserData();
                 Enemy enemy = enemyEntity.getComponent(Enemy.class);
                 //check customer needs
-                if (enemy.needs == powerUp.type){
+                if (enemy.needs == powerUp.type) {
                     // consume power-up and kill enemy
                     powerUp.isDestroyed = true;
                     enemy.receivedDamage++;
@@ -57,7 +56,7 @@ public class B2DWorldContactListener implements ContactListener {
                 Entity enemyEntity = (Entity) fixtureA.getBody().getUserData();
                 Enemy enemy = enemyEntity.getComponent(Enemy.class);
                 //check customer needs
-                if (enemy.needs == powerUp.type){
+                if (enemy.needs == powerUp.type) {
                     // consume power-up and kill enemy
                     powerUp.isDestroyed = true;
                     enemy.receivedDamage++;

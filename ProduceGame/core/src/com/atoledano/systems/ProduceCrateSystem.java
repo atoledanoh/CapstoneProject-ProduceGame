@@ -3,7 +3,10 @@ package com.atoledano.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
-import com.atoledano.components.*;
+import com.atoledano.components.ProduceCrate;
+import com.atoledano.components.Renderer;
+import com.atoledano.components.RigidBody;
+import com.atoledano.components.State;
 
 public class ProduceCrateSystem extends IteratingSystem {
 

@@ -98,7 +98,7 @@ public class MapLoader {
                     actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
                 } else if (BLOCK.PRODUCECRATE.sameColor(color)) {
                     actorBuilder.createTable(x + 0.5f, y + 0.5f, tileTextureAtlas);
-                    if (enumCounter< Type.values().length){
+                    if (enumCounter < Type.values().length) {
                         actorBuilder.createProduceCrate(x + 0.5f, y + 0.5f, enumCounter);
                         enumCounter++;
                     }
