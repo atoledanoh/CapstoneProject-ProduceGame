@@ -137,7 +137,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
-        fixtureDef.filter.maskBits = -1;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -374,7 +374,7 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public Entity createProduce(Player player, float x, float y) {
+    public Entity createProduce(Player player, Type type,float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
@@ -389,7 +389,7 @@ public class ActorBuilder {
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        Produce produce = new Produce();
+        Produce produce = new Produce(type);
         int i = produce.type.ordinal();
 
         TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);

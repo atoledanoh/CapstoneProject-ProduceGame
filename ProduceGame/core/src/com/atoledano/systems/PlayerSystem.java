@@ -50,7 +50,7 @@ public class PlayerSystem extends IteratingSystem {
 
         // player movement controls
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if (player.invincible || !hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
+            if (!hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
                 if (Math.abs(linearVelocity.y) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(0, player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
@@ -60,7 +60,7 @@ public class PlayerSystem extends IteratingSystem {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (player.invincible || !hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
+            if (!hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
                 if (Math.abs(linearVelocity.y) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(0, -player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
@@ -70,7 +70,7 @@ public class PlayerSystem extends IteratingSystem {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (player.invincible || !hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
+            if (!hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
                 if (Math.abs(linearVelocity.x) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(-player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
@@ -80,7 +80,7 @@ public class PlayerSystem extends IteratingSystem {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (player.invincible || !hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
+            if (!hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
                 if (Math.abs(linearVelocity.x) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
@@ -124,18 +124,15 @@ public class PlayerSystem extends IteratingSystem {
                 }
             }
 
-            if (!kicking && player.bombLeft > 0) {
+            if (!kicking && player.produceLeft > 0) {
                 // create bomb
                 ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
 
-                if (player.remoteBomb) {
-                    GameManager.getInstance().getRemoteBombDeque().offer(
-                            actorBuilder.createProduce(player, body.getPosition().x, body.getPosition().y)
-                    );
-                } else {
-                    actorBuilder.createProduce(player, body.getPosition().x, body.getPosition().y);
-                }
-                player.bombLeft--;
+                GameManager.getInstance().getRemoteBombDeque().offer(actorBuilder.createProduce(player,
+                        player.types.pop(),
+                        body.getPosition().x, body.getPosition().y));
+
+                player.produceLeft--;
                 GameManager.getInstance().playSound("PlaceBomb.ogg");
             }
 
@@ -156,20 +153,6 @@ public class PlayerSystem extends IteratingSystem {
                 remoteProduce.countDown = 0;
             }
         }
-
-        // re-generate bomb
-        if (player.bombLeft < player.bombCapacity) {
-            player.bombRegeratingTimeLeft -= world.getDelta();
-        }
-        if (player.bombRegeratingTimeLeft <= 0) {
-            player.bombLeft++;
-            player.bombRegeratingTimeLeft = player.bombRegeratingTime;
-        }
-
-
-        // update bomb data to GameManager
-        GameManager.playerBombLeft = player.bombLeft;
-        GameManager.playerBombRegeratingTimeLeft = player.bombRegeratingTimeLeft;
 
         if (linearVelocity.len2() < 0.1f) {
             switch (player.state) {

@@ -28,8 +28,8 @@ public class Hud implements Disposable {
     private final Texture bombTimerTexture;
 
     private float stateTime;
-    private final Sprite bigBombermanSprite;
-    private final Animation bigBombermanAnimation;
+    private final Sprite bigEyeSprite;
+    private final Animation bigEyeAnimation;
 
     private final Sprite powerSprite;
     private final Sprite speedSprite;
@@ -40,12 +40,8 @@ public class Hud implements Disposable {
     private final Stage stage;
     private final BitmapFont font;
     private final Label fpsLabel;
-    private final Label levelLabel;
-    private final Label playerLivesLabel;
-    private final Label xLabel;
-    private final Label zLabel;
 
-    private boolean showFPS = false;
+    private boolean showFPS = true;
 
     private final StringBuilder stringBuilder;
 
@@ -94,52 +90,36 @@ public class Hud implements Disposable {
                 keyFrames.add(new TextureRegion(textureAtlas2.findRegion("Big_eye"), 64 * i, 64 * j, 64, 64));
             }
         }
-        bigBombermanAnimation = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP);
-        bigBombermanSprite = new Sprite(bigBombermanAnimation.getKeyFrame(0));
-        bigBombermanSprite.setBounds(27.5f, 0.5f, 2f, 3f);
+        bigEyeAnimation = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP);
+        bigEyeSprite = new Sprite(bigEyeAnimation.getKeyFrame(0));
+        bigEyeSprite.setBounds(27.5f, 0.5f, 2f, 3f);
         stateTime = 0;
 
         FitViewport viewport = new FitViewport(width * SCALE, height * SCALE);
         stage = new Stage(viewport, batch);
         font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-        fpsLabel = new Label("FPS:", labelStyle);
-        fpsLabel.setFontScale(0.3f);
-        fpsLabel.setPosition(26 * SCALE, -0.8f * SCALE);
-        fpsLabel.setVisible(showFPS);
+        fpsLabel = new Label("FPS: ", labelStyle);
+        fpsLabel.setFontScale(1);
+        fpsLabel.setPosition(26 * SCALE, 20f * SCALE);
+        fpsLabel.setVisible(true);
 
-        levelLabel = new Label("Level", labelStyle);
-        levelLabel.setPosition(25.5f * SCALE, 3 * SCALE);
-        levelLabel.setFontScale(0.4f);
-
-        playerLivesLabel = new Label("" + GameManager.playerLives, labelStyle);
-        playerLivesLabel.setFontScale(0.5f);
-        playerLivesLabel.setPosition(26.8f * SCALE, 12.8f * SCALE);
+//        levelLabel = new Label("Level", labelStyle);
+//        levelLabel.setPosition(25.5f * SCALE, 3 * SCALE);
+//        levelLabel.setFontScale(0.4f);
+//
+//        playerLivesLabel = new Label("" + GameManager.playerLives, labelStyle);
+//        playerLivesLabel.setFontScale(0.5f);
+//        playerLivesLabel.setPosition(26.8f * SCALE, 12.8f * SCALE);
 
         Image bombermanImage = new Image(new TextureRegion(textureAtlas.findRegion("Items"), 26 * 5, 0, 16, 16));
         bombermanImage.setPosition(leftAlignment * SCALE, 13.5f * SCALE);
 
-        xLabel = new Label("X", labelStyle);
-        xLabel.setFontScale(0.4f);
-        xLabel.setPosition(26.8f * SCALE, 6.3f * SCALE);
-
-        zLabel = new Label("Z", labelStyle);
-        zLabel.setFontScale(0.4f);
-        zLabel.setPosition(26.8f * SCALE, 5.3f * SCALE);
 
         stage.addActor(fpsLabel);
-        stage.addActor(levelLabel);
-        stage.addActor(playerLivesLabel);
         stage.addActor(bombermanImage);
-        stage.addActor(xLabel);
-        stage.addActor(zLabel);
 
         stringBuilder = new StringBuilder();
-
-    }
-
-    public void setLevelInfo(int level) {
-        levelLabel.setText("Level " + level);
     }
 
     private void handleInput() {
@@ -153,7 +133,7 @@ public class Hud implements Disposable {
         handleInput();
 
         stateTime += delta;
-        bigBombermanSprite.setRegion(bigBombermanAnimation.getKeyFrame(stateTime));
+        bigEyeSprite.setRegion(bigEyeAnimation.getKeyFrame(stateTime));
 
         if (GameManager.playerBombPower + 1 < Player.MAX_BOMB_POWER) {
             bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
@@ -196,20 +176,14 @@ public class Hud implements Disposable {
 
         kickSprite.draw(batch, GameManager.playerKickBomb ? 1.0f : 0.5f);
 
-        bigBombermanSprite.draw(batch);
+        bigEyeSprite.draw(batch);
 
         batch.end();
 
-        // update stage
-        xLabel.setVisible(GameManager.playerKickBomb);
+        stringBuilder.setLength(0);
+        stringBuilder.append("FPS:").append(Gdx.graphics.getFramesPerSecond());
+        fpsLabel.setText(stringBuilder.toString());
 
-        playerLivesLabel.setText("" + GameManager.playerLives);
-
-        if (showFPS) {
-            stringBuilder.setLength(0);
-            stringBuilder.append("FPS:").append(Gdx.graphics.getFramesPerSecond());
-            fpsLabel.setText(stringBuilder.toString());
-        }
         stage.draw();
     }
 

@@ -35,6 +35,7 @@ public class GameManager implements Disposable {
     public static boolean infiniteLives = true;
     public static boolean resetPlayerAbilities = false;  // reset player abilities after dying
 
+    public static int playerProduceCapacity = 6;
     public static int playerBombCapacity = 3;
     public static int playerBombLeft = 0;
     public static float playerBombRegeratingTime = 2.0f;

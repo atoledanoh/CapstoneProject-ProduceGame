@@ -117,7 +117,6 @@ public class PlayScreen extends ScreenAdapter {
         mapHeight = worldBuilder.getMapHeight();
 
         hud = new Hud(batch, WIDTH, HEIGHT);
-        hud.setLevelInfo(level);
 
         b2dTimer = 0;
 
@@ -219,6 +218,7 @@ public class PlayScreen extends ScreenAdapter {
             for (BaseSystem system : world.getSystems()) {
                 system.setEnabled(true);
             }
+
         } else {
             for (BaseSystem system : world.getSystems()) {
                 if (!(system instanceof RenderSystem)) {

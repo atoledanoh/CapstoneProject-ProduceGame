@@ -27,6 +27,10 @@ public class Produce extends Component {
         this(power, 2.0f);
     }
 
+    public Produce(Type type) {
+        this.type = type;
+    }
+
     public Produce(int power, float countDown) {
         this.power = power;
         this.countDown = countDown;
