@@ -41,8 +41,8 @@ public class GameManager implements Disposable {
     public static float playerBombRegeratingTimeLeft = 0;
     public static int playerMaxSpeed = 0;
     public static int playerBombPower = 0;
-    public static boolean playerKickBomb = false;
-    public static boolean playerRemoteBomb = false;
+    public static boolean playerKickBomb = true;
+    public static boolean playerRemoteBomb = true;
 
     private final Vector2 playerRespawnPosition;
 
@@ -88,11 +88,7 @@ public class GameManager implements Disposable {
 
         // load maps
         assetManager.load("maps/level_1.png", Pixmap.class);
-        assetManager.load("maps/level_2.png", Pixmap.class);
-        assetManager.load("maps/level_3.png", Pixmap.class);
         assetManager.load("maps/area_1_tiles.pack", TextureAtlas.class);
-        assetManager.load("maps/area_2_tiles.pack", TextureAtlas.class);
-        assetManager.load("maps/area_3_tiles.pack", TextureAtlas.class);
 
         assetManager.finishLoading();
 
@@ -110,8 +106,8 @@ public class GameManager implements Disposable {
         playerMaxSpeed = 0;
         playerBombPower = 0;
         playerBombRegeratingTime = 2.0f;
-        playerKickBomb = false;
-        playerRemoteBomb = false;
+        playerKickBomb = true;
+        playerRemoteBomb = true;
     }
 
     public AssetManager getAssetManager() {

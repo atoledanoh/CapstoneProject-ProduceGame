@@ -4,7 +4,6 @@ import com.artemis.Component;
 import com.atoledano.gamesys.GameManager;
 
 public class Bomb extends Component {
-    public static short defaultMaskBits = GameManager.TABLE_BIT | GameManager.DOOR_BIT | GameManager.EXPLOSION_BIT;
 
     public enum State {
         NORMAL,
@@ -17,6 +16,7 @@ public class Bomb extends Component {
 
     public float countDown;
     public State state;
+    public Type type;
     public int power;
     public float speed;
 
@@ -33,6 +33,7 @@ public class Bomb extends Component {
         this.countDown = countDown;
         this.speed = 6.0f;
         state = State.NORMAL;
+        type = Type.getRandomType();
     }
 
     public void setMove(Bomb.State state) {

@@ -74,61 +74,6 @@ public class Player extends Component {
         }
     }
 
-    public void powerUpAmmo() {
-        if (bombCapacity < MAX_BOMB_CAPACITY) {
-            bombCapacity++;
-            GameManager.playerBombCapacity = bombCapacity;
-        } else {
-            decreaseBombRegeneratingTime();
-        }
-
-        GameManager.getInstance().playSound("Powerup.ogg");
-    }
-
-    public void powerUpPower() {
-        if (bombPower < MAX_BOMB_POWER) {
-            GameManager.playerBombPower++;
-            bombPower = 1 + GameManager.playerBombPower;
-        } else {
-            decreaseBombRegeneratingTime();
-        }
-
-        GameManager.getInstance().playSound("Powerup.ogg");
-    }
-
-    public void powerUpSpeed() {
-        if (maxSpeed <= 8.0f) {
-            GameManager.playerMaxSpeed++;
-            maxSpeed = 3.0f + GameManager.playerMaxSpeed * 1.2f;
-        } else {
-            decreaseBombRegeneratingTime();
-        }
-
-        GameManager.getInstance().playSound("Powerup.ogg");
-    }
-
-    public void powerUpKick() {
-        if (!kickBomb) {
-            kickBomb = true;
-            GameManager.playerKickBomb = kickBomb;
-        } else {
-            decreaseBombRegeneratingTime();
-        }
-
-        GameManager.getInstance().playSound("Powerup.ogg");
-    }
-
-    public void powerUpRemote() {
-        if (!remoteBomb) {
-            remoteBomb = true;
-            GameManager.playerRemoteBomb = remoteBomb;
-        } else {
-            decreaseBombRegeneratingTime();
-        }
-
-        GameManager.getInstance().playSound("Powerup.ogg");
-    }
-
     public void decreaseBombRegeneratingTime() {
         if (bombRegeratingTime <= 0.2f) {
             return;

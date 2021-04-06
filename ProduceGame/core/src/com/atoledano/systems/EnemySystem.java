@@ -89,16 +89,7 @@ public class EnemySystem extends IteratingSystem {
         enemy = mEnemy.get(entityId);
         rigidBody = mRigidBody.get(entityId);
         state = mState.get(entityId);
-
-        switch (enemy.type) {
-            case "boss1":
-                break;
-            case "bomb":
-                break;
-            default:
-                handleBasics(entityId);
-                break;
-        }
+        handleBasics(entityId);
     }
 
     private void handleBasics(int entityId) {

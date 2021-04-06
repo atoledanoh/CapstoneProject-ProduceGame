@@ -261,170 +261,6 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public void createCustomer2(float x, float y) {
-        // box2d
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.linearDamping = 12.0f;
-        bodyDef.position.set(x, y);
-
-        Body body = b2dWorld.createBody(bodyDef);
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(radius);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circleShape;
-        fixtureDef.filter.categoryBits = GameManager.ENEMY_BIT;
-        fixtureDef.filter.maskBits = Enemy.defaultMaskBits;
-        body.createFixture(fixtureDef);
-
-        circleShape.dispose();
-
-        // animation
-        HashMap<String, Animation> anims = new HashMap<>();
-        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
-        TextureRegion textureRegion = textureAtlas.findRegion("Customer2");
-        Animation anim;
-
-        Array<TextureRegion> keyFrames = new Array<>();
-        // walking down
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 0, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_down", anim);
-
-        keyFrames.clear();
-        // walking up
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 96, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_up", anim);
-
-        keyFrames.clear();
-        // walking left
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 32, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_left", anim);
-
-        keyFrames.clear();
-        // walking right
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 64, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_right", anim);
-
-        keyFrames.clear();
-        // dying
-        for (int i = 0; i < 1; i++) {
-            // no dying sprite
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 0, 0));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
-        anims.put("dying", anim);
-
-        Renderer renderer = new Renderer(new TextureRegion(textureRegion, 0, 0, 16, 24), 16 / GameManager.PPM, 24 / GameManager.PPM);
-        renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
-
-        // entity
-        Entity e = new EntityBuilder(world)
-                .with(
-                        new Enemy(1, 1.2f, "EnemyDie1.ogg"),
-                        new Transform(x, y, 1, 1, 0),
-                        new RigidBody(body),
-                        new State("walking_down"),
-                        renderer,
-                        new Anim(anims)
-                )
-                .build();
-        body.setUserData(e);
-    }
-
-    public void createCustomer3(float x, float y) {
-        // box2d
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.linearDamping = 12.0f;
-        bodyDef.position.set(x, y);
-
-        Body body = b2dWorld.createBody(bodyDef);
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(radius);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circleShape;
-        fixtureDef.filter.categoryBits = GameManager.ENEMY_BIT;
-        fixtureDef.filter.maskBits = Enemy.defaultMaskBits;
-        body.createFixture(fixtureDef);
-
-        circleShape.dispose();
-
-        // animation
-        HashMap<String, Animation> anims = new HashMap<>();
-        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
-        TextureRegion textureRegion = textureAtlas.findRegion("Customer3");
-        Animation anim;
-
-        Array<TextureRegion> keyFrames = new Array<>();
-        // walking down
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 0, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_down", anim);
-
-        keyFrames.clear();
-        // walking up
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 96, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_up", anim);
-
-        keyFrames.clear();
-        // walking left
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 32, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_left", anim);
-
-        keyFrames.clear();
-        // walking right
-        for (int i = 0; i < 3; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 32, 64, 32, 32));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("walking_right", anim);
-
-        keyFrames.clear();
-        // dying
-        for (int i = 0; i < 1; i++) {
-            // no dying sprite
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 0, 0));
-        }
-        anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
-        anims.put("dying", anim);
-
-        Renderer renderer = new Renderer(new TextureRegion(textureRegion, 0, 0, 16, 24), 16 / GameManager.PPM, 24 / GameManager.PPM);
-        renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
-
-        // entity
-        Entity e = new EntityBuilder(world)
-                .with(
-                        new Enemy(1, 1.6f, "EnemyDie2.ogg"),
-                        new Transform(x, y, 1, 1, 0),
-                        new RigidBody(body),
-                        new State("walking_down"),
-                        renderer,
-                        new Anim(anims)
-                )
-                .build();
-        body.setUserData(e);
-    }
-
     public void createPlayer(float x, float y, boolean resetPlayerAbilities) {
         // box2d
         BodyDef bodyDef = new BodyDef();
@@ -540,7 +376,7 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public void createBomb(Player player, float x, float y) {
+    public Entity createBomb(Player player, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
@@ -551,80 +387,16 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.BOMB_BIT;
-        fixtureDef.filter.maskBits = Bomb.defaultMaskBits;
+        fixtureDef.filter.maskBits = GameManager.TABLE_BIT | GameManager.POWERUP_BIT;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        TextureAtlas textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
-        HashMap<String, Animation> anims = new HashMap<>();
-        TextureRegion textureRegion = textureAtlas.findRegion("Bomb");
+        Bomb bomb = new Bomb();
+        int i = bomb.type.ordinal();
 
-        Animation anim;
-        Array<TextureRegion> keyFrames = new Array<>();
-        if (player.bombPower >= Player.MAX_BOMB_POWER) {
-            for (int i = 0; i < 3; i++) {
-                keyFrames.add(new TextureRegion(textureRegion, i * 16, 16 * 1, 16, 16));
-            }
-        } else {
-            for (int i = 0; i < 3; i++) {
-                keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 16));
-            }
-        }
-        anim = new Animation(0.15f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
-        anims.put("normal", anim);
+        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
-        Renderer renderer = new Renderer(new TextureRegion(textureRegion, 0, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-        renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
-
-        // entity
-        Entity e = new EntityBuilder(world)
-                .with(
-                        new Bomb(player.bombPower, 2.0f),
-                        new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
-                        new RigidBody(body),
-                        new State("normal"),
-                        renderer,
-                        new Anim(anims)
-                )
-                .build();
-
-        body.setUserData(e);
-    }
-
-    public Entity createRemoteBomb(Player player, float x, float y) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
-
-        Body body = b2dWorld.createBody(bodyDef);
-        PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(0.45f, 0.45f);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.BOMB_BIT;
-        fixtureDef.filter.maskBits = Bomb.defaultMaskBits;
-        body.createFixture(fixtureDef);
-        polygonShape.dispose();
-
-        TextureAtlas textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
-        HashMap<String, Animation> anims = new HashMap<>();
-        TextureRegion textureRegion = textureAtlas.findRegion("Bomb");
-
-        Animation anim;
-        Array<TextureRegion> keyFrames = new Array<>();
-        if (player.bombPower >= Player.MAX_BOMB_POWER) {
-            for (int i = 3; i < 5; i++) {
-                keyFrames.add(new TextureRegion(textureRegion, i * 16, 16 * 1, 16, 16));
-            }
-        } else {
-            for (int i = 3; i < 5; i++) {
-                keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 16));
-            }
-        }
-        anim = new Animation(0.15f, keyFrames, Animation.PlayMode.LOOP_PINGPONG);
-        anims.put("normal", anim);
-
-        Renderer renderer = new Renderer(new TextureRegion(textureRegion, 0, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
+        Renderer renderer = new Renderer(new TextureRegion(textureAtlas.findRegion("Produce"), (i % 8) * 32, (i / 8) * 32, 32, 32), 16 / GameManager.PPM, 16 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
         // entity
@@ -634,8 +406,7 @@ public class ActorBuilder {
                         new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
                         new RigidBody(body),
                         new State("normal"),
-                        renderer,
-                        new Anim(anims)
+                        renderer
                 )
                 .build();
 
@@ -654,13 +425,6 @@ public class ActorBuilder {
                     return 0;
                 }
 
-                if (fixture.getFilterData().categoryBits == GameManager.DOOR_BIT) {
-                    canExplodeThrough = false;
-                    Entity e = (Entity) fixture.getBody().getUserData();
-                    Door door = e.getComponent(Door.class);
-                    door.state = Door.State.EXPLODING;
-                    return 0;
-                }
                 return 0;
             }
         };
