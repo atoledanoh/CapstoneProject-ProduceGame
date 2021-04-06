@@ -1,5 +1,6 @@
 package com.atoledano.builders;
 
+import com.artemis.ComponentManager;
 import com.artemis.Entity;
 import com.artemis.utils.EntityBuilder;
 import com.atoledano.components.Transform;
@@ -53,7 +54,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
-        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -111,7 +112,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
-        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -138,7 +139,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
-        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT | GameManager.EXPLOSION_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -191,7 +192,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
         fixtureDef.filter.categoryBits = GameManager.ENEMY_BIT;
-        fixtureDef.filter.maskBits = GameManager.TABLE_BIT | GameManager.DOOR_BIT | GameManager.PLAYER_BIT | GameManager.EXPLOSION_BIT;
+        fixtureDef.filter.maskBits = GameManager.POWERUP_BIT | GameManager.PLAYER_BIT | GameManager.TABLE_BIT;
         body.createFixture(fixtureDef);
 
         circleShape.dispose();
@@ -273,8 +274,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
         fixtureDef.filter.categoryBits = GameManager.PLAYER_BIT;
-        fixtureDef.filter.maskBits = GameManager.TABLE_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT | GameManager.PRODUCECRATE_BIT;
-        ;
+        fixtureDef.filter.maskBits = Player.defaultMaskBits;
         body.createFixture(fixtureDef);
         circleShape.dispose();
 
@@ -376,7 +376,7 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public Entity createRemoteProduce(Player player, float x, float y) {
+    public Entity createBomb(Player player, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
@@ -386,13 +386,13 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.45f, 0.45f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.PRODUCE_BIT;
+        fixtureDef.filter.categoryBits = GameManager.BOMB_BIT;
         fixtureDef.filter.maskBits = GameManager.TABLE_BIT | GameManager.POWERUP_BIT;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        Produce produce = new Produce();
-        int i = produce.type.ordinal();
+        Bomb bomb = new Bomb();
+        int i = bomb.type.ordinal();
 
         TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
@@ -402,7 +402,7 @@ public class ActorBuilder {
         // entity
         Entity e = new EntityBuilder(world)
                 .with(
-                        new Produce(),
+                        new Bomb(player.bombPower, 16.0f),
                         new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
                         new RigidBody(body),
                         new State("normal"),
@@ -424,6 +424,7 @@ public class ActorBuilder {
                     canExplodeThrough = false;
                     return 0;
                 }
+
                 return 0;
             }
         };
@@ -597,8 +598,8 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
-        fixtureDef.isSensor = false;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
+        fixtureDef.isSensor = true;
         body.createFixture(fixtureDef);
 
         PowerUp powerUp = new PowerUp();

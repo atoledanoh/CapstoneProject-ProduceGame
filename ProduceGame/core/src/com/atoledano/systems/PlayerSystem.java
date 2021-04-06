@@ -11,6 +11,7 @@ import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -18,14 +19,14 @@ import java.util.Queue;
 
 public class PlayerSystem extends IteratingSystem {
 
-    protected ComponentMapper<Player> playerComponentMapper;
-    protected ComponentMapper<RigidBody> rigidBodyComponentMapper;
-    protected ComponentMapper<State> stateComponentMapper;
-    protected ComponentMapper<Renderer> rendererComponentMapper;
+    protected ComponentMapper<Player> mPlayer;
+    protected ComponentMapper<RigidBody> mRigidBody;
+    protected ComponentMapper<State> mState;
+    protected ComponentMapper<Renderer> mRenderer;
 
     private boolean hitting;
-    private boolean kicking = true;
-    private Produce kickingProduce;
+    private boolean kicking;
+    private Bomb kickingBomb;
     private final Vector2 fromV;
     private final Vector2 toV;
 
@@ -37,10 +38,10 @@ public class PlayerSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        Player player = playerComponentMapper.get(entityId);
-        RigidBody rigidBody = rigidBodyComponentMapper.get(entityId);
-        State state = stateComponentMapper.get(entityId);
-        Renderer renderer = rendererComponentMapper.get(entityId);
+        Player player = mPlayer.get(entityId);
+        RigidBody rigidBody = mRigidBody.get(entityId);
+        State state = mState.get(entityId);
+        Renderer renderer = mRenderer.get(entityId);
 
         Body body = rigidBody.body;
 
@@ -50,68 +51,72 @@ public class PlayerSystem extends IteratingSystem {
 
         // player movement controls
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if (!hitProduceVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
+            if (player.invincible || !hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
                 if (Math.abs(linearVelocity.y) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(0, player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
             }
+
             player.state = Player.State.WALKING_UP;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (!hitProduceVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
+            if (player.invincible || !hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
                 if (Math.abs(linearVelocity.y) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(0, -player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
             }
+
             player.state = Player.State.WALKING_DOWN;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (!hitProduceHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
+            if (player.invincible || !hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
                 if (Math.abs(linearVelocity.x) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(-player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
             }
+
             player.state = Player.State.WALKING_LEFT;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (!hitProduceHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
+            if (player.invincible || !hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
                 if (Math.abs(linearVelocity.x) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
             }
+
             player.state = Player.State.WALKING_RIGHT;
         }
 
-        // set or kick produce
+        // set bomb or kick bomb
         if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
             kicking = false;
-            if (player.kickProduce) {
-                // kick produce if facing it
+            if (player.kickBomb) {
+                // check if player is facing a bomb, if so, kick it
                 switch (player.state) {
                     case WALKING_UP:
-                        if (checkCanKickProduce(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y + 0.6f)))) {
-                            kickingProduce.setMove(Produce.State.MOVING_UP);
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y + 0.6f)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_UP);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_DOWN:
-                        if (checkCanKickProduce(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y - 0.6f)))) {
-                            kickingProduce.setMove(Produce.State.MOVING_DOWN);
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y - 0.6f)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_DOWN);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_LEFT:
-                        if (checkCanKickProduce(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x - 0.6f, body.getPosition().y)))) {
-                            kickingProduce.setMove(Produce.State.MOVING_LEFT);
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x - 0.6f, body.getPosition().y)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_LEFT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_RIGHT:
-                        if (checkCanKickProduce(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x + 0.6f, body.getPosition().y)))) {
-                            kickingProduce.setMove(Produce.State.MOVING_RIGHT);
+                        if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x + 0.6f, body.getPosition().y)))) {
+                            kickingBomb.setMove(Bomb.State.MOVING_RIGHT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
@@ -120,37 +125,53 @@ public class PlayerSystem extends IteratingSystem {
                 }
             }
 
-            if (!kicking && player.produceLeft > 0) {
-                // create produce
+            if (!kicking && player.bombLeft > 0) {
+                // create bomb
                 ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
-                GameManager.getInstance().getRemoteProduceQueue().offer(
-                        actorBuilder.createRemoteProduce(player, body.getPosition().x, body.getPosition().y)
-                );
-                //todo uncomment this!!!
-//                player.produceLeft--;
+
+                if (player.remoteBomb) {
+                    GameManager.getInstance().getRemoteBombDeque().offer(
+                            actorBuilder.createBomb(player, body.getPosition().x, body.getPosition().y)
+                    );
+                } else {
+                    actorBuilder.createBomb(player, body.getPosition().x, body.getPosition().y);
+                }
+                player.bombLeft--;
                 GameManager.getInstance().playSound("PlaceBomb.ogg");
             }
 
-            // trigger produce
-            if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && player.remoteProduce) {
-                Queue<Entity> remoteProduceQueue = GameManager.getInstance().getRemoteProduceQueue();
-
-                // clean those bombs which have already exploded
-                while (!remoteProduceQueue.isEmpty() && remoteProduceQueue.peek().getComponent(Produce.class) == null) {
-                    remoteProduceQueue.remove();
-                }
-
-                Entity remoteBombEntity = remoteProduceQueue.poll();
-                if (remoteBombEntity != null) {
-                    Produce remoteProduce = remoteBombEntity.getComponent(Produce.class);
-                    remoteProduce.isDestroyed = true;
-                }
-            }
-
-
         }
 
-        // update produce data to GameManager
+        // trigger remote bomb
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && player.remoteBomb) {
+            Queue<Entity> remoteBombQueue = GameManager.getInstance().getRemoteBombDeque();
+
+            // clean those bombs which have already exploded
+            while (!remoteBombQueue.isEmpty() && remoteBombQueue.peek().getComponent(Bomb.class) == null) {
+                remoteBombQueue.remove();
+            }
+
+            Entity remoteBombEntity = remoteBombQueue.poll();
+            if (remoteBombEntity != null) {
+                Bomb remoteBomb = remoteBombEntity.getComponent(Bomb.class);
+                remoteBomb.countDown = 0;
+            }
+        }
+
+        // re-generate bomb
+        if (player.bombLeft < player.bombCapacity) {
+            player.bombRegeratingTimeLeft -= world.getDelta();
+        }
+        if (player.bombRegeratingTimeLeft <= 0) {
+            player.bombLeft++;
+            player.bombRegeratingTimeLeft = player.bombRegeratingTime;
+        }
+
+
+        // update bomb data to GameManager
+        GameManager.playerBombLeft = player.bombLeft;
+        GameManager.playerBombRegeratingTimeLeft = player.bombRegeratingTimeLeft;
+
         if (linearVelocity.len2() < 0.1f) {
             switch (player.state) {
                 case WALKING_UP:
@@ -170,16 +191,37 @@ public class PlayerSystem extends IteratingSystem {
             }
         }
 
+        // invincible timer
+        player.invincibleCountDown -= world.getDelta();
+        if (player.invincibleCountDown < 0) {
+            player.invincible = false;
+        }
 
-        Filter filter = body.getFixtureList().get(0).getFilterData();
-        filter.maskBits = GameManager.TABLE_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT | GameManager.PRODUCECRATE_BIT;
-        body.getFixtureList().get(0).setFilterData(filter);
-        renderer.setColor(Color.WHITE);
+        if (player.invincible) {
+            Filter filter = body.getFixtureList().get(0).getFilterData();
+            filter.maskBits = Player.defaultMaskBits;
+            body.getFixtureList().get(0).setFilterData(filter);
+            renderer.setColor(new Color(1, 1, 1, 1.2f + MathUtils.sin(player.invincibleCountDown * 24)));
+        } else {
+            Filter filter = body.getFixtureList().get(0).getFilterData();
+            filter.maskBits = Player.defaultMaskBits;
+            body.getFixtureList().get(0).setFilterData(filter);
+            renderer.setColor(Color.WHITE);
+        }
+
+        if (player.receivedDamage > 0) {
+            player.damage(player.receivedDamage);
+            player.receivedDamage = 0;
+        }
+
+        if (player.hp <= 0) {
+            player.state = Player.State.DYING;
+        }
 
         switch (player.state) {
             case DYING:
                 state.setCurrentState("dying");
-                filter = body.getFixtureList().get(0).getFilterData();
+                Filter filter = body.getFixtureList().get(0).getFilterData();
                 filter.maskBits = GameManager.NOTHING_BIT;
                 body.getFixtureList().get(0).setFilterData(filter);
 
@@ -239,18 +281,18 @@ public class PlayerSystem extends IteratingSystem {
 
     }
 
-    protected boolean checkCanKickProduce(Body body, Vector2 fromV, Vector2 toV) {
+    protected boolean checkCanKickBomb(Body body, Vector2 fromV, Vector2 toV) {
         World b2dWorld = body.getWorld();
-        kickingProduce = null;
+        kickingBomb = null;
         kicking = false;
 
         RayCastCallback rayCastCallback = new RayCastCallback() {
 
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
-                    Entity produceEntity = (Entity) fixture.getBody().getUserData();
-                    kickingProduce = produceEntity.getComponent(Produce.class);
+                if (fixture.getFilterData().categoryBits == GameManager.BOMB_BIT) {
+                    Entity bombEntity = (Entity) fixture.getBody().getUserData();
+                    kickingBomb = bombEntity.getComponent(Bomb.class);
                     return 0;
                 }
                 return 0;
@@ -258,13 +300,13 @@ public class PlayerSystem extends IteratingSystem {
         };
 
         b2dWorld.rayCast(rayCastCallback, fromV, toV);
-        if (kickingProduce != null) {
+        if (kickingBomb != null) {
             kicking = true;
         }
         return kicking;
     }
 
-    protected boolean hitProduceVertical(final Body body, Vector2 fromV, Vector2 toV) {
+    protected boolean hitBombVertical(final Body body, Vector2 fromV, Vector2 toV) {
         World b2dWorld = body.getWorld();
         hitting = false;
 
@@ -276,7 +318,7 @@ public class PlayerSystem extends IteratingSystem {
                     return 1;
                 }
 
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.BOMB_BIT) {
                     hitting = true;
                 }
                 return 0;
@@ -291,7 +333,7 @@ public class PlayerSystem extends IteratingSystem {
         return hitting;
     }
 
-    protected boolean hitProduceHorizontal(final Body body, Vector2 fromV, Vector2 toV) {
+    protected boolean hitBombHorizontal(final Body body, Vector2 fromV, Vector2 toV) {
         World b2dWorld = body.getWorld();
         hitting = false;
 
@@ -303,7 +345,7 @@ public class PlayerSystem extends IteratingSystem {
                     return 1;
                 }
 
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.BOMB_BIT) {
                     hitting = true;
                 }
                 return 0;
