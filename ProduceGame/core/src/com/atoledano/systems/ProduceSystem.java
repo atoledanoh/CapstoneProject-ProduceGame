@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class BombSystem extends IteratingSystem {
+public class ProduceSystem extends IteratingSystem {
 
     protected ComponentMapper<Bomb> mBomb;
     protected ComponentMapper<RigidBody> mRigidBody;
@@ -27,7 +27,7 @@ public class BombSystem extends IteratingSystem {
     private final Vector2 fromV;
     private final Vector2 toV;
 
-    public BombSystem() {
+    public ProduceSystem() {
         super(Aspect.all(Bomb.class, RigidBody.class, Transform.class, State.class));
 
         fromV = new Vector2();
