@@ -54,7 +54,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
-        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
+        fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -112,7 +112,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
-        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
+        fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -139,7 +139,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
-        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT | GameManager.ENEMY_BIT | GameManager.BOMB_BIT | GameManager.EXPLOSION_BIT;
+        fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -192,7 +192,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
         fixtureDef.filter.categoryBits = GameManager.ENEMY_BIT;
-        fixtureDef.filter.maskBits = GameManager.POWERUP_BIT | GameManager.PLAYER_BIT | GameManager.TABLE_BIT;
+        fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
 
         circleShape.dispose();
@@ -274,7 +274,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
         fixtureDef.filter.categoryBits = GameManager.PLAYER_BIT;
-        fixtureDef.filter.maskBits = Player.defaultMaskBits;
+        fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
         circleShape.dispose();
 
@@ -387,7 +387,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.BOMB_BIT;
-        fixtureDef.filter.maskBits = GameManager.TABLE_BIT | GameManager.POWERUP_BIT;
+        fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
@@ -433,159 +433,6 @@ public class ActorBuilder {
         return canExplodeThrough;
     }
 
-    public void createExplosion(float x, float y, int power) {
-        x = MathUtils.floor(x) + 0.5f;
-        y = MathUtils.floor(y) + 0.5f;
-
-        TextureRegion textureRegion = assetManager.get("img/newactors.pack", TextureAtlas.class).findRegion("Explosion");
-        HashMap<String, Animation> anims = new HashMap<>();
-
-        Array<TextureRegion> keyFrames = new Array<>();
-        Animation anim;
-
-        // center
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x, y);
-        Body explosionBody = b2dWorld.createBody(bodyDef);
-        PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(0.3f, 0.3f);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.EXPLOSION_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
-        fixtureDef.isSensor = true;
-        explosionBody.createFixture(fixtureDef);
-
-        Entity e = new EntityBuilder(world)
-                .with(
-                        new Explosion(),
-                        new Transform(x, y, 1, 1, 0),
-                        new RigidBody(explosionBody),
-                        new State("exploding")
-                )
-                .build();
-        explosionBody.setUserData(e);
-
-        // up
-        for (int i = 0; i < power; i++) {
-            if (!checkCanExplodeThrough(fromV.set(x, y + i), toV.set(x, y + i + 1))) {
-                break;
-            }
-
-            // box2d
-            bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(x, y + i + 1);
-            explosionBody = b2dWorld.createBody(bodyDef);
-            fixtureDef = new FixtureDef();
-            fixtureDef.shape = polygonShape;
-            fixtureDef.filter.categoryBits = GameManager.EXPLOSION_BIT;
-            fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
-            fixtureDef.isSensor = true;
-            explosionBody.createFixture(fixtureDef);
-
-            new EntityBuilder(world)
-                    .with(
-                            new Explosion(),
-                            new Transform(x, y + i + 1, 1, 1, 0),
-                            new RigidBody(explosionBody),
-                            new State("exploding")
-                    )
-                    .build();
-            explosionBody.setUserData(e);
-        }
-
-        // down
-        for (int i = 0; i < power; i++) {
-            if (!checkCanExplodeThrough(fromV.set(x, y - i), toV.set(x, y - i - 1))) {
-                break;
-            }
-
-            // box2d
-            bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(x, y - i - 1);
-            explosionBody = b2dWorld.createBody(bodyDef);
-            fixtureDef = new FixtureDef();
-            fixtureDef.shape = polygonShape;
-            fixtureDef.filter.categoryBits = GameManager.EXPLOSION_BIT;
-            fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
-            fixtureDef.isSensor = true;
-            explosionBody.createFixture(fixtureDef);
-
-            new EntityBuilder(world)
-                    .with(
-                            new Explosion(),
-                            new Transform(x, y - i - 1, 1, 1, 0),
-                            new RigidBody(explosionBody),
-                            new State("exploding")
-                    )
-                    .build();
-            explosionBody.setUserData(e);
-        }
-
-        // left
-        for (int i = 0; i < power; i++) {
-            if (!checkCanExplodeThrough(fromV.set(x - i, y), toV.set(x - i - 1, y))) {
-                break;
-            }
-
-            // box2d
-            bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(x - i - 1, y);
-            explosionBody = b2dWorld.createBody(bodyDef);
-            fixtureDef = new FixtureDef();
-            fixtureDef.shape = polygonShape;
-            fixtureDef.filter.categoryBits = GameManager.EXPLOSION_BIT;
-            fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
-            fixtureDef.isSensor = true;
-            explosionBody.createFixture(fixtureDef);
-
-            new EntityBuilder(world)
-                    .with(
-                            new Explosion(),
-                            new Transform(x - i - 1, y, 1, 1, 0),
-                            new RigidBody(explosionBody),
-                            new State("exploding")
-                    )
-                    .build();
-            explosionBody.setUserData(e);
-        }
-
-        // right
-        for (int i = 0; i < power; i++) {
-            if (!checkCanExplodeThrough(fromV.set(x + i, y), toV.set(x + i + 1, y))) {
-                break;
-            }
-
-            // box2d
-            bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(x + i + 1, y);
-            explosionBody = b2dWorld.createBody(bodyDef);
-            fixtureDef = new FixtureDef();
-            fixtureDef.shape = polygonShape;
-            fixtureDef.filter.categoryBits = GameManager.EXPLOSION_BIT;
-            fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
-            fixtureDef.isSensor = true;
-            explosionBody.createFixture(fixtureDef);
-
-            new EntityBuilder(world)
-                    .with(
-                            new Explosion(),
-                            new Transform(x + i + 1, y, 1, 1, 0),
-                            new RigidBody(explosionBody),
-                            new State("exploding")
-                    )
-                    .build();
-            explosionBody.setUserData(e);
-        }
-
-        polygonShape.dispose();
-    }
-
     public void createPowerUp(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -598,8 +445,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
-        fixtureDef.isSensor = true;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
         body.createFixture(fixtureDef);
 
         PowerUp powerUp = new PowerUp();
@@ -636,8 +482,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.PRODUCECRATE_BIT;
-        fixtureDef.filter.maskBits = GameManager.PLAYER_BIT;
-//        fixtureDef.isSensor = true;
+        fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
 
         ProduceCrate produceCrate = new ProduceCrate(Type.values()[index]);

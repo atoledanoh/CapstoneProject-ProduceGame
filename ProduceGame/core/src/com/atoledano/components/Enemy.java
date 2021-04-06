@@ -4,7 +4,6 @@ import com.artemis.Component;
 import com.atoledano.gamesys.GameManager;
 
 public class Enemy extends Component {
-
     public enum State {
         WALKING_UP,
         WALKING_DOWN,
