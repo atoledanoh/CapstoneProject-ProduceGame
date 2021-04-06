@@ -5,8 +5,6 @@ import com.atoledano.gamesys.GameManager;
 
 public class Enemy extends Component {
 
-    public static short defaultMaskBits = GameManager.TABLE_BIT | GameManager.DOOR_BIT | GameManager.PLAYER_BIT | GameManager.EXPLOSION_BIT;
-
     public enum State {
         WALKING_UP,
         WALKING_DOWN,

@@ -155,7 +155,7 @@ public class Hud implements Disposable {
         stateTime += delta;
         bigBombermanSprite.setRegion(bigBombermanAnimation.getKeyFrame(stateTime));
 
-        if (GameManager.playerBombPower + 1 < Player.MAX_BOMB_POWER) {
+        if (GameManager.playerProducePower + 1 < Player.MAX_PRODUCE_POWER) {
             bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
         } else {
             bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 16 * 1, 16, 16));
@@ -163,18 +163,18 @@ public class Hud implements Disposable {
 
         batch.begin();
         batch.draw(bgTexture, 25, 0);
-        for (int i = 0; i < GameManager.playerBombCapacity; i++) {
+        for (int i = 0; i < GameManager.playerProduceCapacity; i++) {
             float alpha;
             bombSprite.setPosition(25.0f + i % 5, 11.5f - i / 5);
-            alpha = i >= GameManager.playerBombLeft ? 0.5f : 1.0f;
+            alpha = i >= GameManager.playerProduceLeft ? 0.5f : 1.0f;
             bombSprite.draw(batch, alpha);
         }
 
-        bombTimerSprite.setSize((1.0f - GameManager.playerBombRegeratingTimeLeft / GameManager.playerBombRegeratingTime) * 3.0f, 0.2f);
+        bombTimerSprite.setSize((1.0f - GameManager.playerProduceRegeratingTimeLeft / GameManager.playerProduceRegeratingTime) * 3.0f, 0.2f);
         bombTimerSprite.draw(batch);
 
-        if (GameManager.playerBombPower > 0) {
-            for (int i = 0; i < GameManager.playerBombPower; i++) {
+        if (GameManager.playerProducePower > 0) {
+            for (int i = 0; i < GameManager.playerProducePower; i++) {
                 powerSprite.setPosition(leftAlignment + i * 0.5f, 9.0f);
                 powerSprite.draw(batch);
             }
@@ -194,14 +194,14 @@ public class Hud implements Disposable {
             speedSprite.draw(batch, 0.5f);
         }
 
-        kickSprite.draw(batch, GameManager.playerKickBomb ? 1.0f : 0.5f);
+        kickSprite.draw(batch, GameManager.playerKickProduce ? 1.0f : 0.5f);
 
         bigBombermanSprite.draw(batch);
 
         batch.end();
 
         // update stage
-        xLabel.setVisible(GameManager.playerKickBomb);
+        xLabel.setVisible(GameManager.playerKickProduce);
 
         playerLivesLabel.setText("" + GameManager.playerLives);
 

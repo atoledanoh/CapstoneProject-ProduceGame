@@ -26,7 +26,7 @@ public class GameManager implements Disposable {
     public static final short TABLE_BIT = 1;
     public static final short DOOR_BIT = 1 << 1;
     public static final short PLAYER_BIT = 1 << 2;
-    public static final short BOMB_BIT = 1 << 3;
+    public static final short PRODUCE_BIT = 1 << 3;
     public static final short EXPLOSION_BIT = 1 << 4;
     public static final short ENEMY_BIT = 1 << 5;
     public static final short POWERUP_BIT = 1 << 6;
@@ -35,13 +35,14 @@ public class GameManager implements Disposable {
     public static boolean infiniteLives = true;
     public static boolean resetPlayerAbilities = false;  // reset player abilities after dying
 
-    public static int playerBombCapacity = 3;
-    public static int playerBombLeft = 0;
-    public static float playerBombRegeratingTime = 2.0f;
-    public static float playerBombRegeratingTimeLeft = 0;
+    public static int playerProduceCapacity = 3;
+    public static int playerProduceLeft = 0;
+    public static float playerProduceRegeratingTime = 2.0f;
+    public static float playerProduceRegeratingTimeLeft = 0;
     public static int playerMaxSpeed = 0;
-    public static int playerBombPower = 0;
-    public static boolean playerKickBomb = true;
+    public static int playerProducePower = 0;
+    public static boolean playerKickProduce = true;
+    public static boolean playerRemoteProduce = true;
 
     private final Vector2 playerRespawnPosition;
 
@@ -53,7 +54,7 @@ public class GameManager implements Disposable {
     public static boolean changeScreen;
     public static boolean gameOver;
 
-    private final Queue<Entity> remoteBombQueue;
+    private final Queue<Entity> remoteProduceQueue;
 
     private final String soundPath = "sounds/";
     private final String musicPath = "music/";
@@ -93,7 +94,7 @@ public class GameManager implements Disposable {
 
         playerRespawnPosition = new Vector2();
 
-        remoteBombQueue = new LinkedList<>();
+        remoteProduceQueue = new LinkedList<>();
     }
 
     public static GameManager getInstance() {
@@ -101,11 +102,12 @@ public class GameManager implements Disposable {
     }
 
     public static void resetPlayerAbilities() {
-        playerBombCapacity = 3;
+        playerProduceCapacity = 3;
         playerMaxSpeed = 0;
-        playerBombPower = 0;
-        playerBombRegeratingTime = 2.0f;
-        playerKickBomb = true;
+        playerProducePower = 0;
+        playerProduceRegeratingTime = 2.0f;
+        playerKickProduce = true;
+        playerRemoteProduce = true;
     }
 
     public AssetManager getAssetManager() {
@@ -165,6 +167,10 @@ public class GameManager implements Disposable {
         if (music.isPlaying()) {
             music.pause();
         }
+    }
+
+    public Queue<Entity> getRemoteProduceQueue() {
+        return remoteProduceQueue;
     }
 
     public Vector2 getPlayerRespawnPosition() {
