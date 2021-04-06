@@ -376,7 +376,7 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public Entity createBomb(Player player, float x, float y) {
+    public Entity createProduce(Player player, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
@@ -391,8 +391,8 @@ public class ActorBuilder {
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        Bomb bomb = new Bomb();
-        int i = bomb.type.ordinal();
+        Produce produce = new Produce();
+        int i = produce.type.ordinal();
 
         TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
@@ -402,7 +402,7 @@ public class ActorBuilder {
         // entity
         Entity e = new EntityBuilder(world)
                 .with(
-                        new Bomb(player.bombPower, 16.0f),
+                        new Produce(player.bombPower, 16.0f),
                         new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
                         new RigidBody(body),
                         new State("normal"),

@@ -11,7 +11,6 @@ import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -26,7 +25,7 @@ public class PlayerSystem extends IteratingSystem {
 
     private boolean hitting;
     private boolean kicking;
-    private Bomb kickingBomb;
+    private Produce kickingBomb;
     private final Vector2 fromV;
     private final Vector2 toV;
 
@@ -98,25 +97,25 @@ public class PlayerSystem extends IteratingSystem {
                 switch (player.state) {
                     case WALKING_UP:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y + 0.6f)))) {
-                            kickingBomb.setMove(Bomb.State.MOVING_UP);
+                            kickingBomb.setMove(Produce.State.MOVING_UP);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_DOWN:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y - 0.6f)))) {
-                            kickingBomb.setMove(Bomb.State.MOVING_DOWN);
+                            kickingBomb.setMove(Produce.State.MOVING_DOWN);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_LEFT:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x - 0.6f, body.getPosition().y)))) {
-                            kickingBomb.setMove(Bomb.State.MOVING_LEFT);
+                            kickingBomb.setMove(Produce.State.MOVING_LEFT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_RIGHT:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x + 0.6f, body.getPosition().y)))) {
-                            kickingBomb.setMove(Bomb.State.MOVING_RIGHT);
+                            kickingBomb.setMove(Produce.State.MOVING_RIGHT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
@@ -131,10 +130,10 @@ public class PlayerSystem extends IteratingSystem {
 
                 if (player.remoteBomb) {
                     GameManager.getInstance().getRemoteBombDeque().offer(
-                            actorBuilder.createBomb(player, body.getPosition().x, body.getPosition().y)
+                            actorBuilder.createProduce(player, body.getPosition().x, body.getPosition().y)
                     );
                 } else {
-                    actorBuilder.createBomb(player, body.getPosition().x, body.getPosition().y);
+                    actorBuilder.createProduce(player, body.getPosition().x, body.getPosition().y);
                 }
                 player.bombLeft--;
                 GameManager.getInstance().playSound("PlaceBomb.ogg");
@@ -147,14 +146,14 @@ public class PlayerSystem extends IteratingSystem {
             Queue<Entity> remoteBombQueue = GameManager.getInstance().getRemoteBombDeque();
 
             // clean those bombs which have already exploded
-            while (!remoteBombQueue.isEmpty() && remoteBombQueue.peek().getComponent(Bomb.class) == null) {
+            while (!remoteBombQueue.isEmpty() && remoteBombQueue.peek().getComponent(Produce.class) == null) {
                 remoteBombQueue.remove();
             }
 
             Entity remoteBombEntity = remoteBombQueue.poll();
             if (remoteBombEntity != null) {
-                Bomb remoteBomb = remoteBombEntity.getComponent(Bomb.class);
-                remoteBomb.countDown = 0;
+                Produce remoteProduce = remoteBombEntity.getComponent(Produce.class);
+                remoteProduce.countDown = 0;
             }
         }
 
@@ -239,7 +238,7 @@ public class PlayerSystem extends IteratingSystem {
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
                 if (fixture.getFilterData().categoryBits == GameManager.BOMB_BIT) {
                     Entity bombEntity = (Entity) fixture.getBody().getUserData();
-                    kickingBomb = bombEntity.getComponent(Bomb.class);
+                    kickingBomb = bombEntity.getComponent(Produce.class);
                     return 0;
                 }
                 return 0;
