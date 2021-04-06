@@ -7,7 +7,7 @@ public class ProduceCrate extends Component {
     public Type type;
 
 
-    public ProduceCrate() {
-        type = Type.getRandomType();
+    public ProduceCrate(Type type) {
+        this.type = type;
     }
 }

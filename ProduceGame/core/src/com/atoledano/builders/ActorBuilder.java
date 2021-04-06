@@ -1,5 +1,6 @@
 package com.atoledano.builders;
 
+import com.artemis.ComponentManager;
 import com.artemis.Entity;
 import com.artemis.utils.EntityBuilder;
 import com.atoledano.components.Transform;
@@ -838,38 +839,11 @@ public class ActorBuilder {
         body.createFixture(fixtureDef);
 
         PowerUp powerUp = new PowerUp();
-        int i;
-        switch (powerUp.type) {
-            case APPLE:
-                i = 6;
-                break;
-            case ORANGE:
-                i = 7;
-                break;
-            case ONE_UP:
-                i = 5;
-                break;
-            case REMOTE:
-                i = 4;
-                break;
-            case KICK:
-                i = 3;
-                break;
-            case SPEED:
-                i = 2;
-                break;
-            case POWER:
-                i = 1;
-                break;
-            case AMMO:
-            default:
-                i = 0;
-                break;
+        int i = powerUp.type.ordinal();
 
-        }
+        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
-        TextureAtlas textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
-        Renderer renderer = new Renderer(new TextureRegion(textureAtlas.findRegion("Items"), i * 16, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
+        Renderer renderer = new Renderer(new TextureRegion(textureAtlas.findRegion("Produce"), (i % 8) * 32, (i / 8) * 32, 32, 32), 16 / GameManager.PPM, 16 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
         Entity e = new EntityBuilder(world)
@@ -886,7 +860,7 @@ public class ActorBuilder {
         polygonShape.dispose();
     }
 
-    public void createProduceCrate(float x, float y) {
+    public void createProduceCrate(float x, float y, int index) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
@@ -902,39 +876,12 @@ public class ActorBuilder {
 //        fixtureDef.isSensor = true;
         body.createFixture(fixtureDef);
 
-        ProduceCrate produceCrate = new ProduceCrate();
-        int i;
-        switch (produceCrate.type) {
-            case APPLE:
-                i = 6;
-                break;
-            case ORANGE:
-                i = 7;
-                break;
-            case ONE_UP:
-                i = 5;
-                break;
-            case REMOTE:
-                i = 4;
-                break;
-            case KICK:
-                i = 3;
-                break;
-            case SPEED:
-                i = 2;
-                break;
-            case POWER:
-                i = 1;
-                break;
-            case AMMO:
-            default:
-                i = 0;
-                break;
+        ProduceCrate produceCrate = new ProduceCrate(Type.values()[index]);
+        int i = produceCrate.type.ordinal();
 
-        }
+        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
-        TextureAtlas textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
-        Renderer renderer = new Renderer(new TextureRegion(textureAtlas.findRegion("Items"), i * 16, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
+        Renderer renderer = new Renderer(new TextureRegion(textureAtlas.findRegion("Produce"), (i % 8) * 32, (i / 8) * 32, 32, 32), 16 / GameManager.PPM, 16 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
         Entity e = new EntityBuilder(world)

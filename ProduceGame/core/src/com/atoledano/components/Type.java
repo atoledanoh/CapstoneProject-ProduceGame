@@ -1,25 +1,22 @@
 package com.atoledano.components;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 public enum Type {
-    AMMO,   // 0
-    POWER,  // 1
-    SPEED,  // 2
-    KICK,   // 3
-    REMOTE, // 4
-    ONE_UP, // 5
-    APPLE, // 6
-    ORANGE; // 7
+    CHERRY, ORANGE, TURNIP1, APPLE, PEPPER1, PEACH, CARROT, CUCUMBER,
+    STRAWBERRY, BROCCOLI, PINEAPPLE, WATERMELON, TURNIP2, POTATO, BANANA, LETTUCE,
+    TOMATO1, CHILI, CORN, VEGGIE1, EGGPLANT, CELERY, PEPPER2, MUSHROOM1,
+    ONION1, GRAPES1, TOMATO2, CAULIFLOWER, MUSHROOM2, LEMON, GRAPES2, MUSHROOM3,
+    SQUASH, VEGGIE2;
+
+    private static final List<Type> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+    private static final int SIZE = VALUES.size();
+    private static final Random RANDOM = new Random();
 
     public static Type getRandomType() {
-        int index;
-        int random = (int) (Math.random() * 2);
-
-        if (random < 1) {
-            index = 6; // APPLE
-        } else {
-            index = 7; // ORANGE
-        }
-
-        return values()[index];
+        return VALUES.get(RANDOM.nextInt(SIZE));
     }
 }

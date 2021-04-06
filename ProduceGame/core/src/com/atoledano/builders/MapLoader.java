@@ -1,5 +1,6 @@
 package com.atoledano.builders;
 
+import com.atoledano.components.Type;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -20,7 +21,7 @@ public class MapLoader {
         PLAYER(0, 0, 255), // blue
         CUSTOMER(255, 255, 0), // yellow
         PRODUCECRATE(0, 255, 255), // cyan
-        CUSTOMER3(255, 0, 255), // magenta
+        BACKSHOP(255, 0, 255), // magenta
         RAT(128, 128, 128), // silver
         KAREN(128, 128, 0); //gold
 
@@ -47,6 +48,7 @@ public class MapLoader {
 
     protected int level;
     protected int enemyCount;
+    protected int enumCounter;
 
     protected final float radius = 0.46f;
 
@@ -76,6 +78,7 @@ public class MapLoader {
         ActorBuilder actorBuilder = ActorBuilder.init(b2dWorld, world);
         int color;
         enemyCount = GameManager.totalEnemies;
+        enumCounter = 0;
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
                 color = pixmap.getPixel(x, mapHeight - y - 1);
@@ -94,9 +97,13 @@ public class MapLoader {
                 } else if (BLOCK.CUSTOMER.sameColor(color)) {
                     actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
                 } else if (BLOCK.PRODUCECRATE.sameColor(color)) {
-                    actorBuilder.createProduceCrate(x + 0.5f, y + 0.5f);
-                } else if (BLOCK.CUSTOMER3.sameColor(color)) {
-                    actorBuilder.createCustomer3(x + 0.5f, y + 0.5f);
+                    actorBuilder.createTable(x + 0.5f, y + 0.5f, tileTextureAtlas);
+                    if (enumCounter< Type.values().length){
+                        actorBuilder.createProduceCrate(x + 0.5f, y + 0.5f, enumCounter);
+                        enumCounter++;
+                    }
+                } else if (BLOCK.BACKSHOP.sameColor(color)) {
+                    //todo - nothing to do here
                 } else if (BLOCK.EMPTY.sameColor(color)) {
                     int random = (int) (Math.random() * 10);
                     if (random < 1 && enemyCount > 0) {
