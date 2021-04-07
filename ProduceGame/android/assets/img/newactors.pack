@@ -94,3 +94,52 @@ Logo
   orig: 128, 128
   offset: 0, 0
   index: -1
+Truck
+  rotate: false
+  xy: 451, 0
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Floor1
+  rotate: false
+  xy: 372, 506
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Floor2
+  rotate: false
+  xy: 302, 506
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Wall
+  rotate: false
+  xy: 442, 506
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Door
+  rotate: false
+  xy: 442, 436
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Table
+  rotate: false
+  xy: 302, 436
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Box
+  rotate: false
+  xy: 372, 436
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1

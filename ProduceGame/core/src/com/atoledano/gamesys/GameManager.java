@@ -28,7 +28,7 @@ public class GameManager implements Disposable {
     public static final short TABLE_BIT = 1;
     public static final short DOOR_BIT = 1 << 1;
     public static final short PLAYER_BIT = 1 << 2;
-    public static final short BOMB_BIT = 1 << 3;
+    public static final short PRODUCE_BIT = 1 << 3;
     public static final short EXPLOSION_BIT = 1 << 4;
     public static final short ENEMY_BIT = 1 << 5;
     public static final short POWERUP_BIT = 1 << 6;
@@ -71,7 +71,6 @@ public class GameManager implements Disposable {
         assetManager = new AssetManager();
 
         // load actors 
-        assetManager.load("img/actors.pack", TextureAtlas.class);
         assetManager.load("img/newactors.pack", TextureAtlas.class);
 
         // load sounds
@@ -93,7 +92,7 @@ public class GameManager implements Disposable {
 
         // load maps
         assetManager.load("maps/level_1.png", Pixmap.class);
-        assetManager.load("maps/area_1_tiles.pack", TextureAtlas.class);
+        assetManager.load("img/newactors.pack", TextureAtlas.class);
 
         assetManager.finishLoading();
 

@@ -9,6 +9,7 @@ public class WorldBuilder {
     private final com.artemis.World world;
 
     private Sprite groundSprite;
+    private Sprite groundSprite2;
 
     private int mapWidth;
     private int mapHeight;
@@ -20,16 +21,13 @@ public class WorldBuilder {
 
     public void build(int level) {
         MapLoader mapLoader;
-        switch (level) {
-            case 1:
-            default:
-                mapLoader = new MapLoader(b2dWorld, world, level);
-                mapLoader.loadMap();
-                groundSprite = mapLoader.createGroundSprite();
-                mapWidth = mapLoader.getMapWidth();
-                mapHeight = mapLoader.getMapHeight();
-                break;
-        }
+
+        mapLoader = new MapLoader(b2dWorld, world, level);
+        mapLoader.loadMap();
+        groundSprite = mapLoader.createGroundSprite();
+        groundSprite2 = mapLoader.createGroundSprite2();
+        mapWidth = mapLoader.getMapWidth();
+        mapHeight = mapLoader.getMapHeight();
     }
 
     public int getMapWidth() {
@@ -44,4 +42,7 @@ public class WorldBuilder {
         return groundSprite;
     }
 
+    public Sprite getGroundSprite2() {
+        return groundSprite2;
+    }
 }

@@ -7,6 +7,7 @@ import com.atoledano.components.*;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -57,40 +58,9 @@ public class ActorBuilder {
 
         polygonShape.dispose();
 
-        Renderer renderer;
-
-        if (x < 1.0f) {
-            if (y < 1.0f) {
-                renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 0, 16 * 2, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-            } else if (y > mapHeight - 1) {
-                renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 0, 16 * 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-
-            } else {
-                renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 0, 16 * 1, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-
-            }
-        } else if (x > mapWidth - 1) {
-            if (y < 1.0f) {
-                renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 16 * 2, 16 * 2, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-
-            } else if (y > mapHeight - 1) {
-                renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 16 * 2, 16 * 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-
-            } else {
-                renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 16 * 2, 16 * 1, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-
-            }
-        } else if (y < 1.0f) {
-            renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 16 * 1, 16 * 2, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-
-        } else if (y > mapHeight - 1) {
-            renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 16 * 1, 16 * 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-
-        } else {
-            renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("wall"), 0, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
-        }
-
+        Renderer renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("Wall"), 0, 0, 70, 70), 16 / GameManager.PPM, 16 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
+
         new EntityBuilder(world)
                 .with(
                         new Transform(x, y, 1f, 1f, 0),
@@ -115,7 +85,34 @@ public class ActorBuilder {
 
         polygonShape.dispose();
 
-        Renderer renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("indestructible"), 0, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
+        Renderer renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("Table"), 0, 0, 70, 70), 16 / GameManager.PPM, 16 / GameManager.PPM);
+        renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
+
+        new EntityBuilder(world)
+                .with(
+                        new Transform(x, y, 1f, 1f, 0),
+                        renderer
+                )
+                .build();
+    }
+
+    public void createBackBox(float x, float y, TextureAtlas tileTextureAtlas) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(x, y);
+
+        Body body = b2dWorld.createBody(bodyDef);
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(0.5f, 0.5f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = polygonShape;
+        fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
+        fixtureDef.filter.maskBits = -1;
+        body.createFixture(fixtureDef);
+
+        polygonShape.dispose();
+
+        Renderer renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("Box"), 0, 0, 70, 70), 16 / GameManager.PPM, 16 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
         new EntityBuilder(world)
@@ -137,40 +134,19 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
 
-        HashMap<String, Animation> anims = new HashMap<>();
-        TextureRegion textureRegion = tileTextureAtlas.findRegion("door");
-
-        Animation anim;
-        Array<TextureRegion> keyFrames = new Array<>();
-        for (int i = 0; i < 4; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 16));
-        }
-        anim = new Animation(0.15f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("normal", anim);
-
-        keyFrames.clear();
-        for (int i = 4; i < 10; i++) {
-            keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 16, 16));
-        }
-        anim = new Animation(0.125f, keyFrames, Animation.PlayMode.NORMAL);
-        anims.put("exploding", anim);
-
-        Renderer renderer = new Renderer(new TextureRegion(textureRegion, 0, 0, 16, 16), 16 / GameManager.PPM, 16 / GameManager.PPM);
+        Renderer renderer = new Renderer(new TextureRegion(tileTextureAtlas.findRegion("Door"), 0, 0, 70, 70), 16 / GameManager.PPM, 16 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
 
         Entity e = new EntityBuilder(world)
                 .with(
                         new Door(),
                         new Transform(x, y, 1, 1, 0),
-                        new RigidBody(body),
-                        new State("normal"),
-                        renderer,
-                        new Anim(anims)
+                        renderer
                 )
                 .build();
 
@@ -347,14 +323,7 @@ public class ActorBuilder {
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("dying", anim);
 
-        // teleporting
         keyFrames.clear();
-        keyFrames.add(new TextureRegion(textureRegion, 32, 0, 32, 32));
-        keyFrames.add(new TextureRegion(textureRegion, 32, 32, 32, 32));
-        keyFrames.add(new TextureRegion(textureRegion, 32, 64, 32, 32));
-        keyFrames.add(new TextureRegion(textureRegion, 32, 96, 32, 32));
-        anim = new Animation(0.05f, keyFrames, Animation.PlayMode.LOOP);
-        anims.put("teleporting", anim);
 
         Renderer renderer = new Renderer(new TextureRegion(textureRegion, 0, 0, 16, 24), 16 / GameManager.PPM, 24 / GameManager.PPM);
         renderer.setOrigin(16 / GameManager.PPM / 2, 16 / GameManager.PPM / 2);
@@ -374,7 +343,7 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public Entity createProduce(Player player, Type type,float x, float y) {
+    public Entity createProduce(Player player, Type type, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
@@ -384,8 +353,8 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.45f, 0.45f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.BOMB_BIT;
-        fixtureDef.filter.maskBits = -1;
+        fixtureDef.filter.categoryBits = GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.TABLE_BIT | GameManager.DOOR_BIT | GameManager.PRODUCE_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCECRATE_BIT;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
@@ -424,7 +393,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.BOMB_BIT;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
         body.createFixture(fixtureDef);
 
         PowerUp powerUp = new PowerUp();
@@ -485,4 +454,34 @@ public class ActorBuilder {
         body.setUserData(e);
         polygonShape.dispose();
     }
+
+    public void createTruck(float x, float y) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
+
+        Body body = b2dWorld.createBody(bodyDef);
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(0.5f, 0.5f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = polygonShape;
+        fixtureDef.filter.categoryBits = GameManager.TABLE_BIT;
+        fixtureDef.filter.maskBits = 0;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef);
+        polygonShape.dispose();
+
+        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
+
+        Renderer renderer = new Renderer(new TextureRegion(textureAtlas.findRegion("Truck"), 0, 0, 61, 128), 32 / GameManager.PPM, 64 / GameManager.PPM);
+        renderer.setOrigin(32 / GameManager.PPM / 2, 64 / GameManager.PPM / 2);
+
+        new EntityBuilder(world)
+                .with(
+                        new Transform(x, y, 1f, 1f, 0),
+                        renderer
+                )
+                .build();
+    }
+
 }

@@ -1,10 +1,7 @@
 package com.atoledano.listeners;
 
 import com.artemis.Entity;
-import com.atoledano.components.Enemy;
-import com.atoledano.components.Player;
-import com.atoledano.components.PowerUp;
-import com.atoledano.components.ProduceCrate;
+import com.atoledano.components.*;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -15,9 +12,9 @@ public class B2DWorldContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        //enemy
+        //enemy AND...
         if (fixtureA.getFilterData().categoryBits == GameManager.ENEMY_BIT || fixtureB.getFilterData().categoryBits == GameManager.ENEMY_BIT) {
-            //power up
+            //...power up
             if (fixtureA.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
                 Entity powerUpEntity = (Entity) fixtureA.getBody().getUserData();
                 PowerUp powerUp = powerUpEntity.getComponent(PowerUp.class);
@@ -38,6 +35,30 @@ public class B2DWorldContactListener implements ContactListener {
                 if (enemy.needs == powerUp.type) {
                     // consume power-up and kill enemy
                     powerUp.isDestroyed = true;
+                    enemy.receivedDamage++;
+                }
+            }
+            //...produce
+            if (fixtureA.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                Entity produceEntity = (Entity) fixtureA.getBody().getUserData();
+                Produce produce = produceEntity.getComponent(Produce.class);
+                Entity enemyEntity = (Entity) fixtureB.getBody().getUserData();
+                Enemy enemy = enemyEntity.getComponent(Enemy.class);
+                //check customer needs
+                if (enemy.needs == produce.type) {
+                    // consume produce and kill enemy
+                    produce.countDown = 0;
+                    enemy.receivedDamage++;
+                }
+            } else if (fixtureB.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                Entity produceEntity = (Entity) fixtureB.getBody().getUserData();
+                Produce produce = produceEntity.getComponent(Produce.class);
+                Entity enemyEntity = (Entity) fixtureA.getBody().getUserData();
+                Enemy enemy = enemyEntity.getComponent(Enemy.class);
+                //check customer needs
+                if (enemy.needs == produce.type) {
+                    // consume produce and kill enemy
+                    produce.countDown = 0;
                     enemy.receivedDamage++;
                 }
             }

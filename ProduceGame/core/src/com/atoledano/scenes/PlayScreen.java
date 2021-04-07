@@ -49,6 +49,7 @@ public class PlayScreen extends ScreenAdapter {
     private boolean showB2DDebugRenderer;
 
     private Sprite groundSprite;
+    private Sprite groundSprite2;
 
     private int mapWidth;
     private int mapHeight;
@@ -112,6 +113,7 @@ public class PlayScreen extends ScreenAdapter {
         WorldBuilder worldBuilder = new WorldBuilder(b2dWorld, world);
         worldBuilder.build(level);
         groundSprite = worldBuilder.getGroundSprite();
+        groundSprite2 = worldBuilder.getGroundSprite2();
 
         mapWidth = worldBuilder.getMapWidth();
         mapHeight = worldBuilder.getMapHeight();
@@ -200,12 +202,20 @@ public class PlayScreen extends ScreenAdapter {
 
         // draw ground
         batch.begin();
-        for (int y = 0; y < mapHeight; y++) {
+        for (int y = 0; y < 19; y++) {
             for (int x = 0; x < mapWidth; x++) {
                 groundSprite.setPosition(x, y);
                 groundSprite.draw(batch);
             }
         }
+
+        for (int y = 19; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+                groundSprite2.setPosition(x, y);
+                groundSprite2.draw(batch);
+            }
+        }
+
         batch.end();
 
         if (!paused) {

@@ -220,7 +220,7 @@ public class PlayerSystem extends IteratingSystem {
 
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.BOMB_BIT) {
+                if (fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
                     Entity bombEntity = (Entity) fixture.getBody().getUserData();
                     kickingBomb = bombEntity.getComponent(Produce.class);
                     return 0;
@@ -248,7 +248,7 @@ public class PlayerSystem extends IteratingSystem {
                     return 1;
                 }
 
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.BOMB_BIT) {
+                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
                     hitting = true;
                 }
                 return 0;
@@ -275,7 +275,7 @@ public class PlayerSystem extends IteratingSystem {
                     return 1;
                 }
 
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.BOMB_BIT) {
+                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
                     hitting = true;
                 }
                 return 0;

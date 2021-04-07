@@ -56,19 +56,10 @@ public class MapLoader {
         this.b2dWorld = b2dWorld;
         this.world = world;
         this.level = level;
-        assetManager = GameManager.getInstance().getAssetManager();
 
-        pixmap = assetManager.get("maps/level_" + level + ".png", Pixmap.class);
-        switch (level) {
-            case 3:
-                tileTextureAtlas = assetManager.get("maps/area_3_tiles.pack", TextureAtlas.class);
-                break;
-            case 2:
-            case 1:
-            default:
-                tileTextureAtlas = assetManager.get("maps/area_1_tiles.pack", TextureAtlas.class);
-                break;
-        }
+        assetManager = GameManager.getInstance().getAssetManager();
+        pixmap = assetManager.get("maps/level_1.png", Pixmap.class);
+        tileTextureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
         mapWidth = pixmap.getWidth();
         mapHeight = pixmap.getHeight();
@@ -97,7 +88,7 @@ public class MapLoader {
                 } else if (BLOCK.CUSTOMER.sameColor(color)) {
                     actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
                 } else if (BLOCK.PRODUCECRATE.sameColor(color)) {
-                    actorBuilder.createTable(x + 0.5f, y + 0.5f, tileTextureAtlas);
+                    actorBuilder.createBackBox(x + 0.5f, y + 0.5f, tileTextureAtlas);
                     if (enumCounter < Type.values().length) {
                         actorBuilder.createProduceCrate(x + 0.5f, y + 0.5f, enumCounter);
                         enumCounter++;
@@ -113,6 +104,7 @@ public class MapLoader {
                 }
             }
         }
+        actorBuilder.createTruck(3f, 22f);
     }
 
     public int getMapWidth() {
@@ -124,7 +116,7 @@ public class MapLoader {
     }
 
     protected Sprite createGroundSprite() {
-        TextureRegion textureRegion = tileTextureAtlas.findRegion("ground");
+        TextureRegion textureRegion = tileTextureAtlas.findRegion("Floor1");
 
         Sprite sprite = new Sprite();
         sprite.setRegion(textureRegion);
@@ -132,4 +124,15 @@ public class MapLoader {
 
         return sprite;
     }
+
+    protected Sprite createGroundSprite2() {
+        TextureRegion textureRegion = tileTextureAtlas.findRegion("Floor2");
+
+        Sprite sprite = new Sprite();
+        sprite.setRegion(textureRegion);
+        sprite.setBounds(0, 0, 1, 1);
+
+        return sprite;
+    }
+
 }
