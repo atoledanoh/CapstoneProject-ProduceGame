@@ -1,12 +1,14 @@
 package com.atoledano.gamesys;
 
 import com.artemis.Entity;
+import com.atoledano.components.Type;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 import java.util.LinkedList;
@@ -49,11 +51,12 @@ public class GameManager implements Disposable {
 
     public static int playerLives = 3;
 
-
     public static int totalEnemies;
     public static int enemiesLeft;
     public static boolean changeScreen;
     public static boolean gameOver;
+
+    public static Array<Type> types;
 
     private final Queue<Entity> remoteBombQueue;
 
@@ -61,6 +64,7 @@ public class GameManager implements Disposable {
     private final String musicPath = "music/";
 
     private String currentMusic = "";
+
 
     private GameManager() {
         // load resources
@@ -96,6 +100,8 @@ public class GameManager implements Disposable {
         playerRespawnPosition = new Vector2();
 
         remoteBombQueue = new LinkedList<>();
+
+        types = new Array<Type>();
     }
 
     public static GameManager getInstance() {

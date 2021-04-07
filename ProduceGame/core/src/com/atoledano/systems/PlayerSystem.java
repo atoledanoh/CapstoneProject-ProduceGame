@@ -131,6 +131,7 @@ public class PlayerSystem extends IteratingSystem {
                 GameManager.getInstance().getRemoteBombDeque().offer(actorBuilder.createProduce(player,
                         player.types.pop(),
                         body.getPosition().x, body.getPosition().y));
+                GameManager.types.pop();
 
                 player.produceLeft--;
                 GameManager.getInstance().playSound("PlaceBomb.ogg");

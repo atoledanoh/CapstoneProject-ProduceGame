@@ -53,6 +53,7 @@ public class B2DWorldContactListener implements ContactListener {
                 Player player = playerEntity.getComponent(Player.class);
                 if (player.produceLeft < player.produceCapacity) {
                     player.types.add(produceCrate.type);
+                    GameManager.types.add(produceCrate.type);
                     player.produceLeft++;
                 }
             } else if (fixtureB.getFilterData().categoryBits == GameManager.PRODUCECRATE_BIT) {
@@ -63,6 +64,7 @@ public class B2DWorldContactListener implements ContactListener {
                 Player player = playerEntity.getComponent(Player.class);
                 if (player.produceLeft < player.produceCapacity) {
                     player.types.add(produceCrate.type);
+                    GameManager.types.add(produceCrate.type);
                     player.produceLeft++;
                 }
             }

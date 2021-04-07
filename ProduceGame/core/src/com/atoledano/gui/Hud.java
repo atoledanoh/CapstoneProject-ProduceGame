@@ -1,6 +1,7 @@
 package com.atoledano.gui;
 
 import com.atoledano.components.Player;
+import com.atoledano.components.Type;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -21,21 +22,14 @@ public class Hud implements Disposable {
     private final SpriteBatch batch;
 
     private final TextureAtlas textureAtlas;
-
-    private final Sprite bombSprite;
-    private final Sprite bombTimerSprite;
     private final Texture bgTexture;
-    private final Texture bombTimerTexture;
-
-    private float stateTime;
     private final Sprite bigEyeSprite;
+    private final Sprite slotSprite;
+    private Sprite inventorySlot;
+    private Array<Sprite> sprites;
+    private Array<Sprite> inventory;
     private final Animation bigEyeAnimation;
-
-    private final Sprite powerSprite;
-    private final Sprite speedSprite;
-    private final Sprite kickSprite;
-    private final Sprite remoteSprite;
-
+    private float stateTime;
     private final float SCALE = 26f;
     private final Stage stage;
     private final BitmapFont font;
@@ -50,12 +44,10 @@ public class Hud implements Disposable {
     public Hud(SpriteBatch batch, float width, float height) {
         this.batch = batch;
 
+        sprites = new Array<>(34);
+        inventory = new Array<>(6);
         AssetManager assetManager = GameManager.getInstance().getAssetManager();
-        textureAtlas = assetManager.get("img/actors.pack", TextureAtlas.class);
-        TextureAtlas textureAtlas2 = assetManager.get("img/newactors.pack", TextureAtlas.class);
-
-        bombSprite = new Sprite(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
-        bombSprite.setBounds(25.0f, 11.5f, 1, 1);
+        textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
         Pixmap pixmap = new Pixmap(5, 25, Pixmap.Format.RGBA8888);
         pixmap.setColor(32.0f / 255.0f, 93.0f / 255.0f, 153.0f / 255.0f, 1.0f);
@@ -63,36 +55,26 @@ public class Hud implements Disposable {
 
         bgTexture = new Texture(pixmap);
 
-        pixmap.setColor(1, 1, 1, 1);
-        pixmap.fill();
-        bombTimerTexture = new Texture(pixmap);
-        pixmap.dispose();
+        slotSprite = new Sprite(new TextureRegion(textureAtlas.findRegion("Slot"), 0, 0, 40, 40));
+        slotSprite.setBounds(leftAlignment, 16f, 2f, 2f);
 
-        bombTimerSprite = new Sprite(bombTimerTexture);
-        bombTimerSprite.setBounds(26f, 12.5f, 3.0f, 0.2f);
 
-        TextureRegion itemTextureRegion = textureAtlas.findRegion("Items");
-        powerSprite = new Sprite(new TextureRegion(itemTextureRegion, 16 * 1, 0, 16, 16));
-        powerSprite.setBounds(leftAlignment, 9.0f, 1, 1);
+        for (Type type : Type.values()) {
+            int i = type.ordinal();
+            sprites.add(new Sprite(new TextureRegion(textureAtlas.findRegion("Produce"), (i % 8) * 32, (i / 8) * 32, 32, 32)));
+        }
 
-        speedSprite = new Sprite(new TextureRegion(itemTextureRegion, 16 * 2, 0, 16, 16));
-        speedSprite.setBounds(leftAlignment, 8.0f, 1, 1);
-
-        kickSprite = new Sprite(new TextureRegion(itemTextureRegion, 16 * 3, 0, 16, 16));
-        kickSprite.setBounds(leftAlignment, 7.0f, 1, 1);
-
-        remoteSprite = new Sprite(new TextureRegion(itemTextureRegion, 16 * 4, 0, 16, 16));
-        remoteSprite.setBounds(leftAlignment, 6.0f, 1, 1);
-
-        Array<TextureRegion> keyFrames = new Array<TextureRegion>();
+        //big eye set up
+        Array<TextureRegion> keyFrames = new Array<>();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                keyFrames.add(new TextureRegion(textureAtlas2.findRegion("Big_eye"), 64 * i, 64 * j, 64, 64));
+                keyFrames.add(new TextureRegion(textureAtlas.findRegion("Big_eye"), 64 * i, 64 * j, 64, 64));
             }
         }
         bigEyeAnimation = new Animation(0.2f, keyFrames, Animation.PlayMode.LOOP);
         bigEyeSprite = new Sprite(bigEyeAnimation.getKeyFrame(0));
-        bigEyeSprite.setBounds(27.5f, 0.5f, 2f, 3f);
+        bigEyeSprite.setBounds(leftAlignment, 0.5f, 3f, 3f);
+
         stateTime = 0;
 
         FitViewport viewport = new FitViewport(width * SCALE, height * SCALE);
@@ -100,25 +82,16 @@ public class Hud implements Disposable {
         font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         fpsLabel = new Label("FPS: ", labelStyle);
-        fpsLabel.setFontScale(1);
-        fpsLabel.setPosition(26 * SCALE, 20f * SCALE);
+        fpsLabel.setFontScale(.8f);
+        fpsLabel.setPosition(26f * SCALE, 19f * SCALE);
         fpsLabel.setVisible(true);
 
-//        levelLabel = new Label("Level", labelStyle);
-//        levelLabel.setPosition(25.5f * SCALE, 3 * SCALE);
-//        levelLabel.setFontScale(0.4f);
-//
-//        playerLivesLabel = new Label("" + GameManager.playerLives, labelStyle);
-//        playerLivesLabel.setFontScale(0.5f);
-//        playerLivesLabel.setPosition(26.8f * SCALE, 12.8f * SCALE);
-
-        Image bombermanImage = new Image(new TextureRegion(textureAtlas.findRegion("Items"), 26 * 5, 0, 16, 16));
-        bombermanImage.setPosition(leftAlignment * SCALE, 13.5f * SCALE);
+        Image hudImage = new Image(new TextureRegion(textureAtlas.findRegion("Logo"), 0, 0, 128, 128));
+        hudImage.setBounds(25 * SCALE, 20 * SCALE, 128, 128);
 
 
         stage.addActor(fpsLabel);
-        stage.addActor(bombermanImage);
-
+        stage.addActor(hudImage);
         stringBuilder = new StringBuilder();
     }
 
@@ -135,46 +108,43 @@ public class Hud implements Disposable {
         stateTime += delta;
         bigEyeSprite.setRegion(bigEyeAnimation.getKeyFrame(stateTime));
 
-        if (GameManager.playerBombPower + 1 < Player.MAX_BOMB_POWER) {
-            bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 0, 16, 16));
-        } else {
-            bombSprite.setRegion(new TextureRegion(textureAtlas.findRegion("Bomb"), 0, 16 * 1, 16, 16));
-        }
-
         batch.begin();
+
         batch.draw(bgTexture, 25, 0);
-        for (int i = 0; i < GameManager.playerBombCapacity; i++) {
-            float alpha;
-            bombSprite.setPosition(25.0f + i % 5, 11.5f - i / 5);
-            alpha = i >= GameManager.playerBombLeft ? 0.5f : 1.0f;
-            bombSprite.draw(batch, alpha);
-        }
 
-        bombTimerSprite.setSize((1.0f - GameManager.playerBombRegeratingTimeLeft / GameManager.playerBombRegeratingTime) * 3.0f, 0.2f);
-        bombTimerSprite.draw(batch);
-
-        if (GameManager.playerBombPower > 0) {
-            for (int i = 0; i < GameManager.playerBombPower; i++) {
-                powerSprite.setPosition(leftAlignment + i * 0.5f, 9.0f);
-                powerSprite.draw(batch);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                slotSprite.setPosition(leftAlignment + i * 2, 16 - j * 2);
+                slotSprite.draw(batch);
             }
-
-        } else {
-            powerSprite.setPosition(leftAlignment, 9.0f);
-            powerSprite.draw(batch, 0.5f);
         }
 
-        if (GameManager.playerMaxSpeed > 0) {
-            for (int i = 0; i < GameManager.playerMaxSpeed; i++) {
-                speedSprite.setPosition(leftAlignment + i * 0.5f, 8.0f);
-                speedSprite.draw(batch);
+        if (GameManager.types.size > 0) {
+            for (int i = 0; i < GameManager.types.size; i++) {
+                for (Type type : Type.values()) {
+                    if (GameManager.types.get(i) == type) {
+                        inventory.add(sprites.get(type.ordinal()));
+                        inventory.set(i, sprites.get(type.ordinal()));
+                        inventorySlot = inventory.get(i);
+                    }
+                }
+                for (int j = 0; j < 1; j++) {
+                    inventorySlot.setBounds(leftAlignment + (i % 2) * 2, 16 - (int) (i / 2) * 2, 2, 2);
+                    inventorySlot.draw(batch);
+                }
             }
-        } else {
-            speedSprite.setPosition(leftAlignment, 8.0f);
-            speedSprite.draw(batch, 0.5f);
         }
-
-        kickSprite.draw(batch, GameManager.playerKickBomb ? 1.0f : 0.5f);
+//        for (int i = 0; i < GameManager.types.size; i++) {
+//            for (Type type : Type.values()) {
+//                if (GameManager.types.get(i) == type) {
+//                    int j = type.ordinal();
+//                    inventory.set(i, sprites.get(j));
+//                    inventorySlot = inventory.get(i);
+//                    inventorySlot.setPosition(leftAlignment + i * 2, 16);
+//                    inventorySlot.draw(batch);
+//                }
+//            }
+//        }
 
         bigEyeSprite.draw(batch);
 
@@ -190,7 +160,6 @@ public class Hud implements Disposable {
     @Override
     public void dispose() {
         bgTexture.dispose();
-        bombTimerTexture.dispose();
         font.dispose();
         stage.dispose();
     }
