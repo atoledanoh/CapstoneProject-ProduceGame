@@ -7,7 +7,7 @@ import com.atoledano.components.State;
 
 public class StateSystem extends IteratingSystem {
 
-    ComponentMapper<State> mState;
+    ComponentMapper<State> stateComponentMapper;
 
     public StateSystem() {
         super(Aspect.all(State.class));
@@ -15,7 +15,7 @@ public class StateSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        State state = mState.get(entityId);
+        State state = stateComponentMapper.get(entityId);
         state.addStateTime(world.getDelta());
     }
 

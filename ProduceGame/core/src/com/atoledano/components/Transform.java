@@ -10,10 +10,10 @@ public class Transform extends Component {
 
     public float z; // for checking drawing sequence
 
-    public float sclX;
-    public float sclY;
+    public final float sclX;
+    public final float sclY;
 
-    public float rotation;
+    public final float rotation;
 
     public Transform(float posX, float posY, float sclX, float sclY, float rotation) {
         this.posX = posX;
@@ -26,12 +26,6 @@ public class Transform extends Component {
 
     public Transform() {
         this(0, 0, 1, 1, 0);
-    }
-
-    public void setPosition(float x, float y) {
-        posX = x;
-        posY = y;
-        z = posY;
     }
 
     public void setPosition(Vector2 position) {

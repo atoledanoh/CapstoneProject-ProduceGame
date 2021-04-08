@@ -25,7 +25,7 @@ public class Customer extends Component {
     public float lifetime; // total time when alive
 
     private String dieSound;
-    public String type;
+    public final String type;
 
     public int receivedDamage;
 

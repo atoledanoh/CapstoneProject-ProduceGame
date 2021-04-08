@@ -35,7 +35,7 @@ public class GameManager implements Disposable {
     public static boolean infiniteLives = true;
     public static boolean resetPlayerAbilities = false;  // reset player abilities after dying
 
-    public static int playerProduceCapacity = 6;
+    public static final int playerProduceCapacity = 6;
     public static int playerMaxSpeed = 0;
     public static boolean playerKickProduce = true;
     public static boolean playerRemoveProduce = true;
@@ -52,7 +52,6 @@ public class GameManager implements Disposable {
 
     private final Queue<Entity> produceQueue;
 
-    private final String soundPath = "sounds/";
     private final String musicPath = "music/";
 
     private String currentMusic = "";
@@ -88,7 +87,7 @@ public class GameManager implements Disposable {
 
         produceQueue = new LinkedList<>();
 
-        types = new Array<Type>();
+        types = new Array<>();
     }
 
     public static GameManager getInstance() {
@@ -110,6 +109,7 @@ public class GameManager implements Disposable {
     }
 
     public void playSound(String soundName, float volume, float pitch, float pan) {
+        String soundPath = "sounds/";
         Sound sound = assetManager.get(soundPath + soundName, Sound.class);
         sound.play(volume, pitch, pan);
     }

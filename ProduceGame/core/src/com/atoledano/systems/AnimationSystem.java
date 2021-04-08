@@ -9,9 +9,9 @@ import com.atoledano.components.State;
 
 public class AnimationSystem extends IteratingSystem {
 
-    ComponentMapper<Renderer> mRenderer;
-    ComponentMapper<Anim> mAnim;
-    ComponentMapper<State> mState;
+    ComponentMapper<Renderer> rendererComponentMapper;
+    ComponentMapper<Anim> animComponentMapper;
+    ComponentMapper<State> stateComponentMapper;
 
     public AnimationSystem() {
         super(Aspect.all(Renderer.class, Anim.class, State.class));
@@ -19,9 +19,9 @@ public class AnimationSystem extends IteratingSystem {
 
     @Override
     protected void process(int i) {
-        Renderer renderer = mRenderer.get(i);
-        Anim anim = mAnim.get(i);
-        State state = mState.get(i);
+        Renderer renderer = rendererComponentMapper.get(i);
+        Anim anim = animComponentMapper.get(i);
+        State state = stateComponentMapper.get(i);
 
         renderer.setRegion(anim.getTextureRegion(state.getCurrentState(), state.getStateTime()));
 

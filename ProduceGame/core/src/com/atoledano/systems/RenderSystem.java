@@ -10,14 +10,12 @@ import com.atoledano.components.Renderer;
 import com.atoledano.components.Transform;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.Comparator;
-
 public class RenderSystem extends EntitySystem {
 
     private final SpriteBatch batch;
 
-    protected ComponentMapper<Transform> mTransform;
-    protected ComponentMapper<Renderer> mRenderer;
+    protected ComponentMapper<Transform> transformComponentMapper;
+    protected ComponentMapper<Renderer> rendererComponentMapper;
 
     public RenderSystem(SpriteBatch batch) {
         super(Aspect.all(Transform.class, Renderer.class));
@@ -36,8 +34,8 @@ public class RenderSystem extends EntitySystem {
     }
 
     protected void process(Entity e) {
-        Transform transform = mTransform.get(e);
-        Renderer renderer = mRenderer.get(e);
+        Transform transform = transformComponentMapper.get(e);
+        Renderer renderer = rendererComponentMapper.get(e);
 
         renderer.setPosition(transform.posX, transform.posY);
         renderer.setRotation(transform.rotation);
@@ -51,19 +49,10 @@ public class RenderSystem extends EntitySystem {
         Bag<Entity> entities = getEntities();
 
         Sort sort = Sort.instance();
-        sort.sort(entities, new Comparator<Entity>() {
-            @Override
-            public int compare(Entity o1, Entity o2) {
-                Transform t1 = mTransform.get(o1);
-                Transform t2 = mTransform.get(o2);
-                if (t1.z < t2.z) {
-                    return 1;
-                } else if (t1.z > t2.z) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }
+        sort.sort(entities, (o1, o2) -> {
+            Transform t1 = transformComponentMapper.get(o1);
+            Transform t2 = transformComponentMapper.get(o2);
+            return Float.compare(t2.z, t1.z);
         });
 
         for (Entity e : entities) {

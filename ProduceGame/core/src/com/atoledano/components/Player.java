@@ -19,20 +19,13 @@ public class Player extends Component {
 
     public State state;
 
-    public static final int MAX_PRODUCE_CAPACITY = 6;
-    public static final int MAX_BOMB_CAPACITY = 10;
-    public static final int MAX_BOMB_POWER = 6;
-
-    public float maxSpeed;
-    public float acceleration;
-    public int bombPower;
-    public int produceCapacity;
-    public int bombCapacity;
+    public final float maxSpeed;
+    public final float acceleration;
+    public final int produceCapacity;
     public int produceLeft;
-    public int bombLeft;
-    public boolean kickBomb;
-    public boolean remoteBomb;
-    public Array<Type> types;
+    public final boolean kickBomb;
+    public final boolean remoteBomb;
+    public final Array<Type> types;
 
     public Player(boolean resetPlayerAbilities) {
         state = State.IDLING_DOWN;
@@ -48,8 +41,7 @@ public class Player extends Component {
 
         acceleration = 1.0f;
         produceLeft = 0;
-        bombLeft = 0;
 
-        types = new Array<Type>();
+        types = new Array<>();
     }
 }

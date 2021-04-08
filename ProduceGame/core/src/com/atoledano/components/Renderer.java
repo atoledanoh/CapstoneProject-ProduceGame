@@ -27,10 +27,6 @@ public class Renderer extends Component {
         sprite.setOrigin(x, y);
     }
 
-    public void setSize(float width, float height) {
-        sprite.setSize(width, height);
-    }
-
     public void setPosition(float x, float y) {
         sprite.setPosition(x - sprite.getOriginX(), y - sprite.getOriginY());
     }
@@ -41,18 +37,6 @@ public class Renderer extends Component {
 
     public void setScale(float x, float y) {
         sprite.setScale(x, y);
-    }
-
-    public void setFlip(boolean x, boolean y) {
-        sprite.setFlip(x, y);
-    }
-
-    public boolean isFlipX() {
-        return sprite.isFlipX();
-    }
-
-    public boolean isFlipY() {
-        return sprite.isFlipY();
     }
 
     public void setColor(Color tint) {

@@ -36,15 +36,11 @@ public class CustomerSystem extends IteratingSystem {
         World b2dWorld = body.getWorld();
         hit = false;
 
-        RayCastCallback rayCastCallback = new RayCastCallback() {
-
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fraction < 1.0f) {
-                    hit = true;
-                }
-                return 0;
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+            if (fraction < 1.0f) {
+                hit = true;
             }
+            return 0;
         };
 
         for (int i = 0; i < 3; i++) {
@@ -59,15 +55,11 @@ public class CustomerSystem extends IteratingSystem {
         World b2dWorld = body.getWorld();
         hit = false;
 
-        RayCastCallback rayCastCallback = new RayCastCallback() {
-
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fraction < 1.0f) {
-                    hit = true;
-                }
-                return 0;
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+            if (fraction < 1.0f) {
+                hit = true;
             }
+            return 0;
         };
 
         for (int i = 0; i < 3; i++) {

@@ -34,7 +34,6 @@ public class MainMenuScreen extends ScreenAdapter {
     private Texture backgroundTexture;
 
     private Texture indicationsTexture;
-    private Image indications;
 
     private Image indicator0;
     private Image indicator1;
@@ -94,7 +93,7 @@ public class MainMenuScreen extends ScreenAdapter {
         indicator1.setVisible(false);
 
         indicationsTexture = new Texture("img/indications.png");
-        indications = new Image(indicationsTexture);
+        Image indications = new Image(indicationsTexture);
         indications.setPosition(1280f - indications.getWidth() - 12f, 12f);
 
         stage.addActor(background);
@@ -157,32 +156,29 @@ public class MainMenuScreen extends ScreenAdapter {
             indicator1.setVisible(true);
 
             RunnableAction runnableAction = new RunnableAction();
-            runnableAction.setRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    switch (currentSelection) {
-                        case 2: // hard mode
-                            GameManager.totalCustomers = 45;
+            runnableAction.setRunnable(() -> {
+                switch (currentSelection) {
+                    case 2: // hard mode
+                        GameManager.totalCustomers = 45;
 
-                            GameManager.infiniteLives = false;
-                            GameManager.resetPlayerAbilities = true;
-                            break;
-                        case 1: // normal mode
-                            GameManager.totalCustomers = 30;
+                        GameManager.infiniteLives = false;
+                        GameManager.resetPlayerAbilities = true;
+                        break;
+                    case 1: // normal mode
+                        GameManager.totalCustomers = 30;
 
-                            GameManager.infiniteLives = true;
-                            GameManager.resetPlayerAbilities = true;
-                            break;
-                        case 0: // easy mode
-                        default:
-                            GameManager.totalCustomers = 15;
-                            GameManager.infiniteLives = true;
-                            GameManager.resetPlayerAbilities = false;
-                            break;
-                    }
-                    GameManager.playerLives = 3;
-                    game.setScreen(new PlayScreen(game, 1));
+                        GameManager.infiniteLives = true;
+                        GameManager.resetPlayerAbilities = true;
+                        break;
+                    case 0: // easy mode
+                    default:
+                        GameManager.totalCustomers = 15;
+                        GameManager.infiniteLives = true;
+                        GameManager.resetPlayerAbilities = false;
+                        break;
                 }
+                GameManager.playerLives = 3;
+                game.setScreen(new PlayScreen(game, 1));
             });
 
             stage.addAction(new SequenceAction(Actions.delay(0.2f), Actions.fadeOut(1f), runnableAction));

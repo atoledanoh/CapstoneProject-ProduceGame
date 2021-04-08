@@ -50,7 +50,7 @@ public class PlayerSystem extends IteratingSystem {
 
         // player movement controls
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if (!hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
+            if (hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y + 0.5f))) {
                 if (Math.abs(linearVelocity.y) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(0, player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
@@ -60,7 +60,7 @@ public class PlayerSystem extends IteratingSystem {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (!hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
+            if (hitBombVertical(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x, body.getPosition().y - 0.5f))) {
                 if (Math.abs(linearVelocity.y) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(0, -player.acceleration * body.getMass()), body.getWorldCenter(), true);
                 }
@@ -70,7 +70,7 @@ public class PlayerSystem extends IteratingSystem {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (!hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
+            if (hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x - 0.5f, body.getPosition().y))) {
                 if (Math.abs(linearVelocity.x) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(-player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
@@ -80,7 +80,7 @@ public class PlayerSystem extends IteratingSystem {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (!hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
+            if (hitBombHorizontal(body, fromV.set(body.getPosition()), toV.set(body.getPosition().x + 0.5f, body.getPosition().y))) {
                 if (Math.abs(linearVelocity.x) < maxSpeed) {
                     body.applyLinearImpulse(new Vector2(player.acceleration * body.getMass(), 0), body.getWorldCenter(), true);
                 }
@@ -128,7 +128,7 @@ public class PlayerSystem extends IteratingSystem {
                 // create bomb
                 ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
 
-                GameManager.getInstance().getRemoteBombDeque().offer(actorBuilder.createProduce(player,
+                GameManager.getInstance().getRemoteBombDeque().offer(actorBuilder.createProduce(
                         player.types.pop(),
                         body.getPosition().x, body.getPosition().y));
                 GameManager.types.pop();
@@ -216,17 +216,13 @@ public class PlayerSystem extends IteratingSystem {
         kickingProduce = null;
         kicking = false;
 
-        RayCastCallback rayCastCallback = new RayCastCallback() {
-
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
-                    Entity bombEntity = (Entity) fixture.getBody().getUserData();
-                    kickingProduce = bombEntity.getComponent(Produce.class);
-                    return 0;
-                }
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+            if (fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                Entity bombEntity = (Entity) fixture.getBody().getUserData();
+                kickingProduce = bombEntity.getComponent(Produce.class);
                 return 0;
             }
+            return 0;
         };
 
         b2dWorld.rayCast(rayCastCallback, fromV, toV);
@@ -240,19 +236,15 @@ public class PlayerSystem extends IteratingSystem {
         World b2dWorld = body.getWorld();
         hitting = false;
 
-        RayCastCallback rayCastCallback = new RayCastCallback() {
-
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getBody() == body) {
-                    return 1;
-                }
-
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
-                    hitting = true;
-                }
-                return 0;
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+            if (fixture.getBody() == body) {
+                return 1;
             }
+
+            if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                hitting = true;
+            }
+            return 0;
         };
 
         for (int i = 0; i < 3; i++) {
@@ -260,32 +252,28 @@ public class PlayerSystem extends IteratingSystem {
             b2dWorld.rayCast(rayCastCallback, fromV, tmpV.add((1 - i) * 0.4f, 0));
 
         }
-        return hitting;
+        return !hitting;
     }
 
     protected boolean hitBombHorizontal(final Body body, Vector2 fromV, Vector2 toV) {
         World b2dWorld = body.getWorld();
         hitting = false;
 
-        RayCastCallback rayCastCallback = new RayCastCallback() {
-
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getBody() == body) {
-                    return 1;
-                }
-
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
-                    hitting = true;
-                }
-                return 0;
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+            if (fixture.getBody() == body) {
+                return 1;
             }
+
+            if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                hitting = true;
+            }
+            return 0;
         };
 
         for (int i = 0; i < 3; i++) {
             Vector2 tmpV = new Vector2(toV);
             b2dWorld.rayCast(rayCastCallback, fromV, tmpV.add(0, (1 - i) * 0.4f));
         }
-        return hitting;
+        return !hitting;
     }
 }

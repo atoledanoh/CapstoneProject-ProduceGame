@@ -10,27 +10,15 @@ public class Anim extends Component {
     private final HashMap<String, Animation> anims;
 
     public Anim() {
-        anims = new HashMap<String, Animation>();
+        anims = new HashMap<>();
     }
     
     public Anim(HashMap<String, Animation> anims) {
         this.anims = anims;
-    } 
-    
-    public void putAnimation(String state, Animation anim) {
-        anims.put(state, anim);
     }
-    
-    public Animation getAnimation(String state) {
-        return anims.get(state);
-    }
-    
+
     public TextureRegion getTextureRegion(String state, float stateTime) {
         return anims.get(state).getKeyFrame(stateTime);
-    }
-    
-    public TextureRegion getTextureRegion(String state, float stateTime, boolean looping) {
-        return anims.get(state).getKeyFrame(stateTime, looping);
     }
 
 }

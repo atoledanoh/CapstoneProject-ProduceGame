@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
@@ -27,9 +26,6 @@ public class ActorBuilder {
 
     private AssetManager assetManager;
 
-    private final Vector2 fromV = new Vector2();
-    private final Vector2 toV = new Vector2();
-
     private ActorBuilder() {
     }
 
@@ -41,7 +37,7 @@ public class ActorBuilder {
         return instance;
     }
 
-    public void createWall(float x, float y, float mapWidth, float mapHeight, TextureAtlas tileTextureAtlas) {
+    public void createWall(float x, float y, TextureAtlas tileTextureAtlas) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, y);
@@ -196,12 +192,6 @@ public class ActorBuilder {
         for (int i = 0; i < 3; i++) {
             keyFrames.add(new TextureRegion(textureRegion, i * 32, 96, 32, 32));
         }
-
-        //todo remove this
-        textureRegion = textureAtlas.findRegion("Produce");
-        keyFrames.add(new TextureRegion(textureRegion, (type.ordinal() % 8) * 32, (type.ordinal() / 8) * 32, 32, 32));
-        textureRegion = textureAtlas.findRegion("Customer1");
-
 
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_up", anim);
@@ -359,7 +349,7 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public Entity createProduce(Player player, Type type, float x, float y) {
+    public Entity createProduce(Type type, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);

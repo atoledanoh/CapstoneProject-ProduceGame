@@ -22,7 +22,7 @@ public class WorldBuilder {
     public void build(int level) {
         MapLoader mapLoader;
 
-        mapLoader = new MapLoader(b2dWorld, world, level);
+        mapLoader = new MapLoader(b2dWorld, world);
         mapLoader.loadMap();
         groundSprite = mapLoader.createGroundSprite();
         groundSprite2 = mapLoader.createGroundSprite2();

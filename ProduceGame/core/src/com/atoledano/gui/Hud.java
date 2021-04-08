@@ -1,6 +1,5 @@
 package com.atoledano.gui;
 
-import com.atoledano.components.Player;
 import com.atoledano.components.Type;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.Gdx;
@@ -21,16 +20,14 @@ public class Hud implements Disposable {
 
     private final SpriteBatch batch;
 
-    private final TextureAtlas textureAtlas;
     private final Texture bgTexture;
     private final Sprite bigEyeSprite;
     private final Sprite slotSprite;
     private Sprite inventorySlot;
-    private Array<Sprite> sprites;
-    private Array<Sprite> inventory;
+    private final Array<Sprite> sprites;
+    private final Array<Sprite> inventory;
     private final Animation bigEyeAnimation;
     private float stateTime;
-    private final float SCALE = 26f;
     private final Stage stage;
     private final BitmapFont font;
     private final Label fpsLabel;
@@ -47,7 +44,7 @@ public class Hud implements Disposable {
         sprites = new Array<>(34);
         inventory = new Array<>(6);
         AssetManager assetManager = GameManager.getInstance().getAssetManager();
-        textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
+        TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
         Pixmap pixmap = new Pixmap(5, 25, Pixmap.Format.RGBA8888);
         pixmap.setColor(32.0f / 255.0f, 93.0f / 255.0f, 153.0f / 255.0f, 1.0f);
@@ -77,6 +74,7 @@ public class Hud implements Disposable {
 
         stateTime = 0;
 
+        float SCALE = 26f;
         FitViewport viewport = new FitViewport(width * SCALE, height * SCALE);
         stage = new Stage(viewport, batch);
         font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
@@ -129,22 +127,11 @@ public class Hud implements Disposable {
                     }
                 }
                 for (int j = 0; j < 1; j++) {
-                    inventorySlot.setBounds(leftAlignment + (i % 2) * 2, 16 - (int) (i / 2) * 2, 2, 2);
+                    inventorySlot.setBounds(leftAlignment + (i % 2) * 2, 16 - (i / 2) * 2, 2, 2);
                     inventorySlot.draw(batch);
                 }
             }
         }
-//        for (int i = 0; i < GameManager.types.size; i++) {
-//            for (Type type : Type.values()) {
-//                if (GameManager.types.get(i) == type) {
-//                    int j = type.ordinal();
-//                    inventory.set(i, sprites.get(j));
-//                    inventorySlot = inventory.get(i);
-//                    inventorySlot.setPosition(leftAlignment + i * 2, 16);
-//                    inventorySlot.draw(batch);
-//                }
-//            }
-//        }
 
         bigEyeSprite.draw(batch);
 

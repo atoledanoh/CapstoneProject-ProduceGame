@@ -15,9 +15,9 @@ public class Produce extends Component {
 
     public boolean isDestroyed;
     public Produce.State state;
-    public Type type;
+    public final Type type;
     public int power;
-    public float speed;
+    public final float speed;
 
     public Produce() {
         this.type = Type.getRandomType();

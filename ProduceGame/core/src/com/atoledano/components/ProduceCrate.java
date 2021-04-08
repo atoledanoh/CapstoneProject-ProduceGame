@@ -4,7 +4,7 @@ import com.artemis.Component;
 
 public class ProduceCrate extends Component {
 
-    public Type type;
+    public final Type type;
 
 
     public ProduceCrate(Type type) {

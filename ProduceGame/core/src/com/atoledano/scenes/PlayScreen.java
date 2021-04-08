@@ -33,9 +33,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class PlayScreen extends ScreenAdapter {
 
-    private final float WIDTH = 30;
-    private final float HEIGHT = 25;
-
     private final ProduceGame game;
     private final SpriteBatch batch;
 
@@ -65,7 +62,6 @@ public class PlayScreen extends ScreenAdapter {
 
     private boolean paused;
 
-    private Skin skin;
     private Stage stage2;
     private Window pauseWindow;
 
@@ -81,6 +77,8 @@ public class PlayScreen extends ScreenAdapter {
     @Override
     public void show() {
         camera = new OrthographicCamera();
+        float WIDTH = 30;
+        float HEIGHT = 25;
         viewport = new FitViewport(WIDTH, HEIGHT, camera);
         //todo - check the position to transition!!
         camera.position.set(WIDTH / 2, HEIGHT / 2, 0);
@@ -129,7 +127,7 @@ public class PlayScreen extends ScreenAdapter {
 
         paused = false;
 
-        skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
 
         stage2 = new Stage(new FitViewport(1280, 720), batch);
         pauseWindow = new Window("Pause", skin);

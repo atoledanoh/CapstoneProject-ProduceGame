@@ -8,7 +8,6 @@ import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -100,19 +99,16 @@ public class ProduceSystem extends IteratingSystem {
         World b2dWorld = body.getWorld();
         movable = true;
 
-        RayCastCallback rayCastCallback = new RayCastCallback() {
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.TABLE_BIT
-                        | fixture.getFilterData().categoryBits == GameManager.DOOR_BIT
-                        | fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT
-                        | fixture.getFilterData().categoryBits == GameManager.CUSTOMER_BIT
-                        | fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
-                    movable = false;
-                    return 0;
-                }
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+            if (fixture.getFilterData().categoryBits == GameManager.TABLE_BIT
+                    | fixture.getFilterData().categoryBits == GameManager.DOOR_BIT
+                    | fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT
+                    | fixture.getFilterData().categoryBits == GameManager.CUSTOMER_BIT
+                    | fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
+                movable = false;
                 return 0;
             }
+            return 0;
         };
 
         b2dWorld.rayCast(rayCastCallback, from, to);
