@@ -45,8 +45,10 @@ public class GameManager implements Disposable {
     public static int playerLives = 3;
 
     public static int totalCustomers;
+    public static int totalProduce = 0;
+    public static int soldProduce = 0;
     public static int customersLeft;
-    public static int customersServed;
+    public static int customersServed = 0;
 
     public static Array<Type> types;
 

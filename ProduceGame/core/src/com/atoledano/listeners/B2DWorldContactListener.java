@@ -25,6 +25,7 @@ public class B2DWorldContactListener implements ContactListener {
                     // consume power-up and kill customer
                     produce.isDestroyed = true;
                     customer.receivedDamage++;
+                    GameManager.soldProduce++;
                 }
             } else if (fixtureB.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
                 Entity produceEntity = (Entity) fixtureB.getBody().getUserData();
@@ -36,6 +37,7 @@ public class B2DWorldContactListener implements ContactListener {
                     // consume power-up and kill customer
                     produce.isDestroyed = true;
                     customer.receivedDamage++;
+                    GameManager.soldProduce++;
                 }
             }
         }

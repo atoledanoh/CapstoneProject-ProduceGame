@@ -31,10 +31,14 @@ public class Hud implements Disposable {
     private final Stage stage;
     private final BitmapFont font;
     private final Label fpsLabel;
+    private final Label customersLabel;
+    private final Label percentageLabel;
 
     private boolean showFPS = true;
 
-    private final StringBuilder stringBuilder;
+    private final StringBuilder stringBuilderFps;
+    private final StringBuilder stringBuilderCustomers;
+    private final StringBuilder stringBuilderPercentage;
 
     private final float leftAlignment = 25.5f;
 
@@ -79,18 +83,35 @@ public class Hud implements Disposable {
         stage = new Stage(viewport, batch);
         font = new BitmapFont(Gdx.files.internal("fonts/arcade.fnt"));
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+
         fpsLabel = new Label("FPS: ", labelStyle);
         fpsLabel.setFontScale(.8f);
-        fpsLabel.setPosition(26f * SCALE, 19f * SCALE);
+        fpsLabel.setPosition(25.5f * SCALE, 19f * SCALE);
         fpsLabel.setVisible(true);
+
+        customersLabel = new Label("Served: ", labelStyle);
+        customersLabel.setFontScale(.6f);
+        customersLabel.setPosition(25.5f * SCALE, 10f * SCALE);
+        customersLabel.setVisible(true);
+
+        percentageLabel = new Label("%: ", labelStyle);
+        percentageLabel.setFontScale(.6f);
+        percentageLabel.setPosition(25.5f * SCALE, 8f * SCALE);
+        percentageLabel.setVisible(true);
 
         Image hudImage = new Image(new TextureRegion(textureAtlas.findRegion("Logo"), 0, 0, 128, 128));
         hudImage.setBounds(25 * SCALE, 20 * SCALE, 128, 128);
 
 
         stage.addActor(fpsLabel);
+        stage.addActor(customersLabel);
+        stage.addActor(percentageLabel);
+
         stage.addActor(hudImage);
-        stringBuilder = new StringBuilder();
+
+        stringBuilderFps = new StringBuilder();
+        stringBuilderCustomers = new StringBuilder();
+        stringBuilderPercentage = new StringBuilder();
     }
 
     private void handleInput() {
@@ -137,9 +158,18 @@ public class Hud implements Disposable {
 
         batch.end();
 
-        stringBuilder.setLength(0);
-        stringBuilder.append("FPS:").append(Gdx.graphics.getFramesPerSecond());
-        fpsLabel.setText(stringBuilder.toString());
+        stringBuilderFps.setLength(0);
+        stringBuilderFps.append("FPS: ").append(Gdx.graphics.getFramesPerSecond());
+        fpsLabel.setText(stringBuilderFps.toString());
+
+        stringBuilderCustomers.setLength(0);
+        stringBuilderCustomers.append("Served: ").append(GameManager.customersServed);
+        customersLabel.setText(stringBuilderCustomers.toString());
+
+        stringBuilderPercentage.setLength(0);
+        stringBuilderPercentage.append("Percentage: \n").append(((GameManager.totalProduce - GameManager.soldProduce) * 100 / GameManager.totalProduce));
+//        stringBuilderPercentage.append("Percentage: \n").append(((GameManager.totalProduce)));
+        percentageLabel.setText(stringBuilderPercentage.toString());
 
         stage.draw();
     }

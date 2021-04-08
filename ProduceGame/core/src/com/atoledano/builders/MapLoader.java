@@ -78,6 +78,7 @@ public class MapLoader {
                     //todo change this to sound better
                     //produce creation
                     actorBuilder.createProduce(x + 0.51f, y + 0.51f);
+                    GameManager.totalProduce++;
                 } else if (BLOCK.PLAYER.sameColor(color)) {
                     actorBuilder.createPlayer(x + 0.5f, y + 0.5f, false);
                     GameManager.getInstance().setPlayerRespawnPosition(new Vector2(x + 0.5f, y + 0.5f));

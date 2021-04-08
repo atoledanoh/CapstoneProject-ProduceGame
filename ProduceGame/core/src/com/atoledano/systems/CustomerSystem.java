@@ -115,6 +115,7 @@ public class CustomerSystem extends IteratingSystem {
                 if (state.getStateTime() > 0.6f) {
                     // decrease customer count
                     GameManager.customersLeft--;
+                    GameManager.customersServed++;
 
                     body.getWorld().destroyBody(body);
                     rigidBodyComponentMapper.set(entityId, false);
