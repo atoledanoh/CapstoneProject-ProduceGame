@@ -168,7 +168,6 @@ public class Hud implements Disposable {
 
         stringBuilderPercentage.setLength(0);
         stringBuilderPercentage.append("Percentage: \n").append(((GameManager.totalProduce - GameManager.soldProduce) * 100 / GameManager.totalProduce));
-//        stringBuilderPercentage.append("Percentage: \n").append(((GameManager.totalProduce)));
         percentageLabel.setText(stringBuilderPercentage.toString());
 
         stage.draw();
