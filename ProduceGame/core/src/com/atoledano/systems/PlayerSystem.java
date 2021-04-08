@@ -25,7 +25,7 @@ public class PlayerSystem extends IteratingSystem {
 
     private boolean hitting;
     private boolean kicking;
-    private Produce kickingBomb;
+    private PowerUp kickingBomb;
     private final Vector2 fromV;
     private final Vector2 toV;
 
@@ -97,25 +97,25 @@ public class PlayerSystem extends IteratingSystem {
                 switch (player.state) {
                     case WALKING_UP:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y + 0.6f)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_UP);
+                            kickingBomb.setMove(PowerUp.State.MOVING_UP);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_DOWN:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y - 0.6f)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_DOWN);
+                            kickingBomb.setMove(PowerUp.State.MOVING_DOWN);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_LEFT:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x - 0.6f, body.getPosition().y)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_LEFT);
+                            kickingBomb.setMove(PowerUp.State.MOVING_LEFT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_RIGHT:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x + 0.6f, body.getPosition().y)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_RIGHT);
+                            kickingBomb.setMove(PowerUp.State.MOVING_RIGHT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
@@ -144,14 +144,14 @@ public class PlayerSystem extends IteratingSystem {
             Queue<Entity> remoteBombQueue = GameManager.getInstance().getRemoteBombDeque();
 
             // clean those bombs which have already exploded
-            while (!remoteBombQueue.isEmpty() && remoteBombQueue.peek().getComponent(Produce.class) == null) {
+            while (!remoteBombQueue.isEmpty() && remoteBombQueue.peek().getComponent(PowerUp.class) == null) {
                 remoteBombQueue.remove();
             }
 
             Entity remoteBombEntity = remoteBombQueue.poll();
             if (remoteBombEntity != null) {
-                Produce remoteProduce = remoteBombEntity.getComponent(Produce.class);
-                remoteProduce.countDown = 0;
+                PowerUp remoteProduce = remoteBombEntity.getComponent(PowerUp.class);
+                remoteProduce.isDestroyed = true;
             }
         }
 
@@ -220,9 +220,9 @@ public class PlayerSystem extends IteratingSystem {
 
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                if (fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
                     Entity bombEntity = (Entity) fixture.getBody().getUserData();
-                    kickingBomb = bombEntity.getComponent(Produce.class);
+                    kickingBomb = bombEntity.getComponent(PowerUp.class);
                     return 0;
                 }
                 return 0;
@@ -248,7 +248,7 @@ public class PlayerSystem extends IteratingSystem {
                     return 1;
                 }
 
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
                     hitting = true;
                 }
                 return 0;
@@ -275,7 +275,7 @@ public class PlayerSystem extends IteratingSystem {
                     return 1;
                 }
 
-                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                if (fraction < 1.0f && fixture.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
                     hitting = true;
                 }
                 return 0;

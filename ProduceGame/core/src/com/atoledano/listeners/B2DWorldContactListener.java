@@ -38,30 +38,6 @@ public class B2DWorldContactListener implements ContactListener {
                     enemy.receivedDamage++;
                 }
             }
-            //...produce
-            if (fixtureA.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
-                Entity produceEntity = (Entity) fixtureA.getBody().getUserData();
-                Produce produce = produceEntity.getComponent(Produce.class);
-                Entity enemyEntity = (Entity) fixtureB.getBody().getUserData();
-                Enemy enemy = enemyEntity.getComponent(Enemy.class);
-                //check customer needs
-                if (enemy.needs == produce.type) {
-                    // consume produce and kill enemy
-                    produce.countDown = 0;
-                    enemy.receivedDamage++;
-                }
-            } else if (fixtureB.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
-                Entity produceEntity = (Entity) fixtureB.getBody().getUserData();
-                Produce produce = produceEntity.getComponent(Produce.class);
-                Entity enemyEntity = (Entity) fixtureA.getBody().getUserData();
-                Enemy enemy = enemyEntity.getComponent(Enemy.class);
-                //check customer needs
-                if (enemy.needs == produce.type) {
-                    // consume produce and kill enemy
-                    produce.countDown = 0;
-                    enemy.receivedDamage++;
-                }
-            }
         }
 
         // player

@@ -61,15 +61,15 @@ public class MainMenuScreen extends ScreenAdapter {
         titleLabel.setFontScale(2f);
         titleLabel.setPosition(1280 * 0.5f - titleLabel.getWidth(), 480);
 
-        Label easyLabel = new Label("Easy", labelStyle);
+        Label easyLabel = new Label("Weekday", labelStyle);
         easyLabel.setFontScale(2f);
         easyLabel.setPosition(1280 * 0.5f - easyLabel.getWidth(), 360);
 
-        Label normalLabel = new Label("Normal", labelStyle);
+        Label normalLabel = new Label("Weekend", labelStyle);
         normalLabel.setFontScale(2f);
         normalLabel.setPosition(1280 * 0.5f - normalLabel.getWidth(), 240);
 
-        Label hardLabel = new Label("Hard", labelStyle);
+        Label hardLabel = new Label("Holiday", labelStyle);
         hardLabel.setFontScale(2f);
         hardLabel.setPosition(1280 * 0.5f - hardLabel.getWidth(), 120);
 
@@ -80,8 +80,8 @@ public class MainMenuScreen extends ScreenAdapter {
         pixmap.dispose();
         Image background = new Image(backgroundTexture);
 
-        indicatorX = 500f;
-        indicatorY = 340f;
+        indicatorX = 400f;
+        indicatorY = 360f;
 
         TextureAtlas textureAtlas = GameManager.getInstance().getAssetManager().get("img/newactors.pack", TextureAtlas.class);
         indicator0 = new Image(new TextureRegion(textureAtlas.findRegion("MainMenuLogo"), 0, 0, 40, 26));

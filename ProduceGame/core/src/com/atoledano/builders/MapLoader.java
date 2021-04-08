@@ -86,7 +86,7 @@ public class MapLoader {
                     actorBuilder.createPlayer(x + 0.5f, y + 0.5f, false);
                     GameManager.getInstance().setPlayerRespawnPosition(new Vector2(x + 0.5f, y + 0.5f));
                 } else if (BLOCK.CUSTOMER.sameColor(color)) {
-                    actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
+                    actorBuilder.createCustomer1(x + 0.5f, y + 0.5f, Type.getRandomType());
                 } else if (BLOCK.PRODUCECRATE.sameColor(color)) {
                     actorBuilder.createBackBox(x + 0.5f, y + 0.5f, tileTextureAtlas);
                     if (enumCounter < Type.values().length) {
@@ -98,7 +98,7 @@ public class MapLoader {
                 } else if (BLOCK.EMPTY.sameColor(color)) {
                     int random = (int) (Math.random() * 10);
                     if (random < 1 && enemyCount > 0) {
-                        actorBuilder.createCustomer1(x + 0.5f, y + 0.5f);
+                        actorBuilder.createCustomer1(x + 0.5f, y + 0.5f, Type.getRandomType());
                         enemyCount--;
                     }
                 }

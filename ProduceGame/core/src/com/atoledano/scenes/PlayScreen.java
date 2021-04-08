@@ -58,7 +58,6 @@ public class PlayScreen extends ScreenAdapter {
 
     private float b2dTimer;
 
-    private boolean changeScreen;
     private Stage stage;
     private Texture fadeOutTexture;
 
@@ -93,7 +92,6 @@ public class PlayScreen extends ScreenAdapter {
         WorldConfiguration worldConfiguration = new WorldConfigurationBuilder()
                 .with(
                         new PlayerSystem(),
-                        new ProduceSystem(),
                         new PowerUpSystem(),
                         new EnemySystem(),
                         new PhysicsSystem(),
@@ -104,11 +102,6 @@ public class PlayScreen extends ScreenAdapter {
                 .build();
 
         world = new com.artemis.World(worldConfiguration);
-
-        // reset enemy count
-        GameManager.enemiesLeft = 0;
-        GameManager.changeScreen = false;
-        GameManager.gameOver = false;
 
         WorldBuilder worldBuilder = new WorldBuilder(b2dWorld, world);
         worldBuilder.build(level);
@@ -124,7 +117,6 @@ public class PlayScreen extends ScreenAdapter {
 
         GameManager.getInstance().playMusic("EduardKhil.ogg", true);
 
-        changeScreen = false;
         stage = new Stage(viewport);
         Pixmap pixmap = new Pixmap((int) WIDTH, (int) HEIGHT, Pixmap.Format.RGB888);
         pixmap.setColor(0.2f, 0.2f, 0.2f, 1f);

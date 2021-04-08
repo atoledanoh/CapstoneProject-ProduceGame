@@ -134,7 +134,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.POWERUP_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -153,7 +153,7 @@ public class ActorBuilder {
         body.setUserData(e);
     }
 
-    public void createCustomer1(float x, float y) {
+    public void createCustomer1(float x, float y, Type type) {
         // box2d
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -182,6 +182,13 @@ public class ActorBuilder {
         for (int i = 0; i < 3; i++) {
             keyFrames.add(new TextureRegion(textureRegion, i * 32, 0, 32, 32));
         }
+
+        //todo remove this
+        textureRegion = textureAtlas.findRegion("Produce");
+        keyFrames.add(new TextureRegion(textureRegion, (type.ordinal() % 8) * 32, (type.ordinal() / 8) * 32, 32, 32));
+        textureRegion = textureAtlas.findRegion("Customer1");
+
+
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_down", anim);
 
@@ -190,6 +197,13 @@ public class ActorBuilder {
         for (int i = 0; i < 3; i++) {
             keyFrames.add(new TextureRegion(textureRegion, i * 32, 96, 32, 32));
         }
+
+        //todo remove this
+        textureRegion = textureAtlas.findRegion("Produce");
+        keyFrames.add(new TextureRegion(textureRegion, (type.ordinal() % 8) * 32, (type.ordinal() / 8) * 32, 32, 32));
+        textureRegion = textureAtlas.findRegion("Customer1");
+
+
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_up", anim);
 
@@ -198,6 +212,7 @@ public class ActorBuilder {
         for (int i = 0; i < 3; i++) {
             keyFrames.add(new TextureRegion(textureRegion, i * 32, 32, 32, 32));
         }
+
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_left", anim);
 
@@ -206,6 +221,7 @@ public class ActorBuilder {
         for (int i = 0; i < 3; i++) {
             keyFrames.add(new TextureRegion(textureRegion, i * 32, 64, 32, 32));
         }
+
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.LOOP);
         anims.put("walking_right", anim);
 
@@ -215,6 +231,7 @@ public class ActorBuilder {
             // no dying sprite
             keyFrames.add(new TextureRegion(textureRegion, i * 16, 0, 0, 0));
         }
+
         anim = new Animation(0.1f, keyFrames, Animation.PlayMode.NORMAL);
         anims.put("dying", anim);
 
@@ -224,7 +241,7 @@ public class ActorBuilder {
         // entity
         Entity e = new EntityBuilder(world)
                 .with(
-                        new Enemy(1, 0.8f),
+                        new Enemy(1, 0.8f, type),
                         new Transform(x, y, 1, 1, 0),
                         new RigidBody(body),
                         new State("walking_down"),
@@ -353,13 +370,13 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.45f, 0.45f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.PRODUCE_BIT;
-        fixtureDef.filter.maskBits = GameManager.TABLE_BIT | GameManager.DOOR_BIT | GameManager.PRODUCE_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCECRATE_BIT;
+        fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;
+        fixtureDef.filter.maskBits = GameManager.POWERUP_BIT | GameManager.DOOR_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCECRATE_BIT | GameManager.PLAYER_BIT;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        Produce produce = new Produce(type);
-        int i = produce.type.ordinal();
+        PowerUp powerUp = new PowerUp(type);
+        int i = powerUp.type.ordinal();
 
         TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
@@ -369,7 +386,7 @@ public class ActorBuilder {
         // entity
         Entity e = new EntityBuilder(world)
                 .with(
-                        new Produce(player.bombPower, 16.0f),
+                        new PowerUp(type),
                         new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
                         new RigidBody(body),
                         new State("normal"),
@@ -393,7 +410,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
         body.createFixture(fixtureDef);
 
         PowerUp powerUp = new PowerUp();

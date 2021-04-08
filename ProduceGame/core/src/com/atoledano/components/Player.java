@@ -2,7 +2,6 @@ package com.atoledano.components;
 
 import com.artemis.Component;
 import com.atoledano.gamesys.GameManager;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Component {
@@ -43,11 +42,9 @@ public class Player extends Component {
         }
 
         maxSpeed = 3.0f + GameManager.playerMaxSpeed * 1.2f;
-        bombPower = 1 + GameManager.playerBombPower;
         produceCapacity = GameManager.playerProduceCapacity;
-        bombCapacity = GameManager.playerBombCapacity;
-        remoteBomb = GameManager.playerRemoteBomb;
-        kickBomb = GameManager.playerKickBomb;
+        remoteBomb = GameManager.playerRemoveProduce;
+        kickBomb = GameManager.playerKickProduce;
 
         acceleration = 1.0f;
         produceLeft = 0;

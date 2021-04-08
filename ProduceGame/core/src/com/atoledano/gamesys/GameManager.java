@@ -28,24 +28,17 @@ public class GameManager implements Disposable {
     public static final short TABLE_BIT = 1;
     public static final short DOOR_BIT = 1 << 1;
     public static final short PLAYER_BIT = 1 << 2;
-    public static final short PRODUCE_BIT = 1 << 3;
-    public static final short EXPLOSION_BIT = 1 << 4;
-    public static final short ENEMY_BIT = 1 << 5;
-    public static final short POWERUP_BIT = 1 << 6;
-    public static final short PRODUCECRATE_BIT = 1 << 7;
+    public static final short ENEMY_BIT = 1 << 3;
+    public static final short POWERUP_BIT = 1 << 4;
+    public static final short PRODUCECRATE_BIT = 1 << 5;
 
     public static boolean infiniteLives = true;
     public static boolean resetPlayerAbilities = false;  // reset player abilities after dying
 
     public static int playerProduceCapacity = 6;
-    public static int playerBombCapacity = 3;
-    public static int playerBombLeft = 0;
-    public static float playerBombRegeratingTime = 2.0f;
-    public static float playerBombRegeratingTimeLeft = 0;
     public static int playerMaxSpeed = 0;
-    public static int playerBombPower = 0;
-    public static boolean playerKickBomb = true;
-    public static boolean playerRemoteBomb = true;
+    public static boolean playerKickProduce = true;
+    public static boolean playerRemoveProduce = true;
 
     private final Vector2 playerRespawnPosition;
 
@@ -53,12 +46,10 @@ public class GameManager implements Disposable {
 
     public static int totalEnemies;
     public static int enemiesLeft;
-    public static boolean changeScreen;
-    public static boolean gameOver;
 
     public static Array<Type> types;
 
-    private final Queue<Entity> remoteBombQueue;
+    private final Queue<Entity> produceQueue;
 
     private final String soundPath = "sounds/";
     private final String musicPath = "music/";
@@ -78,11 +69,7 @@ public class GameManager implements Disposable {
         assetManager.load("sounds/PlaceBomb.ogg", Sound.class);
         assetManager.load("sounds/KickBomb.ogg", Sound.class);
         assetManager.load("sounds/Powerup.ogg", Sound.class);
-        assetManager.load("sounds/Explosion.ogg", Sound.class);
-        assetManager.load("sounds/Die.ogg", Sound.class);
-        assetManager.load("sounds/EnemyDie.ogg", Sound.class);
-        assetManager.load("sounds/EnemyDie1.ogg", Sound.class);
-        assetManager.load("sounds/EnemyDie2.ogg", Sound.class);
+        assetManager.load("sounds/served.wav", Sound.class);
         assetManager.load("sounds/Pause.ogg", Sound.class);
         assetManager.load("sounds/Teleport.ogg", Sound.class);
 
@@ -98,7 +85,7 @@ public class GameManager implements Disposable {
 
         playerRespawnPosition = new Vector2();
 
-        remoteBombQueue = new LinkedList<>();
+        produceQueue = new LinkedList<>();
 
         types = new Array<Type>();
     }
@@ -108,12 +95,9 @@ public class GameManager implements Disposable {
     }
 
     public static void resetPlayerAbilities() {
-        playerBombCapacity = 3;
         playerMaxSpeed = 0;
-        playerBombPower = 0;
-        playerBombRegeratingTime = 2.0f;
-        playerKickBomb = true;
-        playerRemoteBomb = true;
+        playerKickProduce = true;
+        playerRemoveProduce = true;
     }
 
     public AssetManager getAssetManager() {
@@ -176,20 +160,11 @@ public class GameManager implements Disposable {
     }
 
     public Queue<Entity> getRemoteBombDeque() {
-        return remoteBombQueue;
-    }
-
-    public Vector2 getPlayerRespawnPosition() {
-        return playerRespawnPosition;
+        return produceQueue;
     }
 
     public void setPlayerRespawnPosition(Vector2 position) {
         playerRespawnPosition.set(position);
-    }
-
-    public void playerOneUp() {
-        playerLives++;
-        playSound("Powerup.ogg");
     }
 
     @Override

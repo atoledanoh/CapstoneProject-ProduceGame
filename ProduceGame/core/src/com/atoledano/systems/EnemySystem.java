@@ -4,9 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
 import com.atoledano.builders.ActorBuilder;
-import com.atoledano.components.Enemy;
-import com.atoledano.components.RigidBody;
-import com.atoledano.components.State;
+import com.atoledano.components.*;
 import com.atoledano.components.Transform;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.math.MathUtils;
@@ -115,7 +113,7 @@ public class EnemySystem extends IteratingSystem {
                 body.getFixtureList().get(0).setFilterData(filter);
                 ActorBuilder actorBuilder = ActorBuilder.init(body.getWorld(), world);
                 while (GameManager.enemiesLeft < GameManager.totalEnemies) {
-                    actorBuilder.createCustomer1(body.getPosition().x, body.getPosition().y);
+                    actorBuilder.createCustomer1(body.getPosition().x, body.getPosition().y, Type.getRandomType());
                 }
 
                 if (state.getStateTime() <= 0) {

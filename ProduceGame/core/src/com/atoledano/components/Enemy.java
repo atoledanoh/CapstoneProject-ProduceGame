@@ -29,12 +29,9 @@ public class Enemy extends Component {
 
     public int receivedDamage;
 
-    public Enemy(int hp) {
-        this(hp, 2);
-    }
-
-    public Enemy(int hp, float speed) {
-        this(hp, speed, "EnemyDie.ogg");
+    public Enemy(int hp, float speed, Type needs) {
+        this(hp, speed, "served.wav");
+        this.needs = needs;
     }
 
     public Enemy(int hp, float speed, String dieSound) {
