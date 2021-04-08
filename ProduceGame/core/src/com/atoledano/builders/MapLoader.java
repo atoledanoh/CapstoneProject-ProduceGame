@@ -47,7 +47,7 @@ public class MapLoader {
     protected int mapHeight;
 
     protected int level;
-    protected int enemyCount;
+    protected int customerCount;
     protected int enumCounter;
 
     protected final float radius = 0.46f;
@@ -68,7 +68,7 @@ public class MapLoader {
     public void loadMap() {
         ActorBuilder actorBuilder = ActorBuilder.init(b2dWorld, world);
         int color;
-        enemyCount = GameManager.totalEnemies;
+        customerCount = GameManager.totalCustomers;
         enumCounter = 0;
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
@@ -97,9 +97,9 @@ public class MapLoader {
                     //todo - nothing to do here
                 } else if (BLOCK.EMPTY.sameColor(color)) {
                     int random = (int) (Math.random() * 10);
-                    if (random < 1 && enemyCount > 0) {
+                    if (random < 1 && customerCount > 0) {
                         actorBuilder.createCustomer1(x + 0.5f, y + 0.5f, Type.getRandomType());
-                        enemyCount--;
+                        customerCount--;
                     }
                 }
             }

@@ -18,14 +18,14 @@ import java.util.Queue;
 
 public class PlayerSystem extends IteratingSystem {
 
-    protected ComponentMapper<Player> mPlayer;
-    protected ComponentMapper<RigidBody> mRigidBody;
-    protected ComponentMapper<State> mState;
-    protected ComponentMapper<Renderer> mRenderer;
+    protected ComponentMapper<Player> playerComponentMapper;
+    protected ComponentMapper<RigidBody> rigidBodyComponentMapper;
+    protected ComponentMapper<State> stateComponentMapper;
+    protected ComponentMapper<Renderer> rendererComponentMapper;
 
     private boolean hitting;
     private boolean kicking;
-    private Produce kickingBomb;
+    private Produce kickingProduce;
     private final Vector2 fromV;
     private final Vector2 toV;
 
@@ -37,10 +37,10 @@ public class PlayerSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        Player player = mPlayer.get(entityId);
-        RigidBody rigidBody = mRigidBody.get(entityId);
-        State state = mState.get(entityId);
-        Renderer renderer = mRenderer.get(entityId);
+        Player player = playerComponentMapper.get(entityId);
+        RigidBody rigidBody = rigidBodyComponentMapper.get(entityId);
+        State state = stateComponentMapper.get(entityId);
+        Renderer renderer = rendererComponentMapper.get(entityId);
 
         Body body = rigidBody.body;
 
@@ -97,25 +97,25 @@ public class PlayerSystem extends IteratingSystem {
                 switch (player.state) {
                     case WALKING_UP:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y + 0.6f)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_UP);
+                            kickingProduce.setMove(Produce.State.MOVING_UP);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_DOWN:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x, body.getPosition().y - 0.6f)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_DOWN);
+                            kickingProduce.setMove(Produce.State.MOVING_DOWN);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_LEFT:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x - 0.6f, body.getPosition().y)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_LEFT);
+                            kickingProduce.setMove(Produce.State.MOVING_LEFT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
                     case WALKING_RIGHT:
                         if (checkCanKickBomb(body, fromV.set(body.getPosition()), toV.set(new Vector2(body.getPosition().x + 0.6f, body.getPosition().y)))) {
-                            kickingBomb.setMove(Produce.State.MOVING_RIGHT);
+                            kickingProduce.setMove(Produce.State.MOVING_RIGHT);
                             GameManager.getInstance().playSound("KickBomb.ogg");
                         }
                         break;
@@ -213,7 +213,7 @@ public class PlayerSystem extends IteratingSystem {
 
     protected boolean checkCanKickBomb(Body body, Vector2 fromV, Vector2 toV) {
         World b2dWorld = body.getWorld();
-        kickingBomb = null;
+        kickingProduce = null;
         kicking = false;
 
         RayCastCallback rayCastCallback = new RayCastCallback() {
@@ -222,7 +222,7 @@ public class PlayerSystem extends IteratingSystem {
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
                 if (fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
                     Entity bombEntity = (Entity) fixture.getBody().getUserData();
-                    kickingBomb = bombEntity.getComponent(Produce.class);
+                    kickingProduce = bombEntity.getComponent(Produce.class);
                     return 0;
                 }
                 return 0;
@@ -230,7 +230,7 @@ public class PlayerSystem extends IteratingSystem {
         };
 
         b2dWorld.rayCast(rayCastCallback, fromV, toV);
-        if (kickingBomb != null) {
+        if (kickingProduce != null) {
             kicking = true;
         }
         return kicking;

@@ -93,7 +93,7 @@ public class PlayScreen extends ScreenAdapter {
                 .with(
                         new PlayerSystem(),
                         new ProduceSystem(),
-                        new EnemySystem(),
+                        new CustomerSystem(),
                         new PhysicsSystem(),
                         new StateSystem(),
                         new AnimationSystem(),

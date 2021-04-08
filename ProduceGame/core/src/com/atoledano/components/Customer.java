@@ -3,7 +3,7 @@ package com.atoledano.components;
 import com.artemis.Component;
 import com.atoledano.gamesys.GameManager;
 
-public class Enemy extends Component {
+public class Customer extends Component {
     public enum State {
         WALKING_UP,
         WALKING_DOWN,
@@ -29,16 +29,16 @@ public class Enemy extends Component {
 
     public int receivedDamage;
 
-    public Enemy(int hp, float speed, Type needs) {
+    public Customer(int hp, float speed, Type needs) {
         this(hp, speed, "served.wav");
         this.needs = needs;
     }
 
-    public Enemy(int hp, float speed, String dieSound) {
+    public Customer(int hp, float speed, String dieSound) {
         this(hp, speed, dieSound, "basic");
     }
 
-    public Enemy(int hp, float speed, String dieSound, String type) {
+    public Customer(int hp, float speed, String dieSound, String type) {
         needs = Type.getRandomType();
         state = State.getRandomWalkingState();
         this.hp = hp;
@@ -49,8 +49,8 @@ public class Enemy extends Component {
         lifetime = 0;
         receivedDamage = 0;
 
-        // increase enemy count
-        GameManager.enemiesLeft++;
+        // increase customer count
+        GameManager.customersLeft++;
     }
 
     public void damage(int damage) {

@@ -28,7 +28,7 @@ public class GameManager implements Disposable {
     public static final short TABLE_BIT = 1;
     public static final short DOOR_BIT = 1 << 1;
     public static final short PLAYER_BIT = 1 << 2;
-    public static final short ENEMY_BIT = 1 << 3;
+    public static final short CUSTOMER_BIT = 1 << 3;
     public static final short PRODUCE_BIT = 1 << 4;
     public static final short PRODUCECRATE_BIT = 1 << 5;
 
@@ -44,8 +44,9 @@ public class GameManager implements Disposable {
 
     public static int playerLives = 3;
 
-    public static int totalEnemies;
-    public static int enemiesLeft;
+    public static int totalCustomers;
+    public static int customersLeft;
+    public static int customersServed;
 
     public static Array<Type> types;
 

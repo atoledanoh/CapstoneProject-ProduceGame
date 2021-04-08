@@ -12,30 +12,30 @@ public class B2DWorldContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        //enemy AND...
-        if (fixtureA.getFilterData().categoryBits == GameManager.ENEMY_BIT || fixtureB.getFilterData().categoryBits == GameManager.ENEMY_BIT) {
+        //customer AND...
+        if (fixtureA.getFilterData().categoryBits == GameManager.CUSTOMER_BIT || fixtureB.getFilterData().categoryBits == GameManager.CUSTOMER_BIT) {
             //...produce
             if (fixtureA.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
                 Entity produceEntity = (Entity) fixtureA.getBody().getUserData();
                 Produce produce = produceEntity.getComponent(Produce.class);
-                Entity enemyEntity = (Entity) fixtureB.getBody().getUserData();
-                Enemy enemy = enemyEntity.getComponent(Enemy.class);
+                Entity customerEntity = (Entity) fixtureB.getBody().getUserData();
+                Customer customer = customerEntity.getComponent(Customer.class);
                 //check customer needs
-                if (enemy.needs == produce.type) {
-                    // consume power-up and kill enemy
+                if (customer.needs == produce.type) {
+                    // consume power-up and kill customer
                     produce.isDestroyed = true;
-                    enemy.receivedDamage++;
+                    customer.receivedDamage++;
                 }
             } else if (fixtureB.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
                 Entity produceEntity = (Entity) fixtureB.getBody().getUserData();
                 Produce produce = produceEntity.getComponent(Produce.class);
-                Entity enemyEntity = (Entity) fixtureA.getBody().getUserData();
-                Enemy enemy = enemyEntity.getComponent(Enemy.class);
+                Entity customerEntity = (Entity) fixtureA.getBody().getUserData();
+                Customer customer = customerEntity.getComponent(Customer.class);
                 //check customer needs
-                if (enemy.needs == produce.type) {
-                    // consume power-up and kill enemy
+                if (customer.needs == produce.type) {
+                    // consume power-up and kill customer
                     produce.isDestroyed = true;
-                    enemy.receivedDamage++;
+                    customer.receivedDamage++;
                 }
             }
         }

@@ -106,7 +106,7 @@ public class ProduceSystem extends IteratingSystem {
                 if (fixture.getFilterData().categoryBits == GameManager.TABLE_BIT
                         | fixture.getFilterData().categoryBits == GameManager.DOOR_BIT
                         | fixture.getFilterData().categoryBits == GameManager.PRODUCE_BIT
-                        | fixture.getFilterData().categoryBits == GameManager.ENEMY_BIT
+                        | fixture.getFilterData().categoryBits == GameManager.CUSTOMER_BIT
                         | fixture.getFilterData().categoryBits == GameManager.PLAYER_BIT) {
                     movable = false;
                     return 0;

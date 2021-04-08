@@ -133,7 +133,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.CUSTOMER_BIT | GameManager.PRODUCE_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -164,7 +164,7 @@ public class ActorBuilder {
         circleShape.setRadius(radius);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
-        fixtureDef.filter.categoryBits = GameManager.ENEMY_BIT;
+        fixtureDef.filter.categoryBits = GameManager.CUSTOMER_BIT;
         fixtureDef.filter.maskBits = -1;
         body.createFixture(fixtureDef);
 
@@ -240,7 +240,7 @@ public class ActorBuilder {
         // entity
         Entity e = new EntityBuilder(world)
                 .with(
-                        new Enemy(1, 0.8f, type),
+                        new Customer(1, 0.8f, type),
                         new Transform(x, y, 1, 1, 0),
                         new RigidBody(body),
                         new State("walking_down"),
@@ -370,7 +370,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.PRODUCE_BIT;
-        fixtureDef.filter.maskBits = GameManager.PRODUCE_BIT | GameManager.DOOR_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCECRATE_BIT | GameManager.PLAYER_BIT;
+        fixtureDef.filter.maskBits = GameManager.PRODUCE_BIT | GameManager.DOOR_BIT | GameManager.CUSTOMER_BIT | GameManager.PRODUCECRATE_BIT | GameManager.PLAYER_BIT;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
@@ -409,7 +409,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.PRODUCE_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
+        fixtureDef.filter.maskBits = GameManager.CUSTOMER_BIT;
         body.createFixture(fixtureDef);
 
         Produce produce = new Produce();
