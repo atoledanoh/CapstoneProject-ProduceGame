@@ -14,27 +14,27 @@ public class B2DWorldContactListener implements ContactListener {
 
         //enemy AND...
         if (fixtureA.getFilterData().categoryBits == GameManager.ENEMY_BIT || fixtureB.getFilterData().categoryBits == GameManager.ENEMY_BIT) {
-            //...power up
-            if (fixtureA.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
-                Entity powerUpEntity = (Entity) fixtureA.getBody().getUserData();
-                PowerUp powerUp = powerUpEntity.getComponent(PowerUp.class);
+            //...produce
+            if (fixtureA.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                Entity produceEntity = (Entity) fixtureA.getBody().getUserData();
+                Produce produce = produceEntity.getComponent(Produce.class);
                 Entity enemyEntity = (Entity) fixtureB.getBody().getUserData();
                 Enemy enemy = enemyEntity.getComponent(Enemy.class);
                 //check customer needs
-                if (enemy.needs == powerUp.type) {
+                if (enemy.needs == produce.type) {
                     // consume power-up and kill enemy
-                    powerUp.isDestroyed = true;
+                    produce.isDestroyed = true;
                     enemy.receivedDamage++;
                 }
-            } else if (fixtureB.getFilterData().categoryBits == GameManager.POWERUP_BIT) {
-                Entity powerUpEntity = (Entity) fixtureB.getBody().getUserData();
-                PowerUp powerUp = powerUpEntity.getComponent(PowerUp.class);
+            } else if (fixtureB.getFilterData().categoryBits == GameManager.PRODUCE_BIT) {
+                Entity produceEntity = (Entity) fixtureB.getBody().getUserData();
+                Produce produce = produceEntity.getComponent(Produce.class);
                 Entity enemyEntity = (Entity) fixtureA.getBody().getUserData();
                 Enemy enemy = enemyEntity.getComponent(Enemy.class);
                 //check customer needs
-                if (enemy.needs == powerUp.type) {
+                if (enemy.needs == produce.type) {
                     // consume power-up and kill enemy
-                    powerUp.isDestroyed = true;
+                    produce.isDestroyed = true;
                     enemy.receivedDamage++;
                 }
             }

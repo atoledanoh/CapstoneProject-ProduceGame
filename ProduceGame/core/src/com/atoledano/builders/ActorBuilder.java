@@ -7,7 +7,6 @@ import com.atoledano.components.*;
 import com.atoledano.gamesys.GameManager;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -134,7 +133,7 @@ public class ActorBuilder {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = GameManager.DOOR_BIT;
-        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.POWERUP_BIT;
+        fixtureDef.filter.maskBits = GameManager.ENEMY_BIT | GameManager.PRODUCE_BIT;
         body.createFixture(fixtureDef);
 
         polygonShape.dispose();
@@ -370,13 +369,13 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.45f, 0.45f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;
-        fixtureDef.filter.maskBits = GameManager.POWERUP_BIT | GameManager.DOOR_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCECRATE_BIT | GameManager.PLAYER_BIT;
+        fixtureDef.filter.categoryBits = GameManager.PRODUCE_BIT;
+        fixtureDef.filter.maskBits = GameManager.PRODUCE_BIT | GameManager.DOOR_BIT | GameManager.ENEMY_BIT | GameManager.PRODUCECRATE_BIT | GameManager.PLAYER_BIT;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        PowerUp powerUp = new PowerUp(type);
-        int i = powerUp.type.ordinal();
+        Produce produce = new Produce(type);
+        int i = produce.type.ordinal();
 
         TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
@@ -386,7 +385,7 @@ public class ActorBuilder {
         // entity
         Entity e = new EntityBuilder(world)
                 .with(
-                        new PowerUp(type),
+                        new Produce(type),
                         new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
                         new RigidBody(body),
                         new State("normal"),
@@ -398,7 +397,7 @@ public class ActorBuilder {
         return e;
     }
 
-    public void createPowerUp(float x, float y) {
+    public void createProduce(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(MathUtils.floor(x) + 0.5f, MathUtils.floor(y) + 0.5f);
@@ -409,12 +408,12 @@ public class ActorBuilder {
         polygonShape.setAsBox(0.5f, 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.filter.categoryBits = GameManager.POWERUP_BIT;
+        fixtureDef.filter.categoryBits = GameManager.PRODUCE_BIT;
         fixtureDef.filter.maskBits = GameManager.ENEMY_BIT;
         body.createFixture(fixtureDef);
 
-        PowerUp powerUp = new PowerUp();
-        int i = powerUp.type.ordinal();
+        Produce produce = new Produce();
+        int i = produce.type.ordinal();
 
         TextureAtlas textureAtlas = assetManager.get("img/newactors.pack", TextureAtlas.class);
 
@@ -423,7 +422,7 @@ public class ActorBuilder {
 
         Entity e = new EntityBuilder(world)
                 .with(
-                        powerUp,
+                        produce,
                         new RigidBody(body),
                         new Transform(body.getPosition().x, body.getPosition().y, 1, 1, 0),
                         new State("normal"),

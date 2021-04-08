@@ -29,7 +29,7 @@ public class GameManager implements Disposable {
     public static final short DOOR_BIT = 1 << 1;
     public static final short PLAYER_BIT = 1 << 2;
     public static final short ENEMY_BIT = 1 << 3;
-    public static final short POWERUP_BIT = 1 << 4;
+    public static final short PRODUCE_BIT = 1 << 4;
     public static final short PRODUCECRATE_BIT = 1 << 5;
 
     public static boolean infiniteLives = true;

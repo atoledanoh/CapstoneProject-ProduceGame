@@ -80,8 +80,8 @@ public class MapLoader {
                 } else if (BLOCK.TABLE.sameColor(color)) {
                     actorBuilder.createTable(x + 0.5f, y + 0.5f, tileTextureAtlas);
                     //todo change this to sound better
-                    //powerup / produce creation
-                    actorBuilder.createPowerUp(x + 0.51f, y + 0.51f);
+                    //produce creation
+                    actorBuilder.createProduce(x + 0.51f, y + 0.51f);
                 } else if (BLOCK.PLAYER.sameColor(color)) {
                     actorBuilder.createPlayer(x + 0.5f, y + 0.5f, false);
                     GameManager.getInstance().setPlayerRespawnPosition(new Vector2(x + 0.5f, y + 0.5f));

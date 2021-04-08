@@ -92,7 +92,7 @@ public class PlayScreen extends ScreenAdapter {
         WorldConfiguration worldConfiguration = new WorldConfigurationBuilder()
                 .with(
                         new PlayerSystem(),
-                        new PowerUpSystem(),
+                        new ProduceSystem(),
                         new EnemySystem(),
                         new PhysicsSystem(),
                         new StateSystem(),
